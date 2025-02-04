@@ -1,0 +1,11 @@
+Symphony:
+http://localhost:8080/Symfony/public/index.php
+PgAdmin:
+http://localhost:8081/browser/
+
+----------------------------------------------------------------------
+Comandos docker:
+
+docker-compose up
+docker-compose down
+-----------------------------------------------------------------------

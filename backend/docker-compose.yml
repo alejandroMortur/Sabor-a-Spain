@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: symfony_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    ports:
+      - "8080:80"  # Asegúrate de exponer el puerto correctamente para que puedas acceder al servidor Apache
+
+  db:
+    image: postgres:15  # Usando la imagen oficial de PostgreSQL
+    container_name: symfony_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: symfony
+      POSTGRES_USER: symfony
+      POSTGRES_PASSWORD: symfony
+    ports:
+      - "5432:5432"  # Exponiendo el puerto 5432 para conectarse a la base de datos
+    volumes:
+      - /var/lib/postgresql/data  # Montando la carpeta 'database' del host en el contenedor
+
+  pgadmin:
+    image: dpage/pgadmin4  # Usando la imagen oficial de pgAdmin
+    container_name: symfony_pgadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"  # Exponiendo pgAdmin en el puerto 8081
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com  # Usuario por defecto para pgAdmin
+      PGADMIN_DEFAULT_PASSWORD: admin  # Contraseña por defecto para pgAdmin
+    depends_on:
+      - db
+
+volumes:
+  db_data:
