@@ -1,0 +1,3 @@
+## Ignore composer files
+composer-setup.php
+composer.phar
