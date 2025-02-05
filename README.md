@@ -21,3 +21,46 @@ Bienvenido a **Sabor a España eCommerce**, un proyecto de comercio electrónico
 - 🎨 **Gestión de productos**: Agrega y organiza productos típicos de España en la tienda.
 - 🔒 **Administración de usuarios**: Controla el acceso de los usuarios y sus datos.
 - 📦 **Gestión de pedidos**: Administra los pedidos realizados por los usuarios y controla el inventario.
+
+## Instalación del Entorno con Docker 🐳
+
+Para configurar el entorno de desarrollo, puedes usar Docker. A continuación te detallo los pasos:
+
+1. **Clona el repositorio** en tu máquina local.
+
+2. **Ubica el archivo `docker-compose.yml`** en backend/docker-compose.yml
+
+3. **Construye y levanta los contenedores**:
+
+    ```bash
+    docker-compose up --build
+    ```
+
+4. **Accede a las aplicaciones** a través de las siguientes URLs:
+
+   - **Symfony (Backend)**:  
+     URL: [http://localhost:8080](http://localhost:8080)  
+     Esta es la URL de acceso al servidor Symfony. Asegúrate de que el contenedor del backend esté corriendo correctamente.
+
+   - **pgAdmin (Gestión de base de datos)**:  
+     URL: [http://localhost:8081](http://localhost:8081)  
+     Accede a la interfaz de pgAdmin para gestionar la base de datos. Usa las credenciales configuradas en el archivo `docker-compose.yml`:  
+     - **Email**: `admin@admin.com`
+     - **Contraseña**: `admin`
+
+5. **Acceso a los contenedores**:
+
+   Si necesitas acceder a los contenedores para realizar alguna operación manual (como ejecutar comandos dentro del contenedor del backend), puedes hacerlo con:
+
+   ```bash
+   docker exec -it symfony_app bash
+   ```
+
+---
+
+Recuerda que las URLs son:
+
+- **Symfony**: [http://localhost:8080](http://localhost:8080)
+- **pgAdmin**: [http://localhost:8081](http://localhost:8081)
+
+---
