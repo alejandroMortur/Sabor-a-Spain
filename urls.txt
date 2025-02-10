@@ -3,6 +3,9 @@ http://localhost:8080/Symfony/public/index.php
 PgAdmin:
 http://localhost:8081/browser/
 
+Angular
+ng serve --port=4300
+
 ----------------------------------------------------------------------
 Comandos docker:
 
