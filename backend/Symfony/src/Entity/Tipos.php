@@ -47,16 +47,4 @@ class Tipos
 
         return $this;
     }
-
-    public function getProductos(): ?Productos
-    {
-        return $this->productos;
-    }
-
-    public function setProductos(?Productos $productos): static
-    {
-        $this->productos = $productos;
-
-        return $this;
-    }
 }
