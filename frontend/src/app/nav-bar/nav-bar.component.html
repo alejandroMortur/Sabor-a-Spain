@@ -1,0 +1,46 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-warning p-1" style="height: 4rem;">
+    <h1 class="navbar-brand text-danger">❤️💛❤️ ESPAÑA ❤️💛❤️</h1>
+  
+    <!-- Botón de colapso -->
+    <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <!-- Menú colapsable -->
+    <div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse">
+      <ul class="navbar-nav">
+
+        <!-- Home -->
+        <li class="nav-item" [class.active]="activeLink === '/'">
+          <button class="nav-link" (click)="route('/')">Home</button>
+        </li>
+
+        <!-- Todos los productos -->
+        <li class="nav-item" [class.active]="activeLink === '/productos'">
+          <button class="nav-link text-dark" (click)="route('/productos')">Todos los productos</button>
+        </li>
+        
+        <!-- Contacto -->
+        <li class="nav-item" [class.active]="activeLink === '/contact'">
+          <button class="nav-link" (click)="route('/contact')">Contacto</button>
+        </li>
+
+        <!-- Dropdown para tipos de productos -->
+        <li class="nav-item dropdown" ngbDropdown>
+          <button class="nav-link dropdown-toggle" ngbDropdownToggle>
+            Tipos de productos
+          </button>
+          <div ngbDropdownMenu class="p-2" style="width: 12rem;">
+            <button class="dropdown-item" [class.active]="activeLink === '/productos/tipo1'" (click)="route('/productos/tipo1')">Tipo 1</button>
+            <button class="dropdown-item" [class.active]="activeLink === '/productos/tipo2'" (click)="route('/productos/tipo2')">Tipo 2</button>
+            <button class="dropdown-item" [class.active]="activeLink === '/productos/tipo3'" (click)="route('/productos/tipo3')">Tipo 3</button>
+            <button class="dropdown-item" [class.active]="activeLink === '/productos/tipo4'" (click)="route('/productos/tipo4')">Tipo 4</button>
+            <button class="dropdown-item" [class.active]="activeLink === '/productos/tipo5'" (click)="route('/productos/tipo5')">Tipo 5</button>
+            <br>
+            <button class="dropdown-item" [class.active]="activeLink === '/productos/ProductosEstrella'" (click)="route('/productos/ProductosEstrella')">Productos Estrella</button>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+</nav>
