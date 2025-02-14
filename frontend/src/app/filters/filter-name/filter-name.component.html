@@ -1,0 +1,18 @@
+<div class="d-flex flex-row gap-2">
+    <label for="typeahead-format">Buscar por nombre:</label>
+        <div class="d-flex flex-row">
+            <input
+            id="typeahead-format"
+            type="text"
+            class="form-control"
+            [(ngModel)]="model"
+            [ngbTypeahead]="search"
+            [resultFormatter]="formatter"
+        />
+        <div class="d-flex justify-content-center alings-item-center" style="width: 2rem;">
+            <button class="bg-light icon">
+                <i class="fa-brands fa-searchengin text-dark align-self-center"></i>
+            </button>
+        </div>
+    </div>
+</div>

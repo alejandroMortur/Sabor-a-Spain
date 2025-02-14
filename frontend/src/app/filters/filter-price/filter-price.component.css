@@ -1,0 +1,13 @@
+input { 
+    width: 8rem; 
+    height: 2rem;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    border: none;
+}
+
+.icon{
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border: none;
+}
