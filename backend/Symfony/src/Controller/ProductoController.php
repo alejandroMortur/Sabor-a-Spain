@@ -28,6 +28,7 @@ class ProductoController extends AbstractController
                 'precio' => $producto->getPrecio(),
                 'descripcion' => $producto->getDescripcion(),
                 'stock' => $producto->getStock(),
+                'imagen'=> $producto->getImagen(),
             ];
         }
 

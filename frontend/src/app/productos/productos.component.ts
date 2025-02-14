@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { productos } from '../interfaces/productos';
+import { GestionProductosService } from '../services/gestion-productos.service';
 
 @Component({
   selector: 'app-productos',
@@ -7,5 +9,13 @@ import { Component } from '@angular/core';
   styleUrl: './productos.component.css'
 })
 export class ProductosComponent {
+   productos:productos[] = [];
+   constructor(private servicioPlatos: GestionProductosService){}
 
+   ngOnInit() {
+    this.pintarTarjetas();
+  }
+  pintarTarjetas(): void {
+    this.servicioPlatos.getProductos().subscribe(producto => this.productos = producto);
+  }
 }

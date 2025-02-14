@@ -1,1 +1,12 @@
-<p>productos works!</p>
+<div class="container-fluid row gap-5 justify-content-center">
+    @for (producto of productos; track producto.id) {
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src={{producto.imagen}} alt="Card image cap" style="width: 100%; height: 16rem; object-fit: cover;">
+            <div class="card-body">
+              <h5 class="card-title">{{producto.nombre}}</h5>
+              <p class="card-text">{{producto.descripcion}}</p>
+              <a href="#" class="btn btn-primary">Comprar ya!!</a>
+            </div>
+        </div>
+    }
+</div>
