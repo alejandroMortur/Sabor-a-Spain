@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output} from '@angular/core';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
+const FILTER_PAG_REGEX = /[^0-9]/g;
 @Component({
   selector: 'app-pagination',
   imports: [NgbPaginationModule],
@@ -8,12 +9,18 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './pagination.component.css'
 })
 export class PaginationComponent {
-  page = 1;
-  // Emitir un evento cuando cambie la página
-  @Output() pageChange = new EventEmitter<number>();
+	selectPage(page: string) {
+		this.page = parseInt(page, 10) || 1;
+	}
+	formatInput(input: HTMLInputElement) {
+		input.value = input.value.replace(FILTER_PAG_REGEX, '');
+	}
 
-  // Este método se llama cuando cambia la página
-  onPageChange(page: number): void {
-    this.pageChange.emit(page); // Emitimos el cambio de página
+  @Input() page: number = 1;  // Página actual
+  @Input() totalItems: number = 0;  // Total de productos
+  @Output() cambio: EventEmitter<number> = new EventEmitter<number>();
+
+  emitirCambioPagina() {
+    this.cambio.emit(this.page); // Emitir el nuevo valor al padre
   }
 }
