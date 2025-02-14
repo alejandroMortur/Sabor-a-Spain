@@ -32,13 +32,14 @@ class ProductoController extends AbstractController
 
         // Obtener los productos
         $query = $this->productoRepository->createQueryBuilder('p')
+            ->orderBy('p.id', 'ASC') // Ordenar por ID de manera ascendente
             ->getQuery();
 
         // Paginación de los resultados
         $productos = $this->paginator->paginate(
             $query, // Consulta de Doctrine
             $page,  // Página actual
-            10      // Número de elementos por página
+            6      // Número de elementos por página
         );
 
         // Responder con los productos paginados (en formato JSON)

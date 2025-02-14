@@ -1,8 +1,8 @@
 export interface Productos{
     'id':string,
-    'nombre':string,
-    'precio':string,
-    'descripcion':string,
-    'stock':number,
-    'imagen':string,
+    'Nombre':string,
+    'Precio':string,
+    'Descripcion':string,
+    'Stock':number,
+    'Imagen':string,
 }

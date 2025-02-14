@@ -1,17 +1,27 @@
-<div class="container-fluid row gap-5 justify-content-center">
-    @for (producto of productos; track producto.id) {
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src={{producto.imagen}} alt="Card image cap" style="width: 100%; height: 16rem; object-fit: cover;">
-            <div class="card-body">
-              <h5 class="card-title">{{producto.nombre}}</h5>
-              <p class="card-text">Precio: {{producto.precio}}</p>
-              <p class="card-text">{{producto.descripcion}}</p>
-              <a href="#" class="btn btn-primary">Comprar ya!!</a>
-            </div>
+<div *ngIf="productos.length > 0; else loading">
+    <div class="container-fluid row gap-5 justify-content-center">
+        <div class="d-flex justify-content-center w-100 mb-0 gap-3 text-light">
+           <app-filter-name></app-filter-name>
+           <app-filter-tipe></app-filter-tipe>
+           <app-filter-price></app-filter-price>
         </div>
-    }
-    <div class="d-flex justify-content-center w-100">
-        <app-pagination [page]="page" [totalItems]="totalItems" (cambio)="manejarCambioPagina($event)"></app-pagination>
-    </div>
+        @for (producto of productos; track producto.id) {
+            <div class="card" style="width: 18rem;" id={{producto.id}}>
+                <img class="card-img-top" src={{producto.Imagen}} alt="Card image cap" style="width: 100%; height: 16rem; object-fit: cover;">
+                <div class="card-body">
+                  <h5 class="card-title">{{producto.Nombre}}</h5>
+                  <p class="card-text">Precio: {{producto.Precio}}€</p>
+                  <p class="card-text">{{producto.Descripcion}}</p>
+                  <a href="#" class="btn btn-primary">Comprar ya!!</a>
+                </div>
+            </div>
+        }
+        <div class="d-flex justify-content-center w-100 mb-0">
+            <app-pagination [page]="page" [totalItems]="totalItems" (cambio)="manejarCambioPagina($event)"></app-pagination>
+        </div>
+    </div>   
 </div>
 
+<ng-template #loading>
+    <p>cargando</p>
+</ng-template>
