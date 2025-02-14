@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { productos } from '../interfaces/productos';
 import { GestionProductosService } from '../services/gestion-productos.service';
+import { PaginationComponent } from '../pagination/pagination.component';
 
 @Component({
   selector: 'app-productos',
-  imports: [],
+  imports: [PaginationComponent],
   templateUrl: './productos.component.html',
   styleUrl: './productos.component.css'
 })
