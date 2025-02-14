@@ -7,32 +7,45 @@ use App\Entity\Producto;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface; 
 use App\Repository\ProductosRepository;
 
 class ProductoController extends AbstractController
 {
 
-    #[Route('/api/producto', name: 'app_producto', methods: ['GET'])]
-    public function index(ProductosRepository $productoRepository): JsonResponse
+    private $productoRepository;
+    private $paginator;
+
+    public function __construct(ProductosRepository $productoRepository, PaginatorInterface $paginator)
     {
-        // Obtener todos los productos desde la base de datos
-        $productos = $productoRepository->findAll();
+        $this->productoRepository = $productoRepository;
+        $this->paginator = $paginator;
+    }
 
-        // Crear un array con los datos de los productos para la respuesta
-        $data = [];
-        foreach ($productos as $producto) {
-            $data[] = [
-                'id' => $producto->getId(),
-                'nombre' => $producto->getNombre(),
-                'precio' => $producto->getPrecio(),
-                'descripcion' => $producto->getDescripcion(),
-                'stock' => $producto->getStock(),
-                'imagen'=> $producto->getImagen(),
-            ];
-        }
+    #[Route('/api/producto', name: 'app_producto', methods: ['GET'])]
+    public function index(Request $request): JsonResponse
+    {
+        // Obtener el número de página desde el request, si no, asignar 1
+        $page = $request->query->getInt('page', 1); // `page` es el valor que recibimos de Angular
 
-        // Retornar los datos en formato JSON
-        return new JsonResponse($data);
+        // Obtener los productos
+        $query = $this->productoRepository->createQueryBuilder('p')
+            ->getQuery();
+
+        // Paginación de los resultados
+        $productos = $this->paginator->paginate(
+            $query, // Consulta de Doctrine
+            $page,  // Página actual
+            10      // Número de elementos por página
+        );
+
+        // Responder con los productos paginados (en formato JSON)
+        return $this->json([
+            'productos' => $productos->getItems(),
+            'total' => $productos->getTotalItemCount(),
+            'pagina' => $page,
+        ]);
     }
 }
