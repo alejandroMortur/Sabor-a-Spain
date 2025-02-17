@@ -57,7 +57,7 @@ export class ProductosComponent {
 
    manejarCambioPagina(nuevoValor: number  ) {
       this.page = nuevoValor;
-      if(this.tipe != ""){
+      if(this.tipe != "" && this.tipe != ' '){
          this.pintarTarjetasPorTipo();
       }else{
          this.pintarTarjetas();  

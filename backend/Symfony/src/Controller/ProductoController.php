@@ -53,17 +53,21 @@ class ProductoController extends AbstractController
     public function filter_tipe(Request $request): JsonResponse
     {
         // Obtener el número de página desde el request, si no, asignar 1
-        $page = $request->query->getInt('page', 1); // `page` es el valor que recibimos de Angular
-        $filter = $request->query->getString('filter', 'Bebidas'); // `filter` es el valor que recibimos de Angular
-    
-        // Obtener los productos filtrados por tipo (relación con la tabla Tipo)
+        $filter = $request->query->getString('filter', ''); // `filter` es el valor que recibimos de Angular
+        $page = 1;//Valor por defecto en caso de no filtro
+        
+        // Crear la consulta base para los productos
         $query = $this->productoRepository->createQueryBuilder('p')
-            ->innerJoin('p.Tipo_producto', 't')  // Hacer un inner join con la tabla de tipos
-            ->where('t.Nombre = :filter')  // Filtrar por el nombre del tipo
-            ->setParameter('filter', $filter)  // Asignar el valor del filtro
-            ->orderBy('p.id', 'ASC')  // Ordenar por ID de manera ascendente
-            ->getQuery();
-    
+            ->orderBy('p.id', 'ASC');  // Ordenar por ID de manera ascendente
+        
+        // Si se recibe un filtro (no está vacío), aplicar el filtro
+        if (!empty($filter)) {
+            $page = $request->query->getInt('page', 1); // `page` es el valor que recibimos de Angular
+            $query->innerJoin('p.Tipo_producto', 't')  // Hacer un inner join con la tabla de tipos
+                ->where('t.Nombre = :filter')  // Filtrar por el nombre del tipo
+                ->setParameter('filter', $filter);  // Asignar el valor del filtro
+        }
+        
         // Paginación de los resultados
         $productos = $this->paginator->paginate(
             $query, // Consulta de Doctrine

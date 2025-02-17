@@ -20,7 +20,7 @@ export class GestionProductosService {
     //Evita que se sobrescriban los parametros de la url
     const params = new HttpParams()
     .set('page', page.toString())   // Pasa el parámetro 'page'
-    .set('filter', filter.toString());  // Pasa el parámetro 'filter'
+    .set('filter', filter?.toString() || ""); // Pasa el parámetro 'filter'
     return this.http.get<ProductoResponse>("http://localhost:8080/Symfony/public/index.php/api/producto/tipe", { params });
   }
 }
