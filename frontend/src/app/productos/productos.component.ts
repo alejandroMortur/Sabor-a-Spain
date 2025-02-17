@@ -57,8 +57,12 @@ export class ProductosComponent {
 
    manejarCambioPagina(nuevoValor: number  ) {
       this.page = nuevoValor;
-      console.log("estamos en la pagina: "+this.page);
-      this.pintarTarjetas();    
+      if(this.tipe != ""){
+         this.pintarTarjetasPorTipo();
+      }else{
+         this.pintarTarjetas();  
+      }
+      console.log("estamos en la pagina: "+this.page);   
    }
 
    trackById(index: number, producto: Productos): string {
