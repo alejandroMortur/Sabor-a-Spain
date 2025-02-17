@@ -14,4 +14,11 @@ export class GestionProductosService {
     const params = new HttpParams().set('page', page.toString());  // Pasa el parámetro 'page'
     return this.http.get<ProductoResponse>("http://localhost:8080/Symfony/public/index.php/api/producto", { params });
   }
+
+  // Método para obtener productos paginados por tipo
+  getProductosByFilter(page: number,filter: string): Observable<ProductoResponse> {
+    let params = new HttpParams().set('page', page.toString());  // Pasa el parámetro 'page'
+    params = new HttpParams().set('filter', filter.toString());  // Pasa el parámetro 'filter'
+    return this.http.get<ProductoResponse>("http://localhost:8080/Symfony/public/index.php/api/producto/tipe", { params });
+  }
 }

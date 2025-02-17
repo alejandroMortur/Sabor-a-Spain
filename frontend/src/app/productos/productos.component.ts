@@ -16,9 +16,16 @@ import { FilterTipeComponent } from '../filters/filter-tipe/filter-tipe.componen
 })
 export class ProductosComponent {
    productos:Productos[] = [];
+
+   //-----------(paginación)--------------------------------------
    totalItems: number = 0;  // Total de productos (para la paginación)
    totalPages: number = 0;  // Total de páginas
    page: number = 1;  // Página inicial
+   //------------(Variables filtros)------------------------------
+   tipe: string = "";
+   name: string = "";
+   price: number = 0;
+   //--------------------------------------------------------------
 
    constructor(private servicioProductos: GestionProductosService, private cdr: ChangeDetectorRef){}
 
@@ -36,6 +43,18 @@ export class ProductosComponent {
          this.cdr.detectChanges();
       }); 
   }
+
+  pintarTarjetasPorTipo(): void {
+      this.servicioProductos.getProductosByFilter(this.page,this.tipe).subscribe((data: ProductoResponse) => {
+      this.productos = data.productos;
+      this.totalItems = data.total;
+      this.page = data.pagina;
+
+      // Forzar detección de cambios para actualizar la vista
+         this.cdr.detectChanges();
+      }); 
+   }
+
    manejarCambioPagina(nuevoValor: number  ) {
       this.page = nuevoValor;
       console.log("estamos en la pagina: "+this.page);
@@ -45,4 +64,10 @@ export class ProductosComponent {
    trackById(index: number, producto: Productos): string {
       return producto.id;
    }
+
+   onTipeChanged(value: any) {
+      this.tipe = value;
+      console.log('Valor recibido desde input (hijo):', this.tipe);
+      this.pintarTarjetasPorTipo();
+    }
 }

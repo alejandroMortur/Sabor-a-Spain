@@ -2,3 +2,4 @@ composer require nelmio/cors-bundle
 
 http://localhost:8080/Symfony/public/index.php/api/producto (api productos)
 http://localhost:8080/Symfony/public/index.php/api/usuario  (api usuarios)
+http://localhost:8080/Symfony/public/index.php/api/producto/tipe?page=1&filter=Bebidas (api para filtrado, segundo valor filtro)
