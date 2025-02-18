@@ -1,11 +1,20 @@
 import { Component } from '@angular/core';
+import { NgxBootstrapSliderModule } from 'ngx-bootstrap-slider';
 
 @Component({
   selector: 'app-filter-price',
-  imports: [],
   templateUrl: './filter-price.component.html',
-  styleUrl: './filter-price.component.css'
+  imports: [NgxBootstrapSliderModule],
+  styleUrls: ['./filter-price.component.css']
 })
 export class FilterPriceComponent {
-
+  value: number = 50;  // Initial value of the slider
+  enabled: boolean = true;  // Control whether the slider is enabled or disabled
+  
+  // This function will be triggered on the slider value change
+  change() {
+    console.log('Slider value changed to:', this.value);
+  }
 }
+
+
