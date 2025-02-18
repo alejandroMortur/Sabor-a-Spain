@@ -55,10 +55,23 @@ export class ProductosComponent {
       }); 
    }
 
+   pintarTarjetasPorNombre(): void {
+      this.servicioProductos.getProductosByName(this.page,this.name).subscribe((data: ProductoResponse) => {
+      this.productos = data.productos;
+      this.totalItems = data.total;
+      this.page = data.pagina;
+
+      // Forzar detección de cambios para actualizar la vista
+         this.cdr.detectChanges();
+      }); 
+   }
+
    manejarCambioPagina(nuevoValor: number  ) {
       this.page = nuevoValor;
       if(this.tipe != "" && this.tipe != ' '){
          this.pintarTarjetasPorTipo();
+      }else if(this.name != "" && this.name != ' '){
+         this.pintarTarjetasPorNombre();
       }else{
          this.pintarTarjetas();  
       }
@@ -73,5 +86,10 @@ export class ProductosComponent {
       this.tipe = value;
       console.log('Valor recibido desde input (hijo):', this.tipe);
       this.pintarTarjetasPorTipo();
-    }
+   }
+   onNameChanged(value: any) {
+      this.name = value;
+      console.log('Valor recibido desde input (hijo):', this.name);
+      this.pintarTarjetasPorNombre();
+   }
 }

@@ -23,4 +23,22 @@ export class GestionProductosService {
     .set('filter', filter?.toString() || ""); // Pasa el parámetro 'filter'
     return this.http.get<ProductoResponse>("http://localhost:8080/Symfony/public/index.php/api/producto/tipe", { params });
   }
+
+  // Método para obtener productos paginados por nombre producto
+  getProductosByName(page: number,name: string){
+    //Evita que se sobrescriban los parametros de la url
+    const params = new HttpParams()
+    .set('page', page.toString())   // Pasa el parámetro 'page'
+    .set('name', name?.toString() || ""); // Pasa el parámetro 'name'
+    return this.http.get<ProductoResponse>("http://localhost:8080/Symfony/public/index.php/api/producto/name", { params });
+  }
+
+  // Método para obtener productos paginados por precio producto
+  getProductosByPrice(page: number,price: string){
+    //Evita que se sobrescriban los parametros de la url
+    const params = new HttpParams()
+    .set('page', page.toString())   // Pasa el parámetro 'page'
+    .set('price', price?.toString() || ""); // Pasa el parámetro 'price'
+    return this.http.get<ProductoResponse>("http://localhost:8080/Symfony/public/index.php/api/producto/price", { params });
+  }
 }
