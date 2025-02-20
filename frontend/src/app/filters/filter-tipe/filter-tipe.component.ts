@@ -26,7 +26,7 @@
   })
   export class FilterTipeComponent {
     model: any;
-    @Output() modelChanged: EventEmitter<any> = new EventEmitter<any>();
+    @Output() dataChanged: EventEmitter<any> = new EventEmitter<any>();
 
     formatter = (result: string) => result.toUpperCase();
 
@@ -44,7 +44,7 @@
         ),
       ); 
       logModel() {
-        this.modelChanged.emit(this.model);
+        this.dataChanged.emit(this.model);
         console.log('Valor seleccionado (logModel):', this.model);
       }
   }
