@@ -120,6 +120,25 @@ class ProductoController extends AbstractController
 
     }  
 
+    #[Route('/api/producto/priceMax', name: 'app_producto_priceMax', methods: ['GET'])]
+    public function max_price(Request $request): JsonResponse
+    {
+
+        // Crear la consulta para obtener el precio máximo
+        $maxPrecioQuery = $this->productoRepository->createQueryBuilder('p')
+        ->select('MAX(p.Precio)') // Obtener el precio máximo
+        ->getQuery();
+
+        // Obtener el precio máximo
+        $maxPrecio = $maxPrecioQuery->getSingleScalarResult();
+
+        // Responder con el precio máximo (en formato JSON)
+        return $this->json([
+            'precioMaximo' => $maxPrecio, // Devolvemos solo el precio máximo
+        ]);
+
+    }  
+
     #[Route('/api/producto/price', name: 'app_producto_price', methods: ['GET'])]
     public function filter_price(Request $request): JsonResponse
     {

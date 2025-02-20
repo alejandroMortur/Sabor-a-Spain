@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProductoResponse } from '../interfaces/productoRespond';
+import { maxProduct } from '../interfaces/maxProduct';
 
 @Injectable({
   providedIn: 'root'
@@ -41,4 +42,9 @@ export class GestionProductosService {
     .set('price', price?.toString() || ""); // Pasa el parámetro 'price'
     return this.http.get<ProductoResponse>("http://localhost:8080/Symfony/public/index.php/api/producto/price", { params });
   }
+
+    // Método para obtener productos paginados por precio producto
+    getProductosByPriceMax(){
+      return this.http.get<maxProduct>("http://localhost:8080/Symfony/public/index.php/api/producto/priceMax");
+    }
 }

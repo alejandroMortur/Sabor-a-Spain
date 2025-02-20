@@ -1,6 +1,6 @@
 <div *ngIf="productos.length > 0; else loading">
     <div class="container-fluid row gap-5 justify-content-center">
-        <div class="d-flex justify-content-center w-100 mb-0 gap-3 text-light">
+        <div class="d-flex justify-content-center w-100 mb-0 gap-3 text-light alings-item-center" style="height: 2rem;">
            <app-filter-name (modelChanged)="onNameChanged($event)"></app-filter-name>
            <app-filter-tipe (modelChanged)="onTipeChanged($event)"></app-filter-tipe>
            <app-filter-price></app-filter-price>
