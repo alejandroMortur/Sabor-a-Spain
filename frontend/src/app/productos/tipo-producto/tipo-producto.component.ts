@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-tipo-producto',
@@ -8,4 +9,15 @@ import { Component } from '@angular/core';
 })
 export class TipoProductoComponent {
 
+  tipo: string | null = null;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    // Obtener el parámetro 'tipo' de la ruta
+    this.route.paramMap.subscribe(params => {
+      this.tipo = params.get('tipo');
+    });
+  }
 }
+
