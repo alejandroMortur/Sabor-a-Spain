@@ -143,5 +143,38 @@ class ProductoController extends AbstractController
     public function filter_price(Request $request): JsonResponse
     {
 
+            // Obtener el número de página desde el request, si no, asignar 1
+            $page = $request->query->getInt('page', 1); // `page` es el valor que recibimos de Angular
+            $price = $request->query->getString('price', ''); // `filter` es el valor que recibimos de Angular
+    
+            // Crear la consulta base
+            $query = $this->productoRepository->createQueryBuilder('p')->orderBy('p.id', 'ASC');
+    
+            // Si hay un filtro de nombre, agregar la condición WHERE
+            if (!empty($price)) {
+                $margin = 100;
+                $query->andWhere('p.Precio BETWEEN :minPrice AND :maxPrice')
+                ->setParameter('minPrice', $price - $margin)
+                ->setParameter('maxPrice', $price + $margin);
+            }
+    
+            // Paginación de los resultados
+            $query->setMaxResults(6)  // Número de elementos por página
+                ->setFirstResult(($page - 1) * 6); // Calcular el primer elemento para la página actual
+    
+            // Obtener los productos
+            $productos = $this->paginator->paginate(
+                $query, // Consulta de Doctrine
+                $page,  // Página actual
+                6      // Número de elementos por página
+            );
+    
+            // Responder con los productos paginados (en formato JSON)
+            return $this->json([
+                'productos' => $productos->getItems(),
+                'total' => $productos->getTotalItemCount(),
+                'pagina' => $page,
+            ]);
+
     }  
 }

@@ -66,12 +66,25 @@ export class ProductosComponent {
       }); 
    }
 
+   pintarTarjetasPorPrecio(): void {
+      this.servicioProductos.getProductosByPrice(this.page,this.price).subscribe((data: ProductoResponse) => {
+      this.productos = data.productos;
+      this.totalItems = data.total;
+      this.page = data.pagina;
+
+      // Forzar detección de cambios para actualizar la vista
+         this.cdr.detectChanges();
+      }); 
+   }
+
    manejarCambioPagina(nuevoValor: number  ) {
       this.page = nuevoValor;
       if(this.tipe != "" && this.tipe != ' '){
          this.pintarTarjetasPorTipo();
       }else if(this.name != "" && this.name != ' '){
          this.pintarTarjetasPorNombre();
+      }else if(this.price != 0 && this.price != null){
+         this.pintarTarjetasPorPrecio();
       }else{
          this.pintarTarjetas();  
       }
@@ -91,5 +104,10 @@ export class ProductosComponent {
       this.name = value;
       console.log('Valor recibido desde input (hijo):', this.name);
       this.pintarTarjetasPorNombre();
+   }
+   onPriceChanged(value: any) {
+      this.price = value;
+      console.log('Valor recibido desde input (hijo):', this.price);
+      this.pintarTarjetasPorPrecio();
    }
 }

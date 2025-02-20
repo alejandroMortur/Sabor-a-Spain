@@ -35,7 +35,7 @@ export class GestionProductosService {
   }
 
   // Método para obtener productos paginados por precio producto
-  getProductosByPrice(page: number,price: string){
+  getProductosByPrice(page: number,price: number){
     //Evita que se sobrescriban los parametros de la url
     const params = new HttpParams()
     .set('page', page.toString())   // Pasa el parámetro 'page'
@@ -43,8 +43,8 @@ export class GestionProductosService {
     return this.http.get<ProductoResponse>("http://localhost:8080/Symfony/public/index.php/api/producto/price", { params });
   }
 
-    // Método para obtener productos paginados por precio producto
-    getProductosByPriceMax(){
+  // Método para obtener productos paginados por precio producto
+  getProductosByPriceMax(){
       return this.http.get<maxProduct>("http://localhost:8080/Symfony/public/index.php/api/producto/priceMax");
-    }
+  }
 }
