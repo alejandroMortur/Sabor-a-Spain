@@ -1,4 +1,4 @@
-# Dockerfile actualizado para PHP 8.2
+# Dockerfile actualizado para PHP 8.2 con Apache
 FROM php:8.2-apache
 
 # Instalar dependencias necesarias para pdo_pgsql y Composer
@@ -20,11 +20,17 @@ RUN curl -sS https://getcomposer.org/installer | php \
 # Instalar las extensiones necesarias de PHP
 RUN docker-php-ext-install pdo pdo_pgsql
 
-# Habilitar la extensión pdo_pgsql en el archivo php.ini
-RUN echo "extension=pdo_pgsql.so" > /usr/local/etc/php/conf.d/30-pdo_pgsql.ini
+# Habilitar los módulos de Apache necesarios
+RUN a2enmod rewrite headers
 
 # Copiar archivos de la aplicación al contenedor
 COPY . /var/www/html/
+
+# Crear y dar permisos al directorio de datos para imágenes y otros archivos
+RUN mkdir -p /var/www/html/data && chown -R www-data:www-data /var/www/html/data
+
+# Habilitar el sitio
+RUN a2ensite 000-default.conf
 
 # Exponer el puerto 80 para la aplicación web
 EXPOSE 80

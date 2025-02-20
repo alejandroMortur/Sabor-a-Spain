@@ -8,6 +8,9 @@ services:
     working_dir: /var/www/html
     volumes:
       - .:/var/www/html
+      - ./apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - ./data:/var/www/html/data
+
     depends_on:
       - db
     ports:
