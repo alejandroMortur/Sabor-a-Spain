@@ -26,7 +26,7 @@ export class FilterPriceComponent {
     
     this.servicioProductos.getProductosByPriceMax().subscribe((data: maxProduct) => {
       this.max = data.precioMaximo;
-
+      this.max += 10;
         // Forzar detección de cambios para actualizar la vista
          this.cdr.detectChanges();
       }); 
