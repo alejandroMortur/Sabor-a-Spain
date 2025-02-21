@@ -19,6 +19,9 @@ class Tipos
     #[ORM\Column(length: 255)]
     private ?string $Descripcion = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Imagen = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -47,4 +50,17 @@ class Tipos
 
         return $this;
     }
+
+    public function getImagen(): ?string
+    {
+        return $this->Imagen;
+    }
+
+    public function setImagen(?string $Imagen): static
+    {
+        $this->Imagen = $Imagen;
+
+        return $this;
+    }
+
 }
