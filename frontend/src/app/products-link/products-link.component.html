@@ -1,0 +1,27 @@
+<div *ngIf="tipos.length > 0; else loading">
+    <div class="container-fluid row gap-5 justify-content-center">
+        @for (tipo of tipos; track tipo.id) {
+            <div class="card" style="width: 18rem;" id={{tipo.id}}>
+                <img class="card-img-top" src={{tipo.Imagen}} alt="Card image cap" style="width: 100%; height: 16rem; object-fit: cover;">
+                <div class="card-body">
+                  <h5 class="card-title">{{tipo.Nombre}}</h5>
+                  <p class="card-text">{{tipo.Descripcion}}</p>
+                  <div class="container-fluid">
+                    <a href="#" class="btn btn-primary w-100">Comprar ya!!</a>
+                  </div>
+                </div>
+            </div>
+        }
+    </div>   
+</div>  
+
+<ng-template #loading>
+    <div class="container-fluid d-flex alings-item-center justify-content-center">
+        <div>
+            <p class="text-center fs-1 text-light">Cargando</p>
+            <div class="spinner-border text-danger" role="status" style="width: 10rem; height: 10rem;">
+                <span class="sr-only">Cargando...</span>
+            </div>
+        </div>
+    </div>
+</ng-template>
