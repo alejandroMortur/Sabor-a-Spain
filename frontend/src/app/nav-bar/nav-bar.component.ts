@@ -13,6 +13,7 @@ export class NavBarComponent {
   isCollapsed = true;
   activeLink: string = '';
   userimg: string = "http://localhost:8080/data/imagenes/user.png";
+  authState: string = "Registro/Login";
 
   constructor(private router: Router) { }
   
