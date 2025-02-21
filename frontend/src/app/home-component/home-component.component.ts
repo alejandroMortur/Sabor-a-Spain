@@ -4,6 +4,7 @@ import { ProductsLinkComponent } from '../products-link/products-link.component'
 
 @Component({
   selector: 'app-home-component',
+  standalone: true,
   imports: [CarouselComponent,ProductsLinkComponent],
   templateUrl: './home-component.component.html',
   styleUrl: './home-component.component.css'
