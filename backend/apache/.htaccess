@@ -1,0 +1,11 @@
+# Permitir solicitudes CORS desde cualquier origen (ajústalo según sea necesario)
+Header set Access-Control-Allow-Origin "*"
+
+# Permitir métodos específicos (GET, POST, PUT, DELETE, etc.)
+Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+
+# Permitir cabeceras personalizadas, como Content-Type o Authorization
+Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+
+# Habilitar CORS para las solicitudes OPTIONS (para preflight)
+Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"

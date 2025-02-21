@@ -20,7 +20,7 @@ RUN curl -sS https://getcomposer.org/installer | php \
 # Instalar las extensiones necesarias de PHP
 RUN docker-php-ext-install pdo pdo_pgsql
 
-# Habilitar los módulos de Apache necesarios
+# Habilitar los módulos de Apache necesarios para CORS y reescritura de URL
 RUN a2enmod rewrite headers
 
 # Copiar archivos de la aplicación al contenedor
@@ -28,6 +28,10 @@ COPY . /var/www/html/
 
 # Crear y dar permisos al directorio de datos para imágenes y otros archivos
 RUN mkdir -p /var/www/html/data && chown -R www-data:www-data /var/www/html/data
+
+# Copiar la configuración personalizada de Apache
+COPY ./apache/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./apache/.htaccess /var/www/html/.htaccess
 
 # Habilitar el sitio
 RUN a2ensite 000-default.conf

@@ -1,31 +1,31 @@
 [
     {
-      "image": "/imagenes/ciudad-de-las-artes-ciencias.jpg",
+      "image": "http://localhost:8080/data/imagenes/ciudad-de-las-artes-ciencias.jpg",
       "title": "Ciudad de las Artes y las Ciencias",
       "description": "Un complejo arquitectónico y cultural de Valencia, diseñado por Santiago Calatrava."
     },
     {
-      "image": "/imagenes/cudillero.jpg",
+      "image": "http://localhost:8080/data/imagenes/cudillero.jpg",
       "title": "Cudillero, Galicia",
       "description": "Un pintoresco pueblo pesquero en la costa norte de España, famoso por sus coloridas casas."
     },
     {
-      "image": "/imagenes/plaza-espana-barcelona.jpg",
+      "image": "http://localhost:8080/data/imagenes/plaza-espana-barcelona.jpg",
       "title": "Plaza España, Barcelona",
       "description": "Una de las plazas más importantes de Barcelona, famosa por sus fuentes y edificios emblemáticos."
     },
     {
-      "image": "/imagenes/plaza-españa-sevilla.webp",
+      "image": "http://localhost:8080/data/imagenes/plaza-españa-sevilla.webp",
       "title": "Plaza España, Sevilla",
       "description": "Una majestuosa plaza semicircular, construida para la Exposición Iberoamericana de 1929."
     },
     {
-      "image": "/imagenes/sol.jpg",
+      "image": "http://localhost:8080/data/imagenes/sol.jpg",
       "title": "Puerta del Sol, Madrid",
       "description": "Uno de los lugares más icónicos de Madrid, conocida por su reloj y por ser el centro de la red de carreteras radiales."
     },
     {
-      "image": "/imagenes/teide.avif",
+      "image": "http://localhost:8080/data/imagenes/teide.avif",
       "title": "El Teide",
       "description": "El volcán más alto de España, ubicado en Tenerife, en las Islas Canarias."
     }
