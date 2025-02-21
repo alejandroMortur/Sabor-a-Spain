@@ -1,5 +1,5 @@
 <!-- Formulario con iconos dentro de los campos de entrada -->
-<div class="container mt-5 d-flex flex-column align-items-center justify-content-center gap-4 mb-5 mt-0">
+<div id="formulario" class="container mt-5 d-flex flex-column align-items-center justify-content-center gap-4 mb-5 mt-0 w-75">
     <h2 class="text-center text-light">Formulario de Login:</h2>
   
     <form (ngSubmit)="onSubmit()" #registrationForm="ngForm" class="w-50 d-flex flex-column gap-3 justify-content-center">
@@ -29,7 +29,7 @@
       <!-- Div de correo electrónico -->
       <div class="form-group text-light mb-3 w-75 mx-auto">
         <div class="input-group">
-          <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+          <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
           <input type="email" id="email" class="form-control" placeholder="Correo Electrónico" required [(ngModel)]="model.email" name="email" #email="ngModel">
         </div>
         <div *ngIf="email.invalid && email.touched" class="text-danger">

@@ -1,8 +1,9 @@
 <!-- Formulario con iconos dentro de los campos de entrada -->
-<div class="container mt-5 d-flex flex-column align-items-center justify-content-center gap-3 mb-5 mt-0">
+<div id="formulario" class="container mt-5 d-flex flex-column align-items-center justify-content-center gap-3 mb-5 mt-0 w-75">
     <h2 class="text-center text-light">Formulario de Registro: </h2>
   
-    <form (ngSubmit)="onSubmit()" #registrationForm="ngForm" class="w-50 d-flex flex-column gap-3 justify-content-center">
+    <form (ngSubmit)="onSubmit($event)" #registrationForm="ngForm" class="w-50 d-flex flex-column gap-3 justify-content-center">
+
   
       <!-- Div de nombre de usuario -->
       <div class="form-group text-light mb-3 w-75 mx-auto">
@@ -49,7 +50,7 @@
       <!-- Div de correo electrónico -->
       <div class="form-group text-light mb-3 w-75 mx-auto">
         <div class="input-group">
-          <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+          <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
           <input type="email" id="email" class="form-control" placeholder="Correo Electrónico" required [(ngModel)]="model.email" name="email" #email="ngModel">
         </div>
         <div *ngIf="email.invalid && email.touched" class="text-danger">
@@ -58,18 +59,17 @@
       </div>
 
       <div class=" w-75 mx-auto d-flex justify-content-start align-items-center">
-        <p class="text-light d-flex gap-2">¿Ya tienes cuenta?: <button id="btnLogin" class="d-flex flex-row gap-2 align-items-center" type="button" (click)="route('/auth/login')">
-            <i class="fa-solid fa-right-to-bracket text-light"></i>  
-            Login
-        </button> 
+        <p class="text-light d-flex gap-2">¿Ya tienes cuenta?: 
+            <button id="btnLogin" class="d-flex flex-row gap-2 align-items-center" type="button" (click)="route('/auth/login')">
+                <i class="fa-solid fa-right-to-bracket text-light"></i>  
+                Login
+            </button> 
         </p>
       </div>
   
       <!-- Botón de registro -->
       <div class="row container w-75 mx-auto" style="height: 3rem;">
-          <button type="submit" class="btn btn-primary w-100 h-100 fs-6" [disabled]="registrationForm.invalid">
-            Enviar
-          </button>
+            <button type="submit" class="btn btn-primary w-100 h-100 fs-6" [disabled]="registrationForm.invalid">Enviar</button>
       </div>
       
     </form>

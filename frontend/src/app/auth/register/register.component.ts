@@ -15,7 +15,8 @@ export class RegisterComponent {
     username: '',
     password: '',
     repeatPassword: '',
-    email: ''
+    email: '',
+    role: ['ROLE_USER']
   };
 
   constructor(private router: Router) { }
@@ -31,11 +32,15 @@ export class RegisterComponent {
     this.repeatPasswordFieldType = this.repeatPasswordFieldType === 'password' ? 'text' : 'password';
   }
   
-  onSubmit() {
+  onSubmit(event: Event) {
+    event.preventDefault(); 
     if (this.model.username && this.model.email) {
       console.log('Formulario enviado', this.model);
+    } else {
+      console.log('Formulario no válido');
     }
   }
+  
   route(path: string): void {
     this.router.navigate([path]);
     this.activeLink = path;

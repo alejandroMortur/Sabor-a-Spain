@@ -3,3 +3,19 @@
     background-color: rgba(0, 0, 0, 0);
     color: white;
 }
+
+#formulario {
+    /* Fondo translúcido con efecto cristal */
+    background: rgba(255, 255, 255, 0.034); /* Color blanco con opacidad */
+    backdrop-filter: blur(10px); /* Efecto de desenfoque */
+    -webkit-backdrop-filter: blur(10px); /* Soporte para Safari */
+  
+    /* Bordes redondeados */
+    border-radius: 10px;
+  
+    /* Sombra difusa */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  
+    /* Relleno */
+    padding: 20px;
+}  
