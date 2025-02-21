@@ -10,7 +10,6 @@ services:
       - .:/var/www/html
       - ./apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
       - ./data:/var/www/html/data
-      - ./apache/.htaccess:/var/www/html/.htaccess  # Mapea el archivo .htaccess
 
     depends_on:
       - db
