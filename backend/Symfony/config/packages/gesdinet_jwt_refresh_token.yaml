@@ -1,0 +1,6 @@
+gesdinet_jwt_refresh_token:
+    refresh_token_class: App\Entity\RefreshToken
+    doctrine_mappings: true # Permite mapear los tokens en Doctrine
+    ttl: 2592000  # Tiempo de vida del refresh token en segundos (30 días)
+    user_provider: App\Security\UserProvider # Ajusta esto si es necesario
+    manager_type: doctrine

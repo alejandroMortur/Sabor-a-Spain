@@ -2,22 +2,26 @@
 
 namespace App\Controller;
 
-use App\Entity\Producto;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\UsuarioRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\UsuarioRepository;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 final class UsuarioController extends AbstractController
 {
     #[Route('/api/usuario', name: 'app_usuario', methods: ['GET'])]
     public function index(UsuarioRepository $usuarioRepository): JsonResponse
     {
-        // Obtener todos los productos desde la base de datos
+        // Asegurarse de que el usuario esté autenticado
+        if (!$this->getUser()) {
+            throw new AccessDeniedException('You are not authenticated');
+        }
+
+        // Obtener todos los usuarios desde la base de datos
         $usuarios = $usuarioRepository->findAll();
 
-        // Crear un array con los datos de los productos para la respuesta
+        // Crear un array con los datos de los usuarios para la respuesta
         $data = [];
     
         foreach ($usuarios as $usuario) {
@@ -26,7 +30,6 @@ final class UsuarioController extends AbstractController
                 'nombre' => $usuario->getNombre(),
                 'correo' => $usuario->getEmail(),
                 'foto' => $usuario->getFoto(),
-                'clave' => $usuario->getPassword(),
                 'roles' => $usuario->getRoles(),
             ];
         }
