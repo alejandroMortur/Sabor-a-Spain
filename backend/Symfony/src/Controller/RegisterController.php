@@ -54,23 +54,31 @@ final class RegisterController extends AbstractController
         // Generar el JWT (Access Token)
         $accessToken = $this->jwtManager->create($usuario);
 
-        // Generar el Refresh Token
-        $refreshToken = $this->refreshTokenManager->create($usuario);
+        $ttl = (new \DateTime('+1 year'))->getTimestamp() - time(); // Obtiene la diferencia en segundos
+        $refreshToken = $this->refreshTokenGenerator->createForUserWithTtl($usuario, $ttl);
+
+        // Aquí estamos asociando el refresh token al usuario en la base de datos.
+        // Si deseas guardar el refresh token en el modelo Usuario, podrías hacer algo como:
+        // $usuario->setRefreshToken($refreshToken->getRefreshToken());
+        // Y luego guardar el usuario otra vez en la base de datos.
+        $usuario->setRefreshToken($refreshToken->getRefreshToken());
+        $entityManager->persist($usuario);
+        $entityManager->flush();
 
         // Establecer las cookies con JWT y Refresh Token
         $response = new JsonResponse([
-            'message' => $refreshToken
+            'message' => 'OK'
         ], 200);
 
         // Crear las cookies para ambos tokens sin el parámetro 'secure'
         $response->headers->setCookie(
-            new Cookie('access_token', $accessToken, time() + 3600, '/', null, false, true, false, 'Strict')
+            new Cookie('access_token', $accessToken, time() + 3600, '/', null, false, true, false, 'None')
         );
-
+        
         $response->headers->setCookie(
-            new Cookie('refresh_token', $refreshToken, time() + (365 * 24 * 3600), '/', null, false, true, false, 'Strict')
+            new Cookie('refresh_token', $refreshToken, time() + (365 * 24 * 3600), '/', null, false, true, false, 'None')
         );
-
+        
         return $response;
     }
 }

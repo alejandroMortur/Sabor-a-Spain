@@ -37,14 +37,14 @@ export class RegisterComponent {
     event.preventDefault(); 
     if (this.model.username && this.model.password && this.model.email) {
       console.log('Formulario enviado', this.model);
-
+  
       // Llamamos al servicio de registro
       this.registerService.registerUser(this.model.username, this.model.password)
         .subscribe(
           (response) => {
             console.log('Respuesta del servidor:', response);
-            // Aquí puedes redirigir a otra página si el registro es exitoso
-            this.router.navigate(['/login']); // o el path que desees
+            // Redirigir al HomeComponent después de un registro exitoso
+            this.router.navigate(['/']); // Esto debería llevarte al HomeComponent, si tienes una ruta configurada como { path: '', component: HomeComponentComponent }
           },
           (error) => {
             console.error('Error en el registro:', error);
@@ -53,7 +53,7 @@ export class RegisterComponent {
     } else {
       console.log('Formulario no válido');
     }
-  }
+  }  
   
   route(path: string): void {
     this.router.navigate([path]);

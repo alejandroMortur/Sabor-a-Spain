@@ -20,6 +20,6 @@ export class RegisterService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.post(this.apiUrl, body.toString(), { headers });
+    return this.http.post(this.apiUrl, body.toString(), { headers, withCredentials: true });
   }
 }
