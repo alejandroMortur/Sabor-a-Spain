@@ -8,5 +8,5 @@ http://localhost:8080/Symfony/public/index.php/api/producto/priceMax (obtiene de
 http://localhost:8080/Symfony/public/index.php/api/tipos (obtiene listado para todos los tipos)
 
 -----(Carpeta imagenes server)---------
-http://localhost:8080/data/hola.txt
+http://localhost:8080/data/ItemCarousel.json
 

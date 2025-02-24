@@ -23,6 +23,7 @@ class ProductoController extends AbstractController
         $this->paginator = $paginator;
     }
 
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/api/producto', name: 'app_producto', methods: ['GET'])]
     public function index(Request $request): JsonResponse
     {
@@ -49,6 +50,7 @@ class ProductoController extends AbstractController
         ]);
     }
 
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/api/producto/tipe', name: 'app_producto_tipe', methods: ['GET'])]
     public function filter_tipe(Request $request): JsonResponse
     {
@@ -83,6 +85,7 @@ class ProductoController extends AbstractController
         ]);
     }    
 
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/api/producto/name', name: 'app_producto_name', methods: ['GET'])]
     public function filter_name(Request $request): JsonResponse
     {
@@ -120,6 +123,7 @@ class ProductoController extends AbstractController
 
     }  
 
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/api/producto/priceMax', name: 'app_producto_priceMax', methods: ['GET'])]
     public function max_price(Request $request): JsonResponse
     {
@@ -139,6 +143,7 @@ class ProductoController extends AbstractController
 
     }  
 
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/api/producto/price', name: 'app_producto_price', methods: ['GET'])]
     public function filter_price(Request $request): JsonResponse
     {

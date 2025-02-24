@@ -21,6 +21,7 @@ final class TiposController extends AbstractController
         $this->tiposRepository = $tiposRepository;
     }
 
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/api/tipos', name: 'app_tipos', methods: ['GET'])]
     public function index(): JsonResponse
     {

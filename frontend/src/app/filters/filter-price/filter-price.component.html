@@ -1,8 +1,15 @@
 <div class=" d-flex flex-row gap-3">
     <label>Filtrar por precio:</label>
-    <div class=" d-flex flex-row gap-1">
-        <span id="min">{{min}}€</span>
-        <mv-slider [(value)]="value" [min]="min" [max]="max" [enabled]="enabled" (change)="change()"></mv-slider>
-        <span id="max">{{max}}€</span>
+    <div class=" d-flex flex-column gap-1">
+        <div class=" d-flex flex-row gap-2">
+            <span id="min">{{min}}€</span>
+            <div class=" d-flex flex-column gap-1">
+                <mv-slider [(value)]="value" [min]="min" [max]="max" [enabled]="enabled" (change)="change()"></mv-slider>
+                <div class="container-fluid d-flex justify-content-center align-items-center">
+                    <span>Valor: {{value}}€</span>
+                </div>
+            </div>
+            <span id="max">{{max}}€</span>
+        </div>
     </div>
 </div>

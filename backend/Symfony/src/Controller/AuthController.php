@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AuthController extends AbstractController
 {
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/auth', name: 'app_auth')]
     public function index(): Response
     {

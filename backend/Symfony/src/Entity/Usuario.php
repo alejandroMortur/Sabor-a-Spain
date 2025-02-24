@@ -46,6 +46,9 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $Nombre = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $RefreshToken = null;
+
     public function __construct()
     {
         $this->ventas = new ArrayCollection();
@@ -178,6 +181,18 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNombre(string $Nombre): static
     {
         $this->Nombre = $Nombre;
+
+        return $this;
+    }
+
+    public function getRefreshToken(): ?string
+    {
+        return $this->RefreshToken;
+    }
+
+    public function setRefreshToken(?string $RefreshToken): static
+    {
+        $this->RefreshToken = $RefreshToken;
 
         return $this;
     }

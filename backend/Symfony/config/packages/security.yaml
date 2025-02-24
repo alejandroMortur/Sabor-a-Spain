@@ -16,18 +16,52 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-
+            
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
+                # Ruta de Login - abierta para usuarios no autenticados
+        login:
+            pattern: ^/auth$
+            stateless: true
+            security: false
+
+        # Ruta de Registro - abierta para usuarios no autenticados
+        register:
+            pattern: ^/register$
+            stateless: true
+            security: false
+
+        # Ruta de API pública (sin autenticación)
+        api:
+            pattern: ^/api/
+            stateless: true
+            security: false # Aquí hacemos que todas las rutas de /api sean públicas
+
+        # Otras rutas protegidas por JWT
+        api_protected:
+            pattern: ^/api/protected/
+            jwt: ~
+            stateless: true
+            # Si deseas que /api/protected sea solo para usuarios autenticados, añades lo siguiente:
+            # access_control:
+            #     - { path: ^/api/protected, roles: ROLE_USER }
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # Rutas públicas para login y registro
+        - { path: ^/auth, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+
+        # Protegemos /api/protected solo para usuarios autenticados
+        - { path: ^/api/protected, roles: ROLE_USER }
+
+        # Permitir el acceso anónimo a toda la API pública
+        - { path: ^/api, roles: PUBLIC_ACCESS }
+
 
 when@test:
     security:
