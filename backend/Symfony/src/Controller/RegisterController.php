@@ -76,7 +76,7 @@ final class RegisterController extends AbstractController
         );
         
         $response->headers->setCookie(
-            new Cookie('refresh_token', $refreshToken, time() + (365 * 24 * 3600), '/', null, false, true, false, 'None')
+            new Cookie('refresh_token', $refreshToken, time() + ((365 * 24 * 3600)*2), '/', null, false, true, false, 'None')
         );
         
         return $response;
