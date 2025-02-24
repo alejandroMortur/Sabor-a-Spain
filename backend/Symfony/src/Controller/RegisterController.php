@@ -9,24 +9,24 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Usuario;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use Gesdinet\JWTRefreshTokenBundle\Model\RefreshTokenManagerInterface;  // Importa la interfaz  
+use Gesdinet\JWTRefreshTokenBundle\Generator\RefreshTokenGeneratorInterface; // Añadir importación  
 use Symfony\Component\HttpFoundation\Cookie;
 
 final class RegisterController extends AbstractController
 {
     private UserPasswordHasherInterface $passwordHasher;
     private JWTTokenManagerInterface $jwtManager;  // Lexik JWT Manager
-    private RefreshTokenManagerInterface $refreshTokenManager;// Gesdinet Refresh Token Manager
+    private RefreshTokenGeneratorInterface $refreshTokenGenerator; // Cambia el tipo aquí
 
     public function __construct(
         UserPasswordHasherInterface $passwordHasher,
         JWTTokenManagerInterface $jwtManager,
-        RefreshTokenManagerInterface $refreshTokenManager
+        RefreshTokenGeneratorInterface $refreshTokenGenerator // Inyección correcta
     )
     {
         $this->passwordHasher = $passwordHasher;
         $this->jwtManager = $jwtManager;
-        $this->refreshTokenManager = $refreshTokenManager;
+        $this->refreshTokenGenerator = $refreshTokenGenerator;
     }
 
     #[IsGranted('PUBLIC_ACCESS')]
@@ -59,16 +59,16 @@ final class RegisterController extends AbstractController
 
         // Establecer las cookies con JWT y Refresh Token
         $response = new JsonResponse([
-            'message' => 'Usuario registrado correctamente'
+            'message' => $refreshToken
         ], 200);
 
         // Crear las cookies para ambos tokens sin el parámetro 'secure'
         $response->headers->setCookie(
-            new Cookie('access_token', $accessToken, 0, '/', null, false, true, false, 'Strict')
+            new Cookie('access_token', $accessToken, time() + 3600, '/', null, false, true, false, 'Strict')
         );
+
         $response->headers->setCookie(
-            $expiryTime = time() + 3600;  // Verifica si la hora está correcta
-            new Cookie('refresh_token', $refreshToken, $expiryTime, '/', null, false, true, false, 'Strict');
+            new Cookie('refresh_token', $refreshToken, time() + (365 * 24 * 3600), '/', null, false, true, false, 'Strict')
         );
 
         return $response;
