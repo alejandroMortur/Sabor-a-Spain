@@ -72,7 +72,7 @@ final class RegisterController extends AbstractController
 
         // Crear las cookies para ambos tokens sin el parámetro 'secure'
         $response->headers->setCookie(
-            new Cookie('access_token', $accessToken, time() + 3600, '/', null, false, true, false, 'None')
+            new Cookie('access_token', $accessToken, time() + (3600*2), '/', null, false, true, false, 'None')
         );
         
         $response->headers->setCookie(
