@@ -11,10 +11,11 @@ export class RegisterService {
 
   constructor(private http: HttpClient) { }
 
-  registerUser(username: string, password: string): Observable<any> {
+  registerUser(username: string, password: string, email: string): Observable<any> {
     const body = new URLSearchParams();
     body.set('username', username);
     body.set('password', password);
+    body.set('email', email);
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
