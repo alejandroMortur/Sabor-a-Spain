@@ -62,14 +62,48 @@
 
 <ng-template #content let-offcanvas>
   <div class="offcanvas-header bg-dark text-light">
-    <h4 class="offcanvas-title text-center" id="offcanvas-basic-title">Tu carrito</h4>
+    <h4 class="offcanvas-title text-center" id="offcanvas-basic-title">Tu carrito:</h4>
     <button type="button" class="btn-close btn-close-white" aria-label="Close"
       (click)="offcanvas.dismiss('Cross click')"></button>
   </div>
   <div class="offcanvas-body bg-dark">
     <div class="container-fluid d-flex flex-column gap-2 justify-content-center align-items-center">
-      <p class="text-center text-light">Aquí irán los items del carrito</p>
+      <!-- Mensaje si no hay productos en el carrito -->
+      <div *ngIf="carrito.length === 0" class="text-center text-light">
+        <p>El carrito está vacío.</p>
+      </div>
+
+      <!-- Condición para mostrar el carrito solo si tiene productos -->
+      <div *ngIf="carrito.length > 0" class="d-flex flex-column gap-3">
+        <!-- Iteramos sobre el carrito -->
+        <div *ngFor="let producto of carrito; let i = index" class="col-12 col-md-4">
+          <!-- Para cada producto, mostramos sus detalles -->
+          <div class="card" style="width: 18rem;" [id]="producto.id">
+            <img class="card-img-top" [src]="producto.Imagen" alt="Imagen del producto"
+                style="width: 100%; height: 16rem; object-fit: cover;">
+            <div class="card-body">
+              <h5 class="card-title text-dark">{{ producto.Nombre }}</h5>
+              <p class="card-text text-dark">Precio: {{ producto.Precio }}€</p>
+              <p class="card-text text-dark">{{ producto.Descripcion }}</p>
+              <!-- Mostrar el stock -->
+              <p class="card-text text-dark">En carrito: {{ producto.Stock }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Si el carrito está vacío, mostrar un mensaje -->
+      <div *ngIf="carrito.length === 0">
+        <p>No hay productos en el carrito.</p>
+      </div>
+
+
+      <!-- Botón para vaciar carrito -->
       <div class="container-fluid text-center">
+        <button type="button" class="btn btn-danger w-100 text-light" (click)="vaciarCarrito()">Vaciar carrito</button>
+      </div>
+
+      <!-- Botón de acción final -->
+      <div class="container-fluid text-center mt-3">
         <button type="button" class="btn btn-primary btn-outline-secondary w-100 text-light"
           (click)="offcanvas.close('Save click')">Comprar</button>
       </div>

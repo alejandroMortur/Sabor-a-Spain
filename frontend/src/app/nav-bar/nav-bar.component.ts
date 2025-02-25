@@ -2,10 +2,13 @@ import { Component, TemplateRef, WritableSignal, inject, signal } from '@angular
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbDatepickerModule, NgbDropdownModule, NgbModule, NgbNavModule, NgbOffcanvas, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { GestionarCarritoService } from '../services/gestionar-carrito.service';
+import { NgFor, NgIf } from '@angular/common';
+
 
 @Component({
   selector: 'app-nav-bar',
-  imports: [NgbNavModule, NgbDropdownModule, NgbModule, FontAwesomeModule, NgbDatepickerModule],
+  imports: [NgFor,NgIf,NgbNavModule, NgbDropdownModule, NgbModule, FontAwesomeModule, NgbDatepickerModule],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css'
 })
@@ -14,16 +17,30 @@ export class NavBarComponent {
   activeLink: string = '';
   userimg: string = "http://localhost:8080/data/imagenes/user.png";
   authState: string = "Registro/Login";
+  
+  // Esta propiedad almacenará los productos del carrito
+  carrito: any[] = [];
 
-  constructor(private router: Router) { }
+  private offcanvasService = inject(NgbOffcanvas);
+  closeResult: WritableSignal<string> = signal('');
+
+  constructor(private router: Router, private carritoService: GestionarCarritoService) { }
 
   route(path: string): void {
     this.router.navigate([path]);
     this.activeLink = path;
   }
 
-  private offcanvasService = inject(NgbOffcanvas);
-  closeResult: WritableSignal<string> = signal('');
+  // Método para cargar los productos del carrito desde el servicio
+  private loadCarrito(): void {
+    this.carrito = this.carritoService.getCarrito();  // Obtener carrito desde el servicio
+  }
+
+  // Método para vaciar el carrito
+  vaciarCarrito(): void {
+    this.carrito = []; // Limpiar el array del carrito
+    this.carritoService.vaciarCarrito();  // También podrías agregar un método en el servicio para limpiar el carrito si es necesario
+  }
 
   open(content: TemplateRef<any>) {
     this.offcanvasService.open(content, { ariaLabelledBy: 'offcanvas-basic-title' }).result.then(
@@ -32,8 +49,9 @@ export class NavBarComponent {
       },
       (reason) => {
         this.closeResult.set(`Dismissed ${this.getDismissReason(reason)}`);
-      },
+      }
     );
+    this.loadCarrito();  // Cargar el carrito cuando se abre el offcanvas
   }
 
   private getDismissReason(reason: any): string {
@@ -46,5 +64,7 @@ export class NavBarComponent {
         return `with: ${reason}`;
     }
   }
-}
 
+  
+
+}
