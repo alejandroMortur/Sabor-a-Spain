@@ -1,54 +1,78 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-dark p-1" style="height: 4rem;">
-    <h1 class="navbar-brand text-danger">❤️💛❤️ SABOR-A-ESPAÑA ❤️💛❤️</h1>
-  
-    <!-- Botón de colapso -->
-    <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <!-- Menú colapsable -->
-    <div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse">
-      <ul class="navbar-nav">
+  <h1 class="navbar-brand text-danger">❤️💛❤️ SABOR-A-ESPAÑA ❤️💛❤️</h1>
 
-        <!-- Home -->
-        <li class="nav-item" [class.active]="activeLink === '/'">
-          <button class="nav-link text-white" (click)="route('/')">Home</button>
-        </li>
+  <!-- Botón de colapso -->
+  <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-        <!-- Dropdown para tipos de productos -->
-        <li class="nav-item dropdown bg-dark" ngbDropdown>
-          <button class="nav-link dropdown-toggle text-white" ngbDropdownToggle>
-            Tipos de productos
-          </button>
-          <div ngbDropdownMenu class="p-2 bg-dark" style="width: 20rem;">
-            <button class="nav-link text-white" (click)="route('/productos')">Todos los productos</button>
-            <hr style="color: white;">
-            <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Cárnicos'" (click)="route('/productos/Cárnicos')">Productos Cárnicos</button>
-            <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Bebidas'" (click)="route('/productos/Bebidas')">Productos Bebidas</button>
-            <hr style="color: white;">
-            <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Libros'" (click)="route('/productos/Libros')">Libros españoles</button>
-            <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Ropa'" (click)="route('/productos/Ropa')">Ropa Española</button>
-            <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Eventos'" (click)="route('/productos/Eventos')">Eventos Nacionales y Regionales</button>
-            <hr style="color: white;">
-            <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/ProductosEstrella'" (click)="route('/productos/ProductosEstrella')">Productos Estrella</button>
-          </div>
-        </li>
+  <!-- Menú colapsable -->
+  <div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse">
+    <ul class="navbar-nav">
 
-      </ul>
+      <!-- Home -->
+      <li class="nav-item" [class.active]="activeLink === '/'">
+        <button class="nav-link text-white" (click)="route('/')">Home</button>
+      </li>
+
+      <!-- Dropdown para tipos de productos -->
+      <li class="nav-item dropdown bg-dark" ngbDropdown>
+        <button class="nav-link dropdown-toggle text-white" ngbDropdownToggle>
+          Tipos de productos
+        </button>
+        <div ngbDropdownMenu class="p-2 bg-dark" style="width: 20rem;">
+          <button class="nav-link text-white" (click)="route('/productos')">Todos los productos</button>
+          <hr style="color: white;">
+          <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Cárnicos'"
+            (click)="route('/productos/Cárnicos')">Productos Cárnicos</button>
+          <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Bebidas'"
+            (click)="route('/productos/Bebidas')">Productos Bebidas</button>
+          <hr style="color: white;">
+          <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Libros'"
+            (click)="route('/productos/Libros')">Libros españoles</button>
+          <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Ropa'"
+            (click)="route('/productos/Ropa')">Ropa Española</button>
+          <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Eventos'"
+            (click)="route('/productos/Eventos')">Eventos Nacionales y Regionales</button>
+          <hr style="color: white;">
+          <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/ProductosEstrella'"
+            (click)="route('/productos/ProductosEstrella')">Productos Estrella</button>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+  <!-- Div a la derecha -->
+  <div class="d-flex justify-content-end alings-item-center flex-row gap-5">
+    <div class="d-flex flex-row gap-3 justify-content-center align-items-center">
+      <button type="button" id="btnCarrito" (click)="open(content)">
+        <i class="fa-solid fa-cart-shopping text-light" style="font-size: 1.7rem;"></i>
+      </button>
     </div>
-    <!-- Div a la derecha -->
-    <div class="d-flex justify-content-end alings-item-center flex-row gap-5">
-      <div class="d-flex flex-row gap-3 justify-content-center align-items-center">
-        <button type="button" id="btnCarrito">
-          <i class="fa-solid fa-cart-shopping text-light" style="font-size: 1.7rem;"></i>
-        </button>        
-      </div>
-      <div class="d-flex flex-row gap-3 justify-content-center align-items-center" style="height: 100%;">
-        <img [src]="userimg" alt="">
-        <button (click)="route('/auth/register')" class="d-flex flex-row gap-2 justify-content-center align-items-center" id="btnRegistro" type="button" style="height: 50px;">
-          <i class="fa-solid fa-right-to-bracket text-light" style="font-size: 1.2rem;"></i>
-          <p class="text-light fs-5 mb-0" style="line-height: 1;">{{authState}}</p>
-        </button>        
-      </div>      
+    <div class="d-flex flex-row gap-3 justify-content-center align-items-center" style="height: 100%;">
+      <img [src]="userimg" alt="">
+      <button (click)="route('/auth/register')" class="d-flex flex-row gap-2 justify-content-center align-items-center"
+        id="btnRegistro" type="button" style="height: 50px;">
+        <i class="fa-solid fa-right-to-bracket text-light" style="font-size: 1.2rem;"></i>
+        <p class="text-light fs-5 mb-0" style="line-height: 1;">{{authState}}</p>
+      </button>
     </div>
+  </div>
 </nav>
+
+<ng-template #content let-offcanvas>
+  <div class="offcanvas-header bg-dark text-light">
+    <h4 class="offcanvas-title text-center" id="offcanvas-basic-title">Tu carrito</h4>
+    <button type="button" class="btn-close btn-close-white" aria-label="Close"
+      (click)="offcanvas.dismiss('Cross click')"></button>
+  </div>
+  <div class="offcanvas-body bg-dark">
+    <div class="container-fluid d-flex flex-column gap-2 justify-content-center align-items-center">
+      <p class="text-center text-light">Aquí irán los items del carrito</p>
+      <div class="container-fluid text-center">
+        <button type="button" class="btn btn-primary btn-outline-secondary w-100 text-light"
+          (click)="offcanvas.close('Save click')">Comprar</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
