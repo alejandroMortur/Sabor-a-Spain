@@ -6,21 +6,20 @@ import { RegisterService } from '../../services/auth/register.service';
 
 @Component({
   selector: 'app-register',
-  imports: [ FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-  activeLink :string = "";
+  activeLink: string = "";
   model = {
     username: '',
     password: '',
     repeatPassword: '',
-    email: '',
-    role: ['ROLE_USER']
+    email: ''
   };
 
-  constructor(private router: Router,private registerService: RegisterService) { }
+  constructor(private router: Router, private registerService: RegisterService) { }
 
   passwordFieldType: string = 'password';
   repeatPasswordFieldType: string = 'password';
@@ -32,14 +31,14 @@ export class RegisterComponent {
   toggleRepeatPasswordVisibility() {
     this.repeatPasswordFieldType = this.repeatPasswordFieldType === 'password' ? 'text' : 'password';
   }
-  
+
   onSubmit(event: Event) {
-    event.preventDefault(); 
+    event.preventDefault();
     if (this.model.username && this.model.password && this.model.email) {
       console.log('Formulario enviado', this.model);
-  
+
       // Llamamos al servicio de registro
-      this.registerService.registerUser(this.model.username, this.model.password)
+      this.registerService.registerUser(this.model.username, this.model.password, this.model.email)
         .subscribe(
           (response) => {
             console.log('Respuesta del servidor:', response);
@@ -53,8 +52,8 @@ export class RegisterComponent {
     } else {
       console.log('Formulario no válido');
     }
-  }  
-  
+  }
+
   route(path: string): void {
     this.router.navigate([path]);
     this.activeLink = path;
