@@ -68,13 +68,13 @@ final class RegisterController extends AbstractController
         ], 200);
 
         // Crear las cookies para ambos tokens sin el parámetro 'secure'
-        $response->headers->setCookie(
-            new Cookie('access_token', $accessToken, time() + (3600*2), '/', null, false, true, false, 'None')
-        );
+        $response->headers->setCookie(new \Symfony\Component\HttpFoundation\Cookie(
+            'access_token', $accessToken, time() + (3600 * 2), '/', null, true, true, false, 'None'
+        ));
         
-        $response->headers->setCookie(
-            new Cookie('refresh_token', $refreshToken, time() + ((365 * 24 * 3600)*2), '/', null, false, true, false, 'None')
-        );
+        $response->headers->setCookie(new \Symfony\Component\HttpFoundation\Cookie(
+            'refresh_token', $refreshToken->getRefreshToken(), time() + ((365 * 24 * 3600) * 2), '/', null, true, true, false, 'None'
+        ));        
         
         return $response;
     }

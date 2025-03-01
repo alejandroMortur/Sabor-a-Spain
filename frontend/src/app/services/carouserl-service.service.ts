@@ -10,7 +10,7 @@ export class CarouserlServiceService {
 
   constructor(private http: HttpClient) { }
   getItems(): Observable<ItemCarousel[]> {
-    return this.http.get<ItemCarousel[]>("http://localhost:8080/data/ItemCarousel.json");
+    return this.http.get<ItemCarousel[]>("https://localhost:8443/data/ItemCarousel.json");
   }
 }
 

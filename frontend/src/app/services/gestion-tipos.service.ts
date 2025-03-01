@@ -11,7 +11,7 @@ export class GestionTiposService {
   constructor(private http: HttpClient) { }
     // Método para obtener productos paginados
     getListadoTipos(): Observable<Tipos[]> {
-      return this.http.get<Tipos[]>("http://localhost:8080/Symfony/public/index.php/api/tipos");
+      return this.http.get<Tipos[]>("https://localhost:8443/Symfony/public/index.php/api/tipos");
     }
   
 }

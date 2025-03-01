@@ -10,8 +10,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Gesdinet\JWTRefreshTokenBundle\Generator\RefreshTokenGeneratorInterface;
+use Gesdinet\JWTRefreshTokenBundle\Model\RefreshTokenManagerInterface;
 use App\Entity\Usuario;
+use App\Repository\UsuarioRepository;
 
 final class AuthController extends AbstractController
 {
@@ -28,7 +31,7 @@ final class AuthController extends AbstractController
         $email = $request->get('email');
         $password = $request->get('password');
 
-        if (!$email || !$password) {
+        if (empty($email) || empty($password)) {
             return new JsonResponse(['error' => 'Email y contraseña son obligatorios'], 400);
         }
 
@@ -50,22 +53,34 @@ final class AuthController extends AbstractController
         // Establecer cookies con los tokens
         $response = new JsonResponse(['message' => 'Login exitoso'], 200);
         $response->headers->setCookie(new \Symfony\Component\HttpFoundation\Cookie(
-            'access_token', $accessToken, time() + (3600 * 2), '/', null, false, true, false, 'None'
+            'access_token', $accessToken, time() + (3600 * 2), '/', null, true, true, false, 'None'
         ));
+        
         $response->headers->setCookie(new \Symfony\Component\HttpFoundation\Cookie(
-            'refresh_token', $refreshToken->getRefreshToken(), time() + ((365 * 24 * 3600) * 2), '/', null, false, true, false, 'None'
-        ));
+            'refresh_token', $refreshToken->getRefreshToken(), time() + ((365 * 24 * 3600) * 2), '/', null, true, true, false, 'None'
+        ));        
 
         return $response;
     }
 
     #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/auth/logout', name: 'app_auth_logout', methods: ['POST'])]
-    public function logout(): JsonResponse
+    public function logout(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        RefreshTokenManagerInterface $refreshTokenManager
+    ): JsonResponse 
     {
-        $response = new JsonResponse(['message' => 'Logout exitoso'], 200);
+        $refreshToken = $request->cookies->get('refresh_token');
+        if ($refreshToken) {
+            $storedToken = $refreshTokenManager->get($refreshToken);
+            if ($storedToken) {
+                $entityManager->remove($storedToken);
+                $entityManager->flush();
+            }
+        }
 
-        // Eliminar cookies de autenticación
+        $response = new JsonResponse(['message' => 'Logout exitoso'], 204);
         $response->headers->clearCookie('access_token', '/');
         $response->headers->clearCookie('refresh_token', '/');
 
@@ -82,50 +97,79 @@ final class AuthController extends AbstractController
     ): JsonResponse 
     {
         $refreshToken = $request->cookies->get('refresh_token');
-
+    
         if (!$refreshToken) {
             return new JsonResponse(['error' => 'No se encontró refresh token'], 400);
         }
-
+    
         $storedToken = $refreshTokenManager->get($refreshToken);
-
-        if (!$storedToken) {
-            return new JsonResponse(['error' => 'Refresh token inválido'], 401);
+    
+        if (!$storedToken || $storedToken->getValid() < new \DateTime()) {
+            return new JsonResponse(['error' => 'Refresh token inválido o expirado'], 401);
         }
-
+    
         $usuario = $entityManager->getRepository(Usuario::class)->findOneBy(['email' => $storedToken->getUsername()]);
-
+    
         if (!$usuario) {
             return new JsonResponse(['error' => 'Usuario no encontrado'], 401);
         }
-
+    
+        // Genera un nuevo access token
         $newAccessToken = $jwtManager->create($usuario);
+    
+        // Devuelve una nueva cookie con el access token
         $response = new JsonResponse(['message' => 'Token actualizado'], 200);
-
         $response->headers->setCookie(new \Symfony\Component\HttpFoundation\Cookie(
             'access_token', $newAccessToken, time() + (3600 * 2), '/', null, false, true, false, 'None'
         ));
-
+    
         return $response;
     }
 
     #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/auth/status', name: 'app_auth_status', methods: ['GET'])]
-    public function status(): JsonResponse
-    {
-        $usuario = $this->getUser();
-
-        if (!$usuario) {
-            return new JsonResponse(['authenticated' => false, 'message' => 'No autenticado'], 401);
+    public function status(
+        Request $request,
+        JWTEncoderInterface $jwtEncoder, // <-- Cambia la inyección de dependencia
+        UsuarioRepository $userRepository
+    ): JsonResponse {
+        // Obtener el token JWT
+        $token = $request->cookies->get('access_token');
+    
+        if (!$token) {
+            $authHeader = $request->headers->get('Authorization');
+            if ($authHeader && preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+                $token = $matches[1];
+            }
         }
-
-        return new JsonResponse([
-            'authenticated' => true,
-            'user' => [
-                'id' => $usuario->getId(),
-                'email' => $usuario->getEmail(),
-                'roles' => $usuario->getRoles()
-            ]
-        ]);
+    
+        if (!$token) {
+            return new JsonResponse(['authenticated' => false, 'message' => 'No autenticado El token no esta'], 401);
+        }
+    
+        try {
+            // Decodificar el token correctamente usando JWTEncoderInterface
+            $payload = $jwtEncoder->decode($token);
+    
+            if (!$payload || !isset($payload['id'])) {
+                return new JsonResponse(['authenticated' => false, 'message' => 'Usuario no encontrado en el token'], 401);
+            }
+    
+            $usuario = $userRepository->find($payload['id']);
+            if (!$usuario) {
+                return new JsonResponse(['authenticated' => false, 'message' => 'Usuario no encontrado'], 401);
+            }
+    
+            return new JsonResponse([
+                'authenticated' => true,
+                'user' => [
+                    'id' => $usuario->getId(),
+                    'email' => $usuario->getEmail(),
+                    'roles' => $usuario->getRoles()
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return new JsonResponse(['authenticated' => false, 'message' => 'Token inválido'], 401);
+        }
     }
 }
