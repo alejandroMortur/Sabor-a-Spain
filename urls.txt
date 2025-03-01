@@ -1,5 +1,5 @@
 Symphony:
-http://localhost:8080/Symfony/public/index.php
+https://localhost:8443/Symfony/public/index.php
 PgAdmin:
 http://localhost:8081/browser/
 
