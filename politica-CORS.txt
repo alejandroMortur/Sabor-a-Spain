@@ -1,12 +1,33 @@
 composer require nelmio/cors-bundle
 
-http://localhost:8080/Symfony/public/index.php/api/producto (api productos)
-http://localhost:8080/Symfony/public/index.php/api/usuario  (api usuarios)
-http://localhost:8080/Symfony/public/index.php/api/producto/tipe?page=1&filter=Bebidas (api para filtrado, segundo valor filtro)
-http://localhost:8080/Symfony/public/index.php/api/producto/name?page=2&name=Ibérico (api para filtrado, segundo valor nombre (contenido o partes del mismo))
-http://localhost:8080/Symfony/public/index.php/api/producto/priceMax (obtiene de la api el precio más alto de los productos)
-http://localhost:8080/Symfony/public/index.php/api/tipos (obtiene listado para todos los tipos)
+# API de productos
+GET http://localhost:8080/Symfony/public/index.php/api/producto  # Obtiene la lista de productos
+
+# API de usuarios
+GET http://localhost:8080/Symfony/public/index.php/api/usuario  # Obtiene la lista de usuarios
+
+# Filtrado de productos por tipo
+GET http://localhost:8080/Symfony/public/index.php/api/producto/tipe?page=1&filter=Bebidas  # Filtra productos por tipo (Ejemplo: Bebidas)
+
+# Filtrado de productos por nombre
+GET http://localhost:8080/Symfony/public/index.php/api/producto/name?page=2&name=Ibérico  # Filtra productos por nombre o parte del nombre
+
+# Obtiene el precio más alto de los productos
+GET http://localhost:8080/Symfony/public/index.php/api/producto/priceMax  
+
+# Obtiene la lista de tipos de productos
+GET http://localhost:8080/Symfony/public/index.php/api/tipos  
+
+# Rutas protegidas
+??? http://localhost:8080/Symfony/public/index.php/api/protected  # Endpoint protegido
+??? http://localhost:8080/Symfony/public/index.php/api/protected/admin  # Endpoint protegido para administradores
+
+# Autenticación
+POST http://localhost:8080/Symfony/public/index.php/auth  # Inicia sesión (POST)
+POST http://localhost:8080/Symfony/public/index.php/auth/logout  # Cierra sesión (POST)
+POST http://localhost:8080/Symfony/public/index.php/auth/refresh  # Refresca el token de autenticación (POST)
+GET  http://localhost:8080/Symfony/public/index.php/auth/status  # Verifica si el usuario está autenticado (GET)
+
 
 -----(Carpeta imagenes server)---------
 http://localhost:8080/data/ItemCarousel.json
-

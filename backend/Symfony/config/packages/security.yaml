@@ -24,30 +24,52 @@ security:
             # switch_user: true
                 # Ruta de Login - abierta para usuarios no autenticados
         login:
+            # Define la ruta para el inicio de sesión (login)
             pattern: ^/auth$
+            # No mantiene estado, lo que significa que no guarda sesión entre peticiones
             stateless: true
+            # No se requiere seguridad para acceder a esta ruta (pública)
             security: false
 
-        # Ruta de Registro - abierta para usuarios no autenticados
         register:
+            # Define la ruta para el registro de usuarios
             pattern: ^/register$
+            # No mantiene estado (sin sesión entre peticiones)
             stateless: true
+            # No requiere autenticación o seguridad para acceder a esta ruta (pública)
             security: false
 
-        # Ruta de API pública (sin autenticación)
-        api:
-            pattern: ^/api/
+        refresh:
+            # Define la ruta para actualizar el token de acceso (refresh)
+            pattern: ^/auth/refresh$
+            # No mantiene estado (sin sesión entre peticiones)
             stateless: true
-            security: false # Aquí hacemos que todas las rutas de /api sean públicas
+            # No requiere seguridad para esta ruta (pública, solo actualizar tokens)
+            security: false
 
-        # Otras rutas protegidas por JWT
-        api_protected:
-            pattern: ^/api/protected/
-            jwt: ~
+        logout:
+            # Define la ruta para cerrar sesión (logout)
+            pattern: ^/auth/logout$
+            # No mantiene estado (sin sesión entre peticiones)
             stateless: true
-            # Si deseas que /api/protected sea solo para usuarios autenticados, añades lo siguiente:
-            # access_control:
-            #     - { path: ^/api/protected, roles: ROLE_USER }
+            # No se requiere seguridad para acceder a esta ruta (pública)
+            security: false
+
+        api_protected:
+            # Define la ruta para las APIs protegidas
+            pattern: ^/api/protected/
+            # No mantiene estado, es decir, cada petición será independiente
+            stateless: true
+            # Requiere JWT (JSON Web Token) para autenticación, es decir, el acceso a esta ruta está protegido
+            jwt: ~
+
+        api_protected_admin:
+            # Define la ruta protegida solo para administradores
+            pattern: ^/api/protected/admin/
+            # No mantiene estado (sin sesión entre peticiones)
+            stateless: true
+            # Requiere autenticación con JWT
+            jwt: ~
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
@@ -59,9 +81,11 @@ security:
         # Protegemos /api/protected solo para usuarios autenticados
         - { path: ^/api/protected, roles: ROLE_USER }
 
+        # Protegemos /api/protected/admin solo para administradores
+        - { path: ^/api/protected/admin, roles: ROLE_ADMIN }
+
         # Permitir el acceso anónimo a toda la API pública
         - { path: ^/api, roles: PUBLIC_ACCESS }
-
 
 when@test:
     security:
