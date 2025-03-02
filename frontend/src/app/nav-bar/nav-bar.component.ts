@@ -15,7 +15,7 @@ import { NgFor, NgIf } from '@angular/common';
 export class NavBarComponent {
   isCollapsed = true;
   activeLink: string = '';
-  userimg: string = "http://localhost:8080/data/imagenes/user.png";
+  userimg: string = "https://localhost:8443/data/imagenes/user.png";
   authState: string = "Registro/Login";
   
   // Esta propiedad almacenará los productos del carrito
@@ -65,6 +65,9 @@ export class NavBarComponent {
     }
   }
 
-  
+  // Método para redirigir a la pasarela de pago
+  comprar(): void {
+      this.router.navigate(['/payment']); // Redirige a la ruta de la pasarela de pago
+  }
 
 }

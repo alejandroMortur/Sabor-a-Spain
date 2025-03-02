@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class RegisterService {
 
-  private apiUrl = 'http://localhost:8080/Symfony/public/index.php/register';
+  private apiUrl = 'https://localhost:8443/Symfony/public/index.php/register';
 
   constructor(private http: HttpClient) { }
 
