@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbDatepickerModule, NgbDropdownModule, NgbModule, NgbNavModule, NgbOffcanvas, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { GestionarCarritoService } from '../services/gestionar-carrito.service';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, CommonModule } from '@angular/common';
 import { UserImgService } from '../services/userImg/user-img.service';
 
 
 @Component({
   selector: 'app-nav-bar',
-  imports: [NgFor,NgIf,NgbNavModule, NgbDropdownModule, NgbModule, FontAwesomeModule, NgbDatepickerModule],
+  imports: [NgFor,NgIf,NgbNavModule, NgbDropdownModule, NgbModule, FontAwesomeModule, NgbDatepickerModule, CommonModule],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css'
 })
@@ -78,6 +78,13 @@ export class NavBarComponent {
   // Método para redirigir a la pasarela de pago
   comprar(): void {
       this.router.navigate(['/payment']); // Redirige a la ruta de la pasarela de pago
+  }
+
+  // Método para calcular el total del carrito
+  calcularTotal(): number {
+    return this.carrito.reduce((total, producto) => {
+      return total + (producto.Precio * producto.Stock);
+    }, 0);
   }
 
 }

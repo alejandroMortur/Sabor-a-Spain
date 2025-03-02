@@ -91,6 +91,11 @@
           </div>
         </div>
       </div>
+
+      <!-- Mostrar el total del carrito -->
+      <div class="container-fluid text-center mt-3">  
+        <h5 class="text-light">Total: {{ calcularTotal() | currency:'EUR':'symbol':'1.2-2' }}</h5>
+      </div>
       
       <hr style="border: 2px solid white; width: 100%;">
 
