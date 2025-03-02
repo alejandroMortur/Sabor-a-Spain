@@ -10,7 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Gesdinet\JWTRefreshTokenBundle\Generator\RefreshTokenGeneratorInterface;
 use Gesdinet\JWTRefreshTokenBundle\Model\RefreshTokenManagerInterface;
 use App\Entity\Usuario;
@@ -42,7 +41,7 @@ final class AuthController extends AbstractController
         }
 
         // Generar tokens
-        $accessToken = $jwtManager->create($usuario);
+        $accessToken = $jwtManager->create($usuario, ['id' => $usuario->getId()]);
         $ttl = (new \DateTime('+1 year'))->getTimestamp() - time();
         $refreshToken = $refreshTokenGenerator->createForUserWithTtl($usuario, $ttl);
 
@@ -125,51 +124,71 @@ final class AuthController extends AbstractController
     
         return $response;
     }
-
+    
     #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/auth/status', name: 'app_auth_status', methods: ['GET'])]
-    public function status(
+    public function getStatus(
         Request $request,
-        JWTEncoderInterface $jwtEncoder, // <-- Cambia la inyección de dependencia
+        JWTTokenManagerInterface $jwtManager, // Use JWTTokenManagerInterface
         UsuarioRepository $userRepository
     ): JsonResponse {
-        // Obtener el token JWT
+        // Obtener el token JWT de las cookies
         $token = $request->cookies->get('access_token');
-    
+        
+        // Si no se encuentra en las cookies, intentar obtenerlo del encabezado de autorización
         if (!$token) {
             $authHeader = $request->headers->get('Authorization');
             if ($authHeader && preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-                $token = $matches[1];
+                $token = $matches[1]; // Extraer el token del encabezado "Bearer"
             }
         }
-    
+        
+        // Si no se encuentra el token, devolver un error
         if (!$token) {
-            return new JsonResponse(['authenticated' => false, 'message' => 'No autenticado El token no esta'], 401);
+            return new JsonResponse(
+                ['authenticated' => false, 'message' => 'No autenticado: El token no está presente'],
+                401
+            );
         }
-    
+        
         try {
-            // Decodificar el token correctamente usando JWTEncoderInterface
-            $payload = $jwtEncoder->decode($token);
-    
+            // Decodificar el token JWT utilizando el método adecuado para este caso
+            $payload = $jwtManager->parse($token); // Usar el método 'parse' para decodificar el token
+        
+            // Verificar que el payload contiene el campo 'id'
             if (!$payload || !isset($payload['id'])) {
-                return new JsonResponse(['authenticated' => false, 'message' => 'Usuario no encontrado en el token'], 401);
+                return new JsonResponse(
+                    ['authenticated' => false, 'message' => 'Usuario no encontrado en el token'],
+                    401
+                );
             }
-    
+        
+            // Buscar el usuario en la base de datos usando el 'id' del token
             $usuario = $userRepository->find($payload['id']);
+        
+            // Si el usuario no existe, devolver un error
             if (!$usuario) {
-                return new JsonResponse(['authenticated' => false, 'message' => 'Usuario no encontrado'], 401);
+                return new JsonResponse(
+                    ['authenticated' => false, 'message' => 'Usuario no encontrado en la base de datos'],
+                    401
+                );
             }
-    
+        
+            // Si todo está bien, devolver la información del usuario
             return new JsonResponse([
                 'authenticated' => true,
                 'user' => [
                     'id' => $usuario->getId(),
                     'email' => $usuario->getEmail(),
-                    'roles' => $usuario->getRoles()
-                ]
+                    'roles' => $usuario->getRoles(),
+                ],
             ]);
         } catch (\Exception $e) {
-            return new JsonResponse(['authenticated' => false, 'message' => 'Token inválido'], 401);
+            // Si ocurre un error al decodificar el token, devolver un mensaje de error
+            return new JsonResponse(
+                ['authenticated' => false, 'message' => 'Token inválido: ' . $e->getMessage()],
+                401
+            );
         }
     }
 }

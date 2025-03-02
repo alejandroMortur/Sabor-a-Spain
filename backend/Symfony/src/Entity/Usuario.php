@@ -8,10 +8,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserInterface;
 
 #[ORM\Entity(repositoryClass: UsuarioRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
+class Usuario implements UserInterface, PasswordAuthenticatedUserInterface, JWTUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -195,5 +196,35 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         $this->RefreshToken = $RefreshToken;
 
         return $this;
+    }
+
+    /**
+     * Método requerido por JWTUserInterface.
+     */
+    public static function createFromPayload($username, array $payload): self
+    {
+        $user = new self();
+        $user->id = $payload['id']; // Asegúrate de que el payload incluya 'id'
+        $user->email = $username;
+        $user->roles = $payload['roles'];
+        return $user;
+    }
+
+    /**
+     * Método para obtener el payload personalizado.
+     */
+    public function getPayload(): array
+    {
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'roles' => $this->roles,
+        ];
+    }
+
+    // Si aún no lo tienes, agrega este método para compatibilidad
+    public function getUsername(): string
+    {
+        return $this->email;
     }
 }
