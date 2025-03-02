@@ -7,20 +7,20 @@ import { Observable } from 'rxjs';
 })
 export class RegisterService {
 
-  private apiUrl = 'https://localhost:8443/Symfony/public/index.php/register';
+  private apiUrl = 'https://localhost:8443/Symfony/public/index.php/register'; // Update with your backend URL
 
   constructor(private http: HttpClient) { }
 
-  registerUser(username: string, password: string, email: string): Observable<any> {
-    const body = new URLSearchParams();
-    body.set('username', username);
-    body.set('password', password);
-    body.set('email', email);
+  registerUser(username: string, password: string, email: string, image: File | null): Observable<any> {
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+    formData.append('email', email);
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
-    });
+    if (image) {
+      formData.append('image', image, image.name); // Append the file with a name
+    }
 
-    return this.http.post(this.apiUrl, body.toString(), { headers, withCredentials: true });
+    return this.http.post(this.apiUrl, formData, { withCredentials: true });
   }
 }

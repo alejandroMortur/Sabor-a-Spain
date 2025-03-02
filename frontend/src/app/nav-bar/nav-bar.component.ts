@@ -4,6 +4,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbDatepickerModule, NgbDropdownModule, NgbModule, NgbNavModule, NgbOffcanvas, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { GestionarCarritoService } from '../services/gestionar-carrito.service';
 import { NgFor, NgIf } from '@angular/common';
+import { UserImgService } from '../services/userImg/user-img.service';
 
 
 @Component({
@@ -24,7 +25,16 @@ export class NavBarComponent {
   private offcanvasService = inject(NgbOffcanvas);
   closeResult: WritableSignal<string> = signal('');
 
-  constructor(private router: Router, private carritoService: GestionarCarritoService) { }
+  constructor(private router: Router, private carritoService: GestionarCarritoService, private userImgService: UserImgService) { 
+
+      // Escucha cambios en la imagen del usuario
+      this.userImgService.userImage$.subscribe(imageUrl => {
+        if (imageUrl) {
+          this.userimg = imageUrl; // Actualiza la imagen de usuario
+        }
+      });
+
+  }
 
   route(path: string): void {
     this.router.navigate([path]);

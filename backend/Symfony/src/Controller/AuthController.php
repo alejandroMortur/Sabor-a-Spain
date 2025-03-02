@@ -49,8 +49,15 @@ final class AuthController extends AbstractController
         $entityManager->persist($usuario);
         $entityManager->flush();
 
+        // Obtener la URL de la imagen del usuario
+        $imageUrl = $usuario->getFoto() ?? "https://localhost:8443/data/imagenes/user.png"; // Usar una imagen por defecto si no hay foto
+
         // Establecer cookies con los tokens
-        $response = new JsonResponse(['message' => 'Login exitoso'], 200);
+        $response = new JsonResponse([
+            'message' => 'Login exitoso',
+            'imageUrl' => $imageUrl // Incluir la URL de la imagen en la respuesta
+        ], 200);
+        
         $response->headers->setCookie(new \Symfony\Component\HttpFoundation\Cookie(
             'access_token', $accessToken, time() + (3600 * 2), '/', null, true, true, false, 'None'
         ));

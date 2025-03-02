@@ -11,6 +11,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Gesdinet\JWTRefreshTokenBundle\Generator\RefreshTokenGeneratorInterface; 
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\File\UploadedFile; // Import UploadedFile
 
 final class RegisterController extends AbstractController
 {
@@ -29,10 +30,10 @@ final class RegisterController extends AbstractController
         $this->refreshTokenGenerator = $refreshTokenGenerator;
     }
 
-    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/register', name: 'app_register', methods: ['POST'])]
     public function register(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
+        // Obtener los datos del formulario
         $username = $request->get('username');
         $password = $request->get('password');
         $email = $request->get('email');
@@ -41,12 +42,41 @@ final class RegisterController extends AbstractController
             return new JsonResponse(['error' => 'Faltan datos para el registro'], 400);
         }
 
+        // Verificar si se subió una imagen
+        $file = $request->files->get('image');
+        $imageUrl = null;
+
+        if ($file instanceof UploadedFile) {
+            // Validar el tipo de archivo (opcional)
+            $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!in_array($file->getMimeType(), $allowedMimeTypes)) {
+                return new JsonResponse(['error' => 'Tipo de archivo no permitido'], 400);
+            }
+
+            // Genera un nombre único para la imagen
+            $filename = uniqid() . '.' . $file->guessExtension();
+
+            // Mover el archivo a la carpeta de destino
+            $uploadDirectory = '/var/www/html/data/userImg/';
+            if (!is_dir($uploadDirectory)) {
+                mkdir($uploadDirectory, 0777, true);
+            }
+            $file->move($uploadDirectory, $filename);
+            $imageUrl = $request->getSchemeAndHttpHost() . '/data/userImg/' . $filename;
+            
+        }
+
         // Crear un nuevo usuario
         $usuario = new Usuario();
         $usuario->setNombre($username);
         $usuario->setEmail($email);
         $usuario->setPassword($this->passwordHasher->hashPassword($usuario, $password));
         $usuario->setRoles(['ROLE_USER']);
+
+        // Si la imagen está presente, asignarla al campo 'foto'
+        if ($imageUrl) {
+            $usuario->setFoto($imageUrl);
+        }
 
         // Guardar el usuario en la base de datos
         $entityManager->persist($usuario);
@@ -64,8 +94,9 @@ final class RegisterController extends AbstractController
 
         // Establecer las cookies con JWT y Refresh Token
         $response = new JsonResponse([
-            'message' => 'OK'
-        ], 200);
+            'message' => 'OK',
+            'imageUrl' => $imageUrl  // Aquí se incluye la URL de la imagen generada
+        ], 200);        
 
         // Crear las cookies para ambos tokens sin el parámetro 'secure'
         $response->headers->setCookie(new \Symfony\Component\HttpFoundation\Cookie(
