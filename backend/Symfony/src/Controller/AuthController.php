@@ -52,10 +52,13 @@ final class AuthController extends AbstractController
         // Obtener la URL de la imagen del usuario
         $imageUrl = $usuario->getFoto() ?? "https://localhost:8443/data/imagenes/user.png"; // Usar una imagen por defecto si no hay foto
 
-        // Establecer cookies con los tokens
+        // Obtener los roles del usuario
+        $roles = $usuario->getRoles();
+
         $response = new JsonResponse([
             'message' => 'Login exitoso',
-            'imageUrl' => $imageUrl // Incluir la URL de la imagen en la respuesta
+            'roles' => $roles,  // Incluir los roles del usuario
+            'imageUrl' => $imageUrl
         ], 200);
         
         $response->headers->setCookie(new \Symfony\Component\HttpFoundation\Cookie(
