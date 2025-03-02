@@ -45,7 +45,20 @@ export class LoginComponent {
         const imageUrl = response.imageUrl || "https://localhost:8443/data/imagenes/user.png";
         this.userImgService.updateUserImage(imageUrl);
 
-        this.router.navigate(['/']); // Redirige al home después del login
+        // Guardar los roles en el AuthService y localStorage
+        this.authService.isAuthenticated().subscribe(() => {
+          const roles = response.roles;
+          this.authService.setRoles(roles); // Actualizamos los roles en el servicio de autenticación
+        });
+
+        // Verificar roles y redirigir
+        if (response.roles.includes('ROLE_ADMIN')) {
+          console.log("pantalla admin")
+          this.router.navigate(['admin/dashboard']);
+        } else {
+          console.log("home para usuarios")
+          this.router.navigate(['/']); // Si es ROLE_USER al home
+        }
       },
       error: (err) => {
         console.error('Error en el login', err);
@@ -54,3 +67,5 @@ export class LoginComponent {
     });
   }
 }
+
+

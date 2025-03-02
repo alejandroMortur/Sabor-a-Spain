@@ -13,13 +13,17 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
   return next(request).pipe(
     catchError((error) => {
       if (error.status === 401 && !request.url.includes('auth')) {
-        return authService.refreshAccessToken().pipe(
-          switchMap(() => next(request)), // Reintenta la solicitud original
-          catchError((refreshError) => {
-            router.navigate(['/auth/login']); // Redirige al login si el refresh falla
-            return throwError(() => refreshError);
-          })
-        );
+        // Evitar redirigir si ya estamos en la página de login
+        if (router.url !== '/auth/login') {
+          return authService.refreshAccessToken().pipe(
+            switchMap(() => next(request)), // Reintenta la solicitud original
+            catchError((refreshError) => {
+              // Solo redirigimos al login si el refresh falla
+              router.navigate(['/auth/login']); 
+              return throwError(() => refreshError);
+            })
+          );
+        }
       }
       return throwError(() => error);
     })
