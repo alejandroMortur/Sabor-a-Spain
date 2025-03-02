@@ -101,29 +101,44 @@ final class AuthController extends AbstractController
             return new JsonResponse(['error' => 'No se encontró refresh token'], 400);
         }
     
+        // Obtener el refresh token almacenado en la base de datos
         $storedToken = $refreshTokenManager->get($refreshToken);
     
+        // Verificar si el refresh token es válido
         if (!$storedToken || $storedToken->getValid() < new \DateTime()) {
-            return new JsonResponse(['error' => 'Refresh token inválido o expirado'], 401);
+            // Si el refresh token está expirado o no es válido, devolver un error para redirigir al login
+            return new JsonResponse(
+                ['error' => 'Refresh token expirado. Por favor, inicie sesión nuevamente.'],
+                401 // Error de no autorizado
+            );
         }
     
+        // Si el refresh token es válido, podemos proceder con la renovación del access token
         $usuario = $entityManager->getRepository(Usuario::class)->findOneBy(['email' => $storedToken->getUsername()]);
     
         if (!$usuario) {
             return new JsonResponse(['error' => 'Usuario no encontrado'], 401);
         }
     
-        // Genera un nuevo access token
+        // Generar un nuevo access token
         $newAccessToken = $jwtManager->create($usuario);
     
-        // Devuelve una nueva cookie con el access token
+        // Devuelve la nueva cookie con el access token
         $response = new JsonResponse(['message' => 'Token actualizado'], 200);
         $response->headers->setCookie(new \Symfony\Component\HttpFoundation\Cookie(
-            'access_token', $newAccessToken, time() + (3600 * 2), '/', null, false, true, false, 'None'
+            'access_token', 
+            $newAccessToken, 
+            time() + (3600 * 2), // 2 horas de validez para el access token
+            '/', 
+            null, 
+            true,  // secure: asegurarse de que sea enviado solo sobre HTTPS
+            true,  // httpOnly: evitar acceso mediante JavaScript
+            false, // SameSite: evitar que la cookie sea enviada en solicitudes cruzadas
+            'None'  // puedes ajustarlo según el comportamiento que desees
         ));
     
         return $response;
-    }
+    }    
     
     #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/auth/status', name: 'app_auth_status', methods: ['GET'])]
