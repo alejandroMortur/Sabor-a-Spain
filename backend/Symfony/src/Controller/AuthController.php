@@ -14,6 +14,9 @@ use Gesdinet\JWTRefreshTokenBundle\Generator\RefreshTokenGeneratorInterface;
 use Gesdinet\JWTRefreshTokenBundle\Model\RefreshTokenManagerInterface;
 use App\Entity\Usuario;
 use App\Repository\UsuarioRepository;
+use DateTime;
+use DateTimeZone;
+
 
 final class AuthController extends AbstractController
 {
@@ -40,11 +43,19 @@ final class AuthController extends AbstractController
             return new JsonResponse(['error' => 'Credenciales inválidas'], 401);
         }
 
-        // Generar tokens
-        $accessToken = $jwtManager->create($usuario, ['id' => $usuario->getId()]);
-        $ttl = (new \DateTime('+1 year'))->getTimestamp() - time();
-        $refreshToken = $refreshTokenGenerator->createForUserWithTtl($usuario, $ttl);
+        $fecha_hoy = new \DateTime('now', new \DateTimeZone('Europe/Madrid'));
+        $timestamp = $fecha_hoy->getTimestamp();
+        
+        // Definir expiración del token, por ejemplo, 1 hora
+        $exp = $timestamp + 3600; // 1 hora después de la emisión
+        
+        $accessToken = $jwtManager->create($usuario, ['iat' => $timestamp, 'exp' => $exp]);
+        
 
+        $ttl = 3600 * 24 * 30;  // 30 días, por ejemplo
+        $refreshToken = $refreshTokenGenerator->createForUserWithTtl($usuario, $ttl);        
+
+        // Guardar el Refresh Token en la base de datos
         $usuario->setRefreshToken($refreshToken->getRefreshToken());
         $entityManager->persist($usuario);
         $entityManager->flush();

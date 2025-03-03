@@ -2,8 +2,7 @@ lexik_jwt_authentication:
     secret_key: '%kernel.project_dir%/config/jwt/private.pem'
     public_key: '%kernel.project_dir%/config/jwt/public.pem'
     pass_phrase: '%env(JWT_PASSPHRASE)%'
-    token_ttl: 3600  # Tiempo de expiración del token de acceso
     set_cookies: true
     user_id_claim: 'id' 
     remove_token_from_body_when_cookies_used: true  # Si deseas eliminar el token del cuerpo cuando se usa en cookies
-    # Aquí no deberías usar "refresh_token_ttl", sino configurar otro bundle o funcionalidad para refresh tokens
+    token_ttl: 3600  # Esto define el tiempo de vida del Access Token en segundos (1 hora)
