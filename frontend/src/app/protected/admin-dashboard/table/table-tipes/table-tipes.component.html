@@ -1,0 +1,18 @@
+<table class="table bordered text-light table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Imagen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tipo of tipos">
+        <td>{{ tipo.id }}</td>
+        <td>{{ tipo.Nombre }}</td>
+        <td>{{ tipo.Descripcion }}</td>
+        <td><img [src]="tipo.Imagen" alt="{{ tipo.Nombre }}" width="50" /></td>
+      </tr>
+    </tbody>
+  </table>

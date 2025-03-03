@@ -1,0 +1,27 @@
+<table class="table bordered text-light table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Clave</th>
+        <th>Roles</th>
+        <th>Foto</th>
+        <th>Ventas</th>
+        <th>Token Refresco</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.id }}</td>
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.password }}</td>
+        <td>{{ usuario.roles.join(', ') }}</td>
+        <td><img [src]="usuario.foto" alt="Foto de {{ usuario.nombre }}" width="50" /></td>
+        <td>{{ usuario.ventas.length }}</td> <!-- Muestra la cantidad de ventas -->
+        <td style="word-wrap: break-word; word-break: break-word;">{{ usuario.refreshToken }}</td>          
+      </tr>
+    </tbody>
+  </table>
+  
