@@ -26,18 +26,6 @@ final class ProtectedController extends AbstractController
         $this->userRepository = $userRepository;
     }
 
-    #[Route('/api/protected', name: 'app_protected', methods: ['GET'])]
-    public function index(): Response
-    {
-        return new Response('Bienvenido a la ruta protegida');
-    }
-
-    #[Route('/api/protected/admin', name: 'app_protected_admin', methods: ['GET'])]
-    public function admin(): Response
-    {
-        return new Response('Bienvenido a la ruta protegida de administrador');
-    }
-
     // Rutas para Productos
 
     #[Route('/api/protected/admin/productos/obtener', name: 'get_productos', methods: ['GET'])]
@@ -73,6 +61,67 @@ final class ProtectedController extends AbstractController
         return $this->json($producto, Response::HTTP_CREATED);
     }
 
+    #[Route('/api/protected/admin/productos/eliminar/{id}', name: 'delete_producto', methods: ['DELETE'])]
+    public function deleteProducto(int $id, Request $request, ProductosRepository $productosRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+
+        $producto = $productosRepository->find($id);
+        
+        if (!$producto) {
+            return $this->json(['error' => 'Producto no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        $entityManager->remove($producto);
+        $entityManager->flush();
+
+        return $this->json(['message' => 'Producto eliminado correctamente']);
+    }
+
+    #[Route('/api/protected/admin/productos/obtener/{id}', name: 'get_producto', methods: ['GET'])]
+    public function getProducto(int $id, Request $request, ProductosRepository $productosRepository): JsonResponse
+    {
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+
+        $producto = $productosRepository->find($id);
+        
+        if (!$producto) {
+            return $this->json(['error' => 'Producto no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->json($producto);
+    }
+
+    #[Route('/api/protected/admin/productos/actualizar/{id}', name: 'update_producto', methods: ['PUT'])]
+    public function updateProducto(int $id, Request $request, ProductosRepository $productosRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+
+        $producto = $productosRepository->find($id);
+        
+        if (!$producto) {
+            return $this->json(['error' => 'Producto no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        $data = json_decode($request->getContent(), true);
+
+        $producto->setNombre($data['Nombre'] ?? $producto->getNombre());
+        $producto->setPrecio($data['Precio'] ?? $producto->getPrecio());
+        $producto->setStock($data['Stock'] ?? $producto->getStock());
+        $producto->setDescripcion($data['Descripcion'] ?? $producto->getDescripcion());
+        $producto->setImagen($data['Imagen'] ?? $producto->getImagen());
+
+        $entityManager->flush();
+
+        return $this->json($producto);
+    }
+
     // Rutas para Tipos
 
     #[Route('/api/protected/admin/tipos/obtener', name: 'get_tipos', methods: ['GET'])]
@@ -104,6 +153,65 @@ final class ProtectedController extends AbstractController
         $entityManager->flush();
 
         return $this->json($tipo, Response::HTTP_CREATED);
+    }
+
+    #[Route('/api/protected/admin/tipos/eliminar/{id}', name: 'delete_tipo', methods: ['DELETE'])]
+    public function deleteTipo(int $id, Request $request, TiposRepository $tiposRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+
+        $tipo = $tiposRepository->find($id);
+        
+        if (!$tipo) {
+            return $this->json(['error' => 'Tipo no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        $entityManager->remove($tipo);
+        $entityManager->flush();
+
+        return $this->json(['message' => 'Tipo eliminado correctamente']);
+    }
+
+    #[Route('/api/protected/admin/tipos/obtener/{id}', name: 'get_tipo', methods: ['GET'])]
+    public function getTipo(int $id, Request $request, TiposRepository $tiposRepository): JsonResponse
+    {
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+    
+        $tipo = $tiposRepository->find($id);
+        
+        if (!$tipo) {
+            return $this->json(['error' => 'Tipo no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+    
+        return $this->json($tipo);
+    }
+    
+    #[Route('/api/protected/admin/tipos/actualizar/{id}', name: 'update_tipo', methods: ['PUT'])]
+    public function updateTipo(int $id, Request $request, TiposRepository $tiposRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+    
+        $tipo = $tiposRepository->find($id);
+        
+        if (!$tipo) {
+            return $this->json(['error' => 'Tipo no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+    
+        $data = json_decode($request->getContent(), true);
+    
+        $tipo->setNombre($data['Nombre'] ?? $tipo->getNombre());
+        $tipo->setDescripcion($data['Descripcion'] ?? $tipo->getDescripcion());
+        $tipo->setImagen($data['Imagen'] ?? $tipo->getImagen());
+    
+        $entityManager->flush();
+    
+        return $this->json($tipo);
     }
 
     // Rutas para Usuarios
@@ -139,6 +247,73 @@ final class ProtectedController extends AbstractController
         $entityManager->flush();
 
         return $this->json($usuario, Response::HTTP_CREATED);
+    }
+
+    #[Route('/api/protected/admin/usuarios/eliminar/{id}', name: 'delete_usuario', methods: ['DELETE'])]
+    public function deleteUsuario(int $id, Request $request, UsuarioRepository $usuarioRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+
+        $usuario = $usuarioRepository->find($id);
+        
+        if (!$usuario) {
+            return $this->json(['error' => 'Usuario no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        $entityManager->remove($usuario);
+        $entityManager->flush();
+
+        return $this->json(['message' => 'Usuario eliminado correctamente']);
+    }
+
+    #[Route('/api/protected/admin/usuarios/obtener/{id}', name: 'get_usuario', methods: ['GET'])]
+    public function getUsuario(int $id, Request $request, UsuarioRepository $usuarioRepository): JsonResponse
+    {
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+    
+        $usuario = $usuarioRepository->find($id);
+        
+        if (!$usuario) {
+            return $this->json(['error' => 'Usuario no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+    
+        return $this->json($usuario);
+    }
+    
+    #[Route('/api/protected/admin/usuarios/actualizar/{id}', name: 'update_usuario', methods: ['PUT'])]
+    public function updateUsuario(int $id, Request $request, UsuarioRepository $usuarioRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+    
+        $usuario = $usuarioRepository->find($id);
+        
+        if (!$usuario) {
+            return $this->json(['error' => 'Usuario no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+    
+        $data = json_decode($request->getContent(), true);
+    
+        $usuario->setNombre($data['Nombre'] ?? $usuario->getNombre());
+        $usuario->setEmail($data['email'] ?? $usuario->getEmail());
+        $usuario->setFoto($data['foto'] ?? $usuario->getFoto());
+        
+        if (isset($data['password'])) {
+            $usuario->setPassword(password_hash($data['password'], PASSWORD_BCRYPT));
+        }
+        
+        if (isset($data['roles'])) {
+            $usuario->setRoles($data['roles']);
+        }
+    
+        $entityManager->flush();
+    
+        return $this->json($usuario);
     }
 
     // Método para validar el token manualmente
