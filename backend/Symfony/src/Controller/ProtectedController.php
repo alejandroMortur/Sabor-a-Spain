@@ -1,22 +1,22 @@
 <?php
-
 namespace App\Controller;
 
 use App\Entity\Productos;
+use App\Entity\Tipos;
+use App\Entity\Usuario;
 use App\Repository\UsuarioRepository;
 use App\Repository\ProductosRepository;
+use App\Repository\TiposRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 final class ProtectedController extends AbstractController
 {
-
     private JWTTokenManagerInterface $jwtManager;
     private UsuarioRepository $userRepository;
 
@@ -26,20 +26,21 @@ final class ProtectedController extends AbstractController
         $this->userRepository = $userRepository;
     }
 
-    #[Route('/api/protected', name: 'app_protected')]
+    #[Route('/api/protected', name: 'app_protected', methods: ['GET'])]
     public function index(): Response
     {
-        
+        return new Response('Bienvenido a la ruta protegida');
     }
 
-    #[Route('/api/protected/admin', name: 'app_protected_admin')]
+    #[Route('/api/protected/admin', name: 'app_protected_admin', methods: ['GET'])]
     public function admin(): Response
     {
-        
+        return new Response('Bienvenido a la ruta protegida de administrador');
     }
 
-    // Obtener todos los productos (protegiendo la ruta con validación manual del token)
-    #[Route('/api/protected/admin/productos', name: 'get_productos', methods: ['GET'])]
+    // Rutas para Productos
+
+    #[Route('/api/protected/admin/productos/obtener', name: 'get_productos', methods: ['GET'])]
     public function getProductos(Request $request, ProductosRepository $productosRepository): JsonResponse
     {
         if (!$this->isValidToken($request)) {
@@ -50,21 +51,13 @@ final class ProtectedController extends AbstractController
         return $this->json($productos);
     }
 
-    // Obtener un producto por ID
-    #[Route('/api/protected/admin/productos/{id}', name: 'get_producto', methods: ['GET'])]
-    public function getProducto(int $id, ProductosRepository $productosRepository): JsonResponse
-    {
-        $producto = $productosRepository->find($id);
-        if (!$producto) {
-            return $this->json(['error' => 'Producto no encontrado'], Response::HTTP_NOT_FOUND);
-        }
-        return $this->json($producto);
-    }
-
-    // Crear un nuevo producto
-    #[Route('/api/protected/admin/productos', name: 'create_producto', methods: ['POST'])]
+    #[Route('/api/protected/admin/productos/crear', name: 'create_producto', methods: ['POST'])]
     public function createProducto(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+
         $data = json_decode($request->getContent(), true);
 
         $producto = new Productos();
@@ -74,57 +67,78 @@ final class ProtectedController extends AbstractController
         $producto->setDescripcion($data['Descripcion']);
         $producto->setImagen($data['Imagen']);
 
-        // Asignar el tipo de producto (requiere un objeto Tipos)
-        // $tipoProducto = $entityManager->getRepository(Tipos::class)->find($data['Tipo_producto_id']);
-        // $producto->setTipoProducto($tipoProducto);
-
         $entityManager->persist($producto);
         $entityManager->flush();
 
         return $this->json($producto, Response::HTTP_CREATED);
     }
 
-    // Actualizar un producto existente
-    #[Route('/api/protected/admin/productos/{id}', name: 'update_producto', methods: ['PUT'])]
-    public function updateProducto(int $id, Request $request, ProductosRepository $productosRepository, EntityManagerInterface $entityManager): JsonResponse
+    // Rutas para Tipos
+
+    #[Route('/api/protected/admin/tipos/obtener', name: 'get_tipos', methods: ['GET'])]
+    public function getTipos(Request $request, TiposRepository $tiposRepository): JsonResponse
     {
-        $producto = $productosRepository->find($id);
-        if (!$producto) {
-            return $this->json(['error' => 'Producto no encontrado'], Response::HTTP_NOT_FOUND);
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+
+        $tipos = $tiposRepository->findAll();
+        return $this->json($tipos);
+    }
+
+    #[Route('/api/protected/admin/tipos/crear', name: 'create_tipo', methods: ['POST'])]
+    public function createTipo(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
         }
 
         $data = json_decode($request->getContent(), true);
 
-        $producto->setNombre($data['Nombre'] ?? $producto->getNombre());
-        $producto->setPrecio($data['Precio'] ?? $producto->getPrecio());
-        $producto->setStock($data['Stock'] ?? $producto->getStock());
-        $producto->setDescripcion($data['Descripcion'] ?? $producto->getDescripcion());
-        $producto->setImagen($data['Imagen'] ?? $producto->getImagen());
+        $tipo = new Tipos();
+        $tipo->setNombre($data['Nombre']);
+        $tipo->setDescripcion($data['Descripcion']);
+        $tipo->setImagen($data['Imagen'] ?? null);
 
-        // Actualizar el tipo de producto si se proporciona
-        // if (isset($data['Tipo_producto_id'])) {
-        //     $tipoProducto = $entityManager->getRepository(Tipos::class)->find($data['Tipo_producto_id']);
-        //     $producto->setTipoProducto($tipoProducto);
-        // }
-
+        $entityManager->persist($tipo);
         $entityManager->flush();
 
-        return $this->json($producto);
+        return $this->json($tipo, Response::HTTP_CREATED);
     }
 
-    // Eliminar un producto
-    #[Route('/api/protected/admin/productos/{id}', name: 'delete_producto', methods: ['DELETE'])]
-    public function deleteProducto(int $id, ProductosRepository $productosRepository, EntityManagerInterface $entityManager): JsonResponse
+    // Rutas para Usuarios
+
+    #[Route('/api/protected/admin/usuarios/obtener', name: 'get_usuarios', methods: ['GET'])]
+    public function getUsuarios(Request $request, UsuarioRepository $usuarioRepository): JsonResponse
     {
-        $producto = $productosRepository->find($id);
-        if (!$producto) {
-            return $this->json(['error' => 'Producto no encontrado'], Response::HTTP_NOT_FOUND);
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
         }
 
-        $entityManager->remove($producto);
+        $usuarios = $usuarioRepository->findAll();
+        return $this->json($usuarios);
+    }
+
+    #[Route('/api/protected/admin/usuarios/crear', name: 'create_usuario', methods: ['POST'])]
+    public function createUsuario(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+
+        $data = json_decode($request->getContent(), true);
+
+        $usuario = new Usuario();
+        $usuario->setEmail($data['email']);
+        $usuario->setPassword(password_hash($data['password'], PASSWORD_BCRYPT));
+        $usuario->setRoles($data['roles'] ?? ['ROLE_USER']);
+        $usuario->setNombre($data['Nombre']);
+        $usuario->setFoto($data['foto'] ?? null);
+
+        $entityManager->persist($usuario);
         $entityManager->flush();
 
-        return $this->json(['message' => 'Producto eliminado']);
+        return $this->json($usuario, Response::HTTP_CREATED);
     }
 
     // Método para validar el token manualmente
@@ -155,11 +169,12 @@ final class ProtectedController extends AbstractController
                 return false;
             }
 
-            // Buscar si el usuario existe en la base de datos
+            // Buscar si el usuario existe
             $usuario = $this->userRepository->find($payload['id']);
             return $usuario !== null;
         } catch (\Exception $e) {
-            return false; // Si hay error en la validación, el token es inválido
+            // Si hay un error en el proceso de decodificación, consideramos el token inválido
+            return false;
         }
     }
 }
