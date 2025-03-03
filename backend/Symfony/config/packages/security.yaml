@@ -21,7 +21,8 @@ security:
         api:
             pattern: ^/api
             stateless: true
-            jwt: ~  # Usa JWT para autenticación
+            security: false  # Permite acceso público a /api/protected
+
     access_control:
         # Rutas públicas
         - { path: ^/auth, roles: PUBLIC_ACCESS }
@@ -31,8 +32,8 @@ security:
         - { path: ^/auth/status, roles: PUBLIC_ACCESS } 
 
         # Rutas protegidas
-        - { path: ^/api/protected, roles: ROLE_USER }
-        - { path: ^/api/protected/admin, roles: ROLE_ADMIN }
+        # - { path: ^/api/protected, roles: ROLE_USER }
+        # - { path: ^/api/protected/admin, roles: ROLE_ADMIN }
 
 when@test:
     security:
