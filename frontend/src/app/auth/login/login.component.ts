@@ -30,35 +30,45 @@ export class LoginComponent {
   ) {}
 
   onSubmit() {
-    // Verifica que el email y la contraseña no estén vacíos
     if (!this.model.email || !this.model.password) {
       this.errorMessage = 'Por favor, completa todos los campos.';
       return;
     }
-
-    // Llama al servicio de login
+  
     this.loginService.login(this.model.email, this.model.password).subscribe({
       next: (response) => {
         console.log('Login exitoso', response);
-
-        // Actualiza la imagen del usuario usando UserImgService
+  
+        // Actualiza la imagen del usuario
         const imageUrl = response.imageUrl || "https://localhost:8443/data/imagenes/user.png";
         this.userImgService.updateUserImage(imageUrl);
-
-        // Guardar los roles en el AuthService y localStorage
-        this.authService.isAuthenticated().subscribe(() => {
-          const roles = response.roles;
-          this.authService.setRoles(roles); // Actualizamos los roles en el servicio de autenticación
+  
+        // Llamar a isAuthenticated solo después del login
+        this.authService.isAuthenticated().subscribe({
+          next: (authResponse) => {
+            console.log('Respuesta de autenticación:', authResponse); // Ver estructura real
+  
+            if (authResponse.authenticated) {
+              const roles = this.authService.getUserRoles(); // Obtener roles desde AuthService
+              console.log('Roles del usuario:', roles);
+  
+              if (roles.includes('ROLE_ADMIN')) {
+                console.log("pantalla admin");
+                this.router.navigate(['admin/dashboard']);
+              } else {
+                console.log("home para usuarios");
+                this.router.navigate(['/']);
+              }
+            } else {
+              this.errorMessage = 'Error de autenticación después del login.';
+            }
+          },
+          error: (err) => {
+            console.error('Error verificando autenticación', err);
+            this.errorMessage = 'Error de autenticación.';
+          }
         });
-
-        // Verificar roles y redirigir
-        if (response.roles.includes('ROLE_ADMIN')) {
-          console.log("pantalla admin")
-          this.router.navigate(['admin/dashboard']);
-        } else {
-          console.log("home para usuarios")
-          this.router.navigate(['/']); // Si es ROLE_USER al home
-        }
+  
       },
       error: (err) => {
         console.error('Error en el login', err);
@@ -66,6 +76,7 @@ export class LoginComponent {
       }
     });
   }
+  
 }
 
 

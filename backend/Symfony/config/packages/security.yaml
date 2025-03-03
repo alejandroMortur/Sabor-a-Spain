@@ -28,6 +28,7 @@ security:
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/auth/refresh, roles: PUBLIC_ACCESS }
         - { path: ^/auth/logout, roles: PUBLIC_ACCESS }
+        - { path: ^/auth/status, roles: PUBLIC_ACCESS } 
 
         # Rutas protegidas
         - { path: ^/api/protected, roles: ROLE_USER }

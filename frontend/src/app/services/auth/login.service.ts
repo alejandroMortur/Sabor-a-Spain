@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { AuthService } from '../protected/auth-service.service';
 
 
@@ -25,8 +24,6 @@ export class LoginService {
     return this.http.post(this.apiUrl, body.toString(), { 
       headers, 
       withCredentials: true 
-    }).pipe(
-      tap(() => this.authService.isAuthenticated().subscribe())
-    );
+    });
   }
 }
