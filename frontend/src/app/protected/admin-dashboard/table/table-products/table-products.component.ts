@@ -30,4 +30,38 @@ export class TableProductsComponent implements OnInit {
       }
     );
   }
+
+  // Método para editar un producto
+  editarProducto(id: string): void {
+    console.log('Editar producto con ID:', id);
+    // Aquí puedes redirigir a un formulario de edición o abrir un modal
+  }
+
+  // Método para eliminar un producto
+  eliminarProducto(id: string): void {
+    let idProducto = parseInt(id);
+    if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+      this.productosService.deleteProducto(idProducto).subscribe(
+        () => {
+          console.log('Producto eliminado');
+          this.cargarProductos(); // Recargar la lista de productos
+        },
+        (error) => {
+          console.error('Error al eliminar el producto:', error);
+        }
+      );
+    }
+  }
+
+  // Método para crear un nuevo producto
+  crearProducto(): void {
+    console.log('Crear nuevo producto');
+    // Aquí puedes redirigir a un formulario de creación o abrir un modal
+  }
+
+  // Método para refrescar la lista de usuarios
+  refrescarUsuarios(): void {
+    console.log('Refrescando lista de usuarios...');
+    this.cargarProductos(); // Recargar la lista de usuarios
+  }
 }

@@ -42,5 +42,37 @@ export class TableUsersComponent implements OnInit {
       }
     );
   }
+  // Método para editar un usuario
+  editarUsuario(id: number): void {
+    console.log('Editar usuario con ID:', id);
+    // Aquí puedes redirigir a un formulario de edición o abrir un modal
+  }
+
+  // Método para eliminar un usuario
+  eliminarUsuario(id: number): void {
+    if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+      this.usersService.deleteUsuario(id).subscribe(
+        () => {
+          console.log('Usuario eliminado');
+          this.loadUsuarios(); // Recargar la lista de usuarios
+        },
+        (error) => {
+          console.error('Error al eliminar el usuario:', error);
+        }
+      );
+    }
+  }
+
+  // Método para crear un nuevo usuario
+  crearUsuario(): void {
+    console.log('Crear nuevo usuario');
+    // Aquí puedes redirigir a un formulario de creación o abrir un modal
+  }
+
+  // Método para refrescar la lista de usuarios
+  refrescarUsuarios(): void {
+    console.log('Refrescando lista de usuarios...');
+    this.loadUsuarios(); // Recargar la lista de usuarios
+  }
 }
 

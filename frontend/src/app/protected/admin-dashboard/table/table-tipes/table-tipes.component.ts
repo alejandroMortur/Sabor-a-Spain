@@ -31,4 +31,38 @@ export class TableTipesComponent implements OnInit {
       }
     );
   }
+    // Método para editar un tipo
+    editarTipo(id: string): void {
+      let idProducto = parseInt(id);
+      console.log('Editar tipo con ID:', idProducto);
+      // Aquí puedes redirigir a un formulario de edición o abrir un modal
+    }
+  
+    // Método para eliminar un tipo
+    eliminarTipo(id: string): void {
+      let idTipo = parseInt(id);
+      if (confirm('¿Estás seguro de que deseas eliminar este tipo?')) {
+        this.tiposService.deleteTipo(idTipo).subscribe(
+          () => {
+            console.log('Tipo eliminado');
+            this.loadTipos(); // Recargar la lista de tipos
+          },
+          (error) => {
+            console.error('Error al eliminar el tipo:', error);
+          }
+        );
+      }
+    }
+  
+    // Método para crear un nuevo tipo
+    crearTipo(): void {
+      console.log('Crear nuevo tipo');
+      // Aquí puedes redirigir a un formulario de creación o abrir un modal
+    }
+  
+    // Método para refrescar la lista de tipos
+    refrescarTipos(): void {
+      console.log('Refrescando lista de tipos...');
+      this.loadTipos(); // Recargar la lista de tipos
+    }
 }
