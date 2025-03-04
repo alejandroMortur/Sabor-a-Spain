@@ -7,6 +7,7 @@ use App\Entity\Usuario;
 use App\Repository\UsuarioRepository;
 use App\Repository\ProductosRepository;
 use App\Repository\TiposRepository;
+use App\Repository\VentaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -318,7 +319,7 @@ final class ProtectedController extends AbstractController
 
     //////////////////////////////////////// Api protegida para graficos productos //////////////////////////////////////////
 
-    #[Route('/api/protected/admin/grafico-stock', name: 'grafico_stock')]
+    #[Route('/api/protected/admin/grafico/stock', name: 'grafico_stock', methods: ['GET'])]
     public function obtenerGraficoStock(Request $request, ProductosRepository $productosRepository): JsonResponse
     {
 
@@ -356,6 +357,32 @@ final class ProtectedController extends AbstractController
 
         // Devolver el array como JSON para usarlo en el gráfico de Angular
         return new JsonResponse($result);
+    }
+
+    //////////////////////////////////////// Api protegida para graficos ventas //////////////////////////////////////////
+
+    #[Route('/api/protected/admin/grafico/ventas', name: 'grafico_ventas', methods: ['GET'])]
+    public function obtenerVentas(Request $request, VentaRepository $ventaRepository): JsonResponse
+    {
+
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+
+        // Llamar al repositorio para obtener los datos de las ventas agrupados por categoría
+        $ventasPorCategoria = $ventaRepository->findVentasPorCategoria(null, null); // Sin fechas
+
+        // Formatear los datos para el gráfico
+        $dataPoints = [];
+        foreach ($ventasPorCategoria as $venta) {
+            $dataPoints[] = [
+                'label' => $venta['categoria'],
+                'y' => (float)$venta['total_ventas']
+            ];
+        }
+
+        // Devolver los datos en formato JSON
+        return new JsonResponse($dataPoints);
     }
 
     //////////////////////////////////////// Método para validar los JWT /////////7/////////////////////////////////////////

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class GrafService {
 
-  private apiUrl = 'https://localhost:8443/Symfony/public/index.php/api/protected/admin/grafico-stock'; // Cambia esto a la URL de tu API Symfony
+  private apiUrl = 'https://localhost:8443/Symfony/public/index.php/api/protected/admin/grafico/stock'; // Cambia esto a la URL de tu API Symfony
 
   constructor(private http: HttpClient) { }
 

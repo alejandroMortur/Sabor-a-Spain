@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { CanvasJS, CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { SalesBarService } from '../../../services/protected/sales-bar.service';
 
 @Component({
   selector: 'app-bar',
@@ -10,10 +11,9 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 })
 export class BarComponent {
   chart: any;
-
-  chartOptions = {
+  chartOptions: any = {
     title: {
-      text: "Total de Ventas por categorias"
+      text: "Total de Ventas por Categorías"
     },
     animationEnabled: true,
     axisY: {
@@ -24,14 +24,23 @@ export class BarComponent {
       type: "bar",
       indexLabel: "{y}",
       yValueFormatString: "#,###€",
-      dataPoints: [
-        { label: "Cárnicos", y: 15 },
-        { label: "Bebidas", y: 20 },
-        { label: "Lácteos", y: 24 },
-        { label: "Frutas", y: 29 },
-        { label: "Verduras", y: 73 },
-        { label: "Pescados", y: 80 }
-      ]
+      dataPoints: []  // Aquí guardaremos los puntos de datos
     }]
+  };
+
+  constructor(private salesBarService: SalesBarService) { }
+
+  ngOnInit(): void {
+    // Llamamos al servicio para obtener los datos de ventas
+    this.salesBarService.getVentas().subscribe(data => {
+      // Actualizamos los datos del gráfico directamente
+      this.chartOptions.data[0].dataPoints = data;  // Usamos los datos tal cual, sin necesidad de mapear
+    });
+  }
+
+  ngAfterViewInit(): void {
+    // Esperamos que el DOM esté completamente cargado antes de crear el gráfico
+    this.chart = new CanvasJS.Chart("chartContainer", this.chartOptions);
+    this.chart.render();
   }
 }
