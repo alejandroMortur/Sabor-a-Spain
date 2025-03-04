@@ -9,7 +9,7 @@ import { Tipos } from '../interfaces/tipos';
 export class GestionTiposService {
 
   constructor(private http: HttpClient) { }
-    // Método para obtener productos paginados
+    // Método para obtener tipos paginados
     getListadoTipos(): Observable<Tipos[]> {
       return this.http.get<Tipos[]>("https://localhost:8443/Symfony/public/index.php/api/tipos");
     }

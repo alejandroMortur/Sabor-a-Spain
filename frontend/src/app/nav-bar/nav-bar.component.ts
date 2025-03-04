@@ -5,6 +5,7 @@ import { NgbDatepickerModule, NgbDropdownModule, NgbModule, NgbNavModule, NgbOff
 import { GestionarCarritoService } from '../services/gestionar-carrito.service';
 import { NgFor, NgIf, CommonModule } from '@angular/common';
 import { UserImgService } from '../services/userImg/user-img.service';
+import { AuthService } from '../services/protected/auth-service.service';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class NavBarComponent {
   private offcanvasService = inject(NgbOffcanvas);
   closeResult: WritableSignal<string> = signal('');
 
-  constructor(private router: Router, private carritoService: GestionarCarritoService, private userImgService: UserImgService) { 
+  constructor(private router: Router, private carritoService: GestionarCarritoService, private userImgService: UserImgService,     private authService: AuthService) { 
 
       // Escucha cambios en la imagen del usuario
       this.userImgService.userImage$.subscribe(imageUrl => {
@@ -75,9 +76,17 @@ export class NavBarComponent {
     }
   }
 
-  // Método para redirigir a la pasarela de pago
   comprar(): void {
-      this.router.navigate(['/payment']); // Redirige a la ruta de la pasarela de pago
+    // Verificar autenticación y rol
+    const isAuthenticated = this.authService.getUserRoles().length > 0; // O usa authStatus$ si está disponible
+    const hasUserRole = this.authService.getUserRoles().includes('ROLE_USER');
+
+    if (!isAuthenticated || !hasUserRole) {
+        this.router.navigate(['/auth/login']); // Redirige a login si no cumple
+        return;
+    }
+
+    this.router.navigate(['/payment']); // Redirige a pago si está autorizado
   }
 
   // Método para calcular el total del carrito
