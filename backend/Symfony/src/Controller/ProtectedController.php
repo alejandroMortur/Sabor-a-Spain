@@ -26,7 +26,7 @@ final class ProtectedController extends AbstractController
         $this->userRepository = $userRepository;
     }
 
-    // Rutas para Productos
+    /////////////////////////////////////////////////// Rutas para Productos /////////////////////////////////////////////////////////
 
     #[Route('/api/protected/admin/productos/obtener', name: 'get_productos', methods: ['GET'])]
     public function getProductos(Request $request, ProductosRepository $productosRepository): JsonResponse
@@ -122,7 +122,7 @@ final class ProtectedController extends AbstractController
         return $this->json($producto);
     }
 
-    // Rutas para Tipos
+    ////////////////////////////////////////////////////// Rutas para Tipos////////////////////////////////////////////////////////
 
     #[Route('/api/protected/admin/tipos/obtener', name: 'get_tipos', methods: ['GET'])]
     public function getTipos(Request $request, TiposRepository $tiposRepository): JsonResponse
@@ -214,7 +214,7 @@ final class ProtectedController extends AbstractController
         return $this->json($tipo);
     }
 
-    // Rutas para Usuarios
+    //////////////////////////////////////////////// Rutas para Usuarios////////////////////////////////////////////////////////////////
 
     #[Route('/api/protected/admin/usuarios/obtener', name: 'get_usuarios', methods: ['GET'])]
     public function getUsuarios(Request $request, UsuarioRepository $usuarioRepository): JsonResponse
@@ -316,7 +316,49 @@ final class ProtectedController extends AbstractController
         return $this->json($usuario);
     }
 
-    // Método para validar el token manualmente
+    //////////////////////////////////////// Api protegida para graficos productos //////////////////////////////////////////
+
+    #[Route('/api/protected/admin/grafico-stock', name: 'grafico_stock')]
+    public function obtenerGraficoStock(Request $request, ProductosRepository $productosRepository): JsonResponse
+    {
+
+        if (!$this->isValidToken($request)) {
+            return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
+        }
+
+        // Obtener todos los productos
+        $productos = $productosRepository->findAll();
+
+        // Inicializar un array para los resultados
+        $result = [];
+
+        // Recorrer los productos y acumular el stock por nombre de producto
+        foreach ($productos as $producto) {
+            // Verificamos si ya existe el producto en el array
+            $productoExistente = false;
+            foreach ($result as &$item) {
+                if ($item['name'] === $producto->getNombre()) {
+                    // Si el producto ya está en el array, sumamos su stock
+                    $item['y'] += $producto->getStock();
+                    $productoExistente = true;
+                    break;
+                }
+            }
+
+            // Si no existe el producto en el array, lo agregamos
+            if (!$productoExistente) {
+                $result[] = [
+                    'name' => $producto->getNombre(),
+                    'y' => $producto->getStock(),
+                ];
+            }
+        }
+
+        // Devolver el array como JSON para usarlo en el gráfico de Angular
+        return new JsonResponse($result);
+    }
+
+    //////////////////////////////////////// Método para validar los JWT /////////7/////////////////////////////////////////
     private function isValidToken(Request $request): bool
     {
         // Obtener el token desde las cookies
