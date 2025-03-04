@@ -10,7 +10,7 @@ import { SalesBarService } from '../../../services/protected/sales-bar.service';
   styleUrl: './bar.component.css'
 })
 export class BarComponent {
-  chart: any;
+  isLoading: boolean = true;
   chartOptions: any = {
     title: {
       text: "Total de Ventas por Categorías"
@@ -24,23 +24,38 @@ export class BarComponent {
       type: "bar",
       indexLabel: "{y}",
       yValueFormatString: "#,###€",
-      dataPoints: []  // Aquí guardaremos los puntos de datos
+      dataPoints: []
     }]
   };
 
   constructor(private salesBarService: SalesBarService) { }
 
   ngOnInit(): void {
-    // Llamamos al servicio para obtener los datos de ventas
-    this.salesBarService.getVentas().subscribe(data => {
-      // Actualizamos los datos del gráfico directamente
-      this.chartOptions.data[0].dataPoints = data;  // Usamos los datos tal cual, sin necesidad de mapear
+    this.loadData();
+  }
+
+  loadData(): void {
+    this.salesBarService.getVentas().subscribe({
+      next: (data) => {
+        // Actualización inmutable para detectar cambios
+        this.chartOptions = {
+          ...this.chartOptions,
+          data: [{
+            ...this.chartOptions.data[0],
+            dataPoints: data
+          }]
+        };
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error:', error);
+        this.isLoading = false;
+      }
     });
   }
 
-  ngAfterViewInit(): void {
-    // Esperamos que el DOM esté completamente cargado antes de crear el gráfico
-    this.chart = new CanvasJS.Chart("chartContainer", this.chartOptions);
-    this.chart.render();
+  // Getter para acceder a los dataPoints desde el template
+  get dataPoints(): any[] {
+    return this.chartOptions.data[0].dataPoints;
   }
 }

@@ -10,8 +10,13 @@ import { GrafService } from '../../../services/protected/graf.service';
   styleUrl: './graf.component.css'
 })
 export class GrafComponent {
-  chartOptions: any;
+   // Inicializa chartOptions con estructura básica
+   chartOptions: any = { 
+    data: [] 
+  };
+  
   dataPoints: any[] = [];
+  isLoading: boolean = true; // Bandera de carga
 
   constructor(private grafService: GrafService) { }
 
@@ -19,17 +24,14 @@ export class GrafComponent {
     this.loadGraficoData();
   }
 
-  // Método para cargar los datos y configurar el gráfico
   loadGraficoData(): void {
-    this.grafService.getGraficoStock().subscribe(
-      (data) => {
-        // Transformamos los datos recibidos para adaptarlos al formato del gráfico
+    this.grafService.getGraficoStock().subscribe({
+      next: (data) => {
         this.dataPoints = data.map(item => ({
           name: item.name,
           y: item.y
         }));
 
-        // Configuramos las opciones del gráfico con los datos obtenidos
         this.chartOptions = {
           animationEnabled: true,
           theme: "dark2",
@@ -41,15 +43,18 @@ export class GrafComponent {
             text: "Grafico existencias stock de productos"
           }],
           data: [{
-            type: "pie", // Puedes cambiar el tipo de gráfico si lo deseas
+            type: "pie",
             indexLabel: "{name}: {y}",
             dataPoints: this.dataPoints
           }]
         };
+        
+        this.isLoading = false; // Datos cargados
       },
-      (error) => {
-        console.error('Error al cargar los datos del gráfico:', error);
+      error: (error) => {
+        console.error('Error:', error);
+        this.isLoading = false; // Ocultar loader en caso de error
       }
-    );
+    });
   }
 }

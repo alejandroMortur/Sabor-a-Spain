@@ -225,9 +225,10 @@ final class ProtectedController extends AbstractController
         }
 
         $usuarios = $usuarioRepository->findAll();
-        return $this->json($usuarios);
+        
+        // Aquí se añade el contexto para ignorar 'ventas'
+        return $this->json($usuarios, 200, [], ['ignored_attributes' => ['ventas']]);
     }
-
     #[Route('/api/protected/admin/usuarios/crear', name: 'create_usuario', methods: ['POST'])]
     public function createUsuario(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {

@@ -1,3 +1,7 @@
-<div>
-    <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'500px'}"></canvasjs-chart>
+<div *ngIf="dataPoints.length > 0; else loading">
+    <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
 </div>
+  
+<ng-template #loading>
+    <div class="text-light">Cargando gráfico...</div>
+</ng-template>

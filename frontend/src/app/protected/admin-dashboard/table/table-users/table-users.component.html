@@ -18,7 +18,6 @@
       <th>Clave</th>
       <th>Roles</th>
       <th>Foto</th>
-      <th>Ventas</th>
       <th>Token Refresco</th>
       <th>Acciones</th> <!-- Nueva columna para los botones -->
     </tr>
@@ -31,7 +30,6 @@
       <td>{{ usuario.password }}</td>
       <td>{{ usuario.roles.join(', ') }}</td>
       <td><img [src]="usuario.foto" alt="Foto de {{ usuario.nombre }}" width="50" /></td>
-      <td>{{ usuario.ventas.length }}</td> <!-- Muestra la cantidad de ventas -->
       <td style="word-wrap: break-word; word-break: break-word;">{{ usuario.refreshToken }}</td>
       <td>
         <!-- Botón para editar -->
