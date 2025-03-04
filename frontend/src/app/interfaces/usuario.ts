@@ -14,6 +14,6 @@ export interface Usuario {
     };
     username: string;       // Nombre de usuario
     password: string;
-    
+    Activo: boolean;
   }
   

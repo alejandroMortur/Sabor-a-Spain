@@ -15,6 +15,7 @@
       <th>Precio</th>
       <th>Descripción</th>
       <th>Stock</th>
+      <th>Activo</th>
       <th>Imagen</th>
       <th>Acciones</th> <!-- Nueva columna para los botones -->
     </tr>
@@ -26,6 +27,7 @@
       <td>{{ producto.Precio }}</td>
       <td>{{ producto.Descripcion }}</td>
       <td>{{ producto.Stock }}</td>
+      <td>{{ producto.Activo }}</td>
       <td><img [src]="producto.Imagen" alt="{{ producto.Nombre }}" width="50" /></td>
       <td>
         <!-- Botón para editar -->

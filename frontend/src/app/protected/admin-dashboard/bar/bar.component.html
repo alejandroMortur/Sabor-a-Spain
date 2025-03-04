@@ -1,3 +1,10 @@
+<!-- Botones para crear un nuevo tipo y refrescar la lista -->
+<div class="mt-3 mb-2 container-fluid">
+    <button class="btn btn-info" (click)="refrescarGrafico()">
+      <i class="fas fa-sync"></i> Refrescar <!-- Icono de refrescar -->
+    </button>
+</div>
+
 <!-- bar.component.html -->
 <div *ngIf="!isLoading; else loading">
     <canvasjs-chart 

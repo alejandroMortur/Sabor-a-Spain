@@ -35,6 +35,7 @@ export class TableUsersComponent implements OnInit {
           payload: usuario.payload,
           username: usuario.username,
           password: usuario.password,
+          Activo: usuario.Activo,
         })); // Asegura que los datos cumplen con la interfaz
       },
       (error) => {

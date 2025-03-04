@@ -58,4 +58,10 @@ export class BarComponent {
   get dataPoints(): any[] {
     return this.chartOptions.data[0].dataPoints;
   }
+    
+  // Método para refrescar grafico
+  refrescarGrafico(): void {
+      console.log('Refrescando grafico...');
+      this.loadData();
+  }
 }

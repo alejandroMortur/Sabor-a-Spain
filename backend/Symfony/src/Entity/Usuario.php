@@ -50,6 +50,9 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface, JWTU
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $RefreshToken = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $Activo = null;
+
     public function __construct()
     {
         $this->ventas = new ArrayCollection();
@@ -224,5 +227,17 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface, JWTU
     public function getUsername(): string
     {
         return $this->email;
+    }
+
+    public function isActivo(): ?bool
+    {
+        return $this->Activo;
+    }
+
+    public function setActivo(?bool $Activo): static
+    {
+        $this->Activo = $Activo;
+
+        return $this;
     }
 }

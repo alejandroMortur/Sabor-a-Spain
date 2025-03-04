@@ -22,6 +22,9 @@ class Tipos
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Imagen = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $Activo = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Tipos
     public function setImagen(?string $Imagen): static
     {
         $this->Imagen = $Imagen;
+
+        return $this;
+    }
+
+    public function isActivo(): ?bool
+    {
+        return $this->Activo;
+    }
+
+    public function setActivo(?bool $Activo): static
+    {
+        $this->Activo = $Activo;
 
         return $this;
     }

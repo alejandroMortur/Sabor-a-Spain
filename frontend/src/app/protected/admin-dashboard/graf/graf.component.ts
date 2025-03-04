@@ -57,4 +57,9 @@ export class GrafComponent {
       }
     });
   }
+  // Método para refrescar grafico
+  refrescarGrafico(): void {
+      console.log('Refrescando grafico...');
+      this.loadGraficoData();
+  }
 }

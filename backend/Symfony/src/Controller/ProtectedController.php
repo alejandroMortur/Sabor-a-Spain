@@ -36,7 +36,11 @@ final class ProtectedController extends AbstractController
             return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
         }
 
-        $productos = $productosRepository->findAll();
+        // Obtener todos los productos incluyendo inactivos
+        $productos = $productosRepository->createQueryBuilder('p')
+            ->getQuery()
+            ->getResult();
+
         return $this->json($productos);
     }
 
@@ -68,17 +72,18 @@ final class ProtectedController extends AbstractController
         if (!$this->isValidToken($request)) {
             return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
         }
-
+    
         $producto = $productosRepository->find($id);
         
         if (!$producto) {
             return $this->json(['error' => 'Producto no encontrado'], Response::HTTP_NOT_FOUND);
         }
-
-        $entityManager->remove($producto);
+    
+        // Soft delete en lugar de eliminar
+        $producto->setActivo(false);
         $entityManager->flush();
-
-        return $this->json(['message' => 'Producto eliminado correctamente']);
+    
+        return $this->json(['message' => 'Producto marcado como eliminado']);
     }
 
     #[Route('/api/protected/admin/productos/obtener/{id}', name: 'get_producto', methods: ['GET'])]
@@ -88,7 +93,13 @@ final class ProtectedController extends AbstractController
             return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
         }
 
-        $producto = $productosRepository->find($id);
+
+        // Obtener producto incluso si está inactivo
+        $producto = $productosRepository->createQueryBuilder('p')
+        ->where('p.id = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getOneOrNullResult();
         
         if (!$producto) {
             return $this->json(['error' => 'Producto no encontrado'], Response::HTTP_NOT_FOUND);
@@ -132,7 +143,10 @@ final class ProtectedController extends AbstractController
             return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
         }
 
-        $tipos = $tiposRepository->findAll();
+        $tipos = $tiposRepository->createQueryBuilder('t')
+        ->getQuery()
+        ->getResult();
+
         return $this->json($tipos);
     }
 
@@ -169,10 +183,11 @@ final class ProtectedController extends AbstractController
             return $this->json(['error' => 'Tipo no encontrado'], Response::HTTP_NOT_FOUND);
         }
 
-        $entityManager->remove($tipo);
+        // Soft delete
+        $tipo->setActivo(false);
         $entityManager->flush();
 
-        return $this->json(['message' => 'Tipo eliminado correctamente']);
+        return $this->json(['message' => 'Tipo marcado como eliminado']);
     }
 
     #[Route('/api/protected/admin/tipos/obtener/{id}', name: 'get_tipo', methods: ['GET'])]
@@ -181,8 +196,12 @@ final class ProtectedController extends AbstractController
         if (!$this->isValidToken($request)) {
             return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
         }
-    
-        $tipo = $tiposRepository->find($id);
+
+        $tipo = $tiposRepository->createQueryBuilder('t')
+        ->where('t.id = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getOneOrNullResult();
         
         if (!$tipo) {
             return $this->json(['error' => 'Tipo no encontrado'], Response::HTTP_NOT_FOUND);
@@ -224,9 +243,10 @@ final class ProtectedController extends AbstractController
             return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
         }
 
-        $usuarios = $usuarioRepository->findAll();
-        
-        // Aquí se añade el contexto para ignorar 'ventas'
+        $usuarios = $usuarioRepository->createQueryBuilder('u')
+        ->getQuery()
+        ->getResult();
+
         return $this->json($usuarios, 200, [], ['ignored_attributes' => ['ventas']]);
     }
     #[Route('/api/protected/admin/usuarios/crear', name: 'create_usuario', methods: ['POST'])]
@@ -257,17 +277,18 @@ final class ProtectedController extends AbstractController
         if (!$this->isValidToken($request)) {
             return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
         }
-
+    
         $usuario = $usuarioRepository->find($id);
         
         if (!$usuario) {
             return $this->json(['error' => 'Usuario no encontrado'], Response::HTTP_NOT_FOUND);
         }
-
-        $entityManager->remove($usuario);
+    
+        // Soft delete
+        $usuario->setActivo(false);
         $entityManager->flush();
-
-        return $this->json(['message' => 'Usuario eliminado correctamente']);
+    
+        return $this->json(['message' => 'Usuario marcado como eliminado']);
     }
 
     #[Route('/api/protected/admin/usuarios/obtener/{id}', name: 'get_usuario', methods: ['GET'])]
@@ -277,7 +298,11 @@ final class ProtectedController extends AbstractController
             return new JsonResponse(['message' => 'Acceso no autorizado'], 401);
         }
     
-        $usuario = $usuarioRepository->find($id);
+        $usuario = $usuarioRepository->createQueryBuilder('u')
+        ->where('u.id = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getOneOrNullResult();
         
         if (!$usuario) {
             return $this->json(['error' => 'Usuario no encontrado'], Response::HTTP_NOT_FOUND);

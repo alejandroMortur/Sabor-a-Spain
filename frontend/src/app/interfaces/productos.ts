@@ -5,4 +5,5 @@ export interface Productos{
     'Descripcion':string,
     'Stock':number,
     'Imagen':string,
+    'Activo': boolean
 }

@@ -33,6 +33,9 @@ class Productos
     #[ORM\JoinColumn(nullable: false)]
     private ?Tipos $Tipo_producto = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $Activo = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -102,6 +105,18 @@ class Productos
     public function setTipoProducto(?Tipos $Tipo_producto): static
     {
         $this->Tipo_producto = $Tipo_producto;
+        return $this;
+    }
+
+    public function isActivo(): ?bool
+    {
+        return $this->Activo;
+    }
+
+    public function setActivo(?bool $Activo): static
+    {
+        $this->Activo = $Activo;
+
         return $this;
     }
 }

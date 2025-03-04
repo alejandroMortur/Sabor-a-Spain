@@ -16,6 +16,7 @@
       <th>Nombre</th>
       <th>Descripción</th>
       <th>Imagen</th>
+      <th>Activo</th>
       <th>Acciones</th> <!-- Nueva columna para los botones -->
     </tr>
   </thead>
@@ -24,6 +25,7 @@
       <td>{{ tipo.id }}</td>
       <td>{{ tipo.Nombre }}</td>
       <td>{{ tipo.Descripcion }}</td>
+      <td>{{ tipo.Activo }}</td>
       <td><img [src]="tipo.Imagen" alt="{{ tipo.Nombre }}" width="50" /></td>
       <td>
         <!-- Botón para editar -->
