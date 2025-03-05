@@ -1,45 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PayPalService } from '../../services/protected/paypal/paypal.service';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';  // Asegúrate de importar FormsModule
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-payment-gateway',
-  standalone: true,  // Indica que este es un componente independiente
-  imports: [CommonModule, FormsModule],  // Agrega FormsModule para usar ngModel
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './payment-gateway.component.html',
-  styleUrls: ['./payment-gateway.component.css']  // Asegúrate de usar styleUrls (no styleUrl)
+  styleUrls: ['./payment-gateway.component.css'],
 })
-export class PaymentGatewayComponent {
-  amount: number = 100;  // Define la propiedad amount
-  currency: string = 'USD';  // Define la propiedad currency
-  paymentStatus: string | null = null;  // Define la propiedad paymentStatus
-  carrito: any[] = []; // Define el array carrito
+export class PaymentGatewayComponent implements OnInit, OnDestroy {
+  amount: number = 100;
+  currency: string = 'USD';
+  paymentStatus: string | null = null;
+  carrito: any[] = [];
+  popup: Window | null = null;
 
-  constructor(private payPalService: PayPalService) {
-    // Obtener el carrito desde localStorage (asegurándote de que existe)
+  constructor(private payPalService: PayPalService, private router: Router) {
     const carritoGuardado = localStorage.getItem('carrito');
     if (carritoGuardado) {
       this.carrito = JSON.parse(carritoGuardado);
     }
-    // Calcular el total del carrito
     this.amount = this.calcularTotal();
   }
 
-  // Método para calcular el total del carrito
+  // Calcular el total del carrito
   calcularTotal(): number {
     return this.carrito.reduce((total, producto) => {
-      return total + (producto.Precio * producto.Stock);
+      return total + producto.Precio * producto.Stock;
     }, 0);
   }
 
+  // Crear el pago y abrir la ventana emergente
   createPayment() {
-    // Llamar al servicio con los parámetros de pago
-    this.payPalService.createPayment(this.amount, this.currency).subscribe(
+    this.payPalService.createPayment(this.carrito, this.amount, this.currency).subscribe(
       (response) => {
-        // Si la respuesta contiene approvalUrl, redirigir al usuario a PayPal
         if (response.approvalUrl) {
-          window.location.href = response.approvalUrl; // Redirigir al usuario a PayPal
+          // Abrir la ventana emergente
+          this.popup = window.open(response.approvalUrl, 'PayPal', 'width=600,height=400');
+
+          // Escuchar el cierre de la ventana emergente
+          if (this.popup) {
+            const interval = setInterval(() => {
+              if (this.popup && this.popup.closed) {
+                clearInterval(interval);
+                this.onPaymentSuccess(); // Llamar a la función cuando se cierre la ventana emergente
+              }
+            }, 500);
+          }
         } else {
           console.error('No se pudo obtener la URL de aprobación de PayPal');
         }
@@ -50,25 +60,29 @@ export class PaymentGatewayComponent {
     );
   }
 
-  executePayment(paymentId: string, payerId: string) {
-    this.payPalService.executePayment(paymentId, payerId).subscribe(
-      (response) => {
-        console.log('Pago ejecutado correctamente', response);
-      },
-      (error) => {
-        console.error('Error al ejecutar el pago', error);
-      }
-    );
+  // Esta función se llama cuando la ventana emergente se cierra
+  onPaymentSuccess() {
+    // Limpiar el carrito
+    this.limpiarCarrito();
+
+    // Redirigir al usuario al home
+    this.router.navigate(['/']);
   }
 
-  cancelPayment() {
-    this.payPalService.cancelPayment().subscribe(
-      (response) => {
-        console.log('Pago cancelado', response);
-      },
-      (error) => {
-        console.error('Error al cancelar el pago', error);
-      }
-    );
+  // Limpiar el carrito
+  limpiarCarrito() {
+    localStorage.removeItem('carrito');
+    this.carrito = [];
+  }
+
+  // Escuchar el mensaje cuando la ventana emergente se cierra
+  ngOnInit() {
+    // No es necesario el listener de 'message', ya que verificamos el estado de la ventana
+  }
+
+  // Eliminar el listener cuando el componente se destruye
+  ngOnDestroy() {
+    // Si agregamos algún listener en ngOnInit, deberíamos removerlo aquí.
+    // En este caso, no tenemos listeners adicionales.
   }
 }
