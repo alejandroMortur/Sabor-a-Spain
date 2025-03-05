@@ -1,0 +1,33 @@
+composer require nelmio/cors-bundle
+
+# API de productos
+GET https://localhost:8443/Symfony/public/index.php/api/producto  # Obtiene la lista de productos
+
+# API de usuarios
+GET https://localhost:8443/Symfony/public/index.php/api/usuario  # Obtiene la lista de usuarios
+
+# Filtrado de productos por tipo
+GET https://localhost:8443/Symfony/public/index.php/api/producto/tipe?page=1&filter=Bebidas  # Filtra productos por tipo (Ejemplo: Bebidas)
+
+# Filtrado de productos por nombre
+GET https://localhost:8443/Symfony/public/index.php/api/producto/name?page=2&name=Ibérico  # Filtra productos por nombre o parte del nombre
+
+# Obtiene el precio más alto de los productos
+GET https://localhost:8443/Symfony/public/index.php/api/producto/priceMax  
+
+# Obtiene la lista de tipos de productos
+GET https://localhost:8443/Symfony/public/index.php/api/tipos  
+
+# Rutas protegidas
+??? https://localhost:8443/Symfony/public/index.php/api/protected  # Endpoint protegido
+??? https://localhost:8443/Symfony/public/index.php/api/protected/admin  # Endpoint protegido para administradores
+
+# Autenticación
+POST https://localhost:8443/Symfony/public/index.php/auth  # Inicia sesión (POST)
+POST https://localhost:8443/Symfony/public/index.php/auth/logout  # Cierra sesión (POST)
+POST https://localhost:8443/Symfony/public/index.php/auth/refresh  # Refresca el token de autenticación (POST)
+GET  https://localhost:8443/Symfony/public/index.php/auth/status  # Verifica si el usuario está autenticado (GET)
+
+
+-----(Carpeta imagenes server)---------
+https://localhost::8443/data/ItemCarousel.json

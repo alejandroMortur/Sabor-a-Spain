@@ -1,0 +1,114 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-dark p-1" style="height: 4rem;">
+  <h1 class="navbar-brand text-danger">❤️💛❤️ SABOR-A-ESPAÑA ❤️💛❤️</h1>
+
+  <!-- Botón de colapso -->
+  <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Menú colapsable -->
+  <div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse">
+    <ul class="navbar-nav">
+
+      <!-- Home -->
+      <li class="nav-item" [class.active]="activeLink === '/'">
+        <button class="nav-link text-white" (click)="route('/')">Home</button>
+      </li>
+
+      <!-- Dropdown para tipos de productos -->
+      <li class="nav-item dropdown bg-dark" ngbDropdown>
+        <button class="nav-link dropdown-toggle text-white" ngbDropdownToggle>
+          Tipos de productos
+        </button>
+        <div ngbDropdownMenu class="p-2 bg-dark" style="width: 20rem;">
+          <button class="nav-link text-white" (click)="route('/productos')">Todos los productos</button>
+          <hr style="color: white;">
+          <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Cárnicos'"
+            (click)="route('/productos/Cárnicos')">Productos Cárnicos</button>
+          <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Bebidas'"
+            (click)="route('/productos/Bebidas')">Productos Bebidas</button>
+          <hr style="color: white;">
+          <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Libros'"
+            (click)="route('/productos/Libros')">Libros españoles</button>
+          <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Ropa'"
+            (click)="route('/productos/Ropa')">Ropa Española</button>
+          <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/Eventos'"
+            (click)="route('/productos/Eventos')">Eventos Nacionales y Regionales</button>
+          <hr style="color: white;">
+          <button class="dropdown-item text-white" [class.active]="activeLink === '/productos/ProductosEstrella'"
+            (click)="route('/productos/ProductosEstrella')">Productos Estrella</button>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+  <!-- Div a la derecha -->
+  <div class="d-flex justify-content-end alings-item-center flex-row gap-5">
+    <div class="d-flex flex-row gap-3 justify-content-center align-items-center">
+      <button type="button" id="btnCarrito" (click)="open(content)">
+        <i class="fa-solid fa-cart-shopping text-light" style="font-size: 1.7rem;"></i>
+      </button>
+    </div>
+    <div class="d-flex flex-row gap-3 justify-content-center align-items-center" style="height: 100%;">
+      <img [src]="userimg" alt="">
+      <button (click)="route('/auth/register')" class="d-flex flex-row gap-2 justify-content-center align-items-center"
+        id="btnRegistro" type="button" style="height: 50px;">
+        <i class="fa-solid fa-right-to-bracket text-light" style="font-size: 1.2rem;"></i>
+        <p class="text-light fs-5 mb-0" style="line-height: 1;">{{authState}}</p>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<ng-template #content let-offcanvas>
+  <div class="offcanvas-header bg-dark text-light">
+    <h4 class="offcanvas-title text-center" id="offcanvas-basic-title">Tu carrito:</h4>
+    <button type="button" class="btn-close btn-close-white" aria-label="Close"
+      (click)="offcanvas.dismiss('Cross click')"></button>
+  </div>
+  <div class="offcanvas-body bg-dark">
+    <div class="container-fluid d-flex flex-column gap-2 justify-content-center align-items-center">
+      <!-- Mensaje si no hay productos en el carrito -->
+      <div *ngIf="carrito.length === 0" class="text-center text-light">
+        <p>El carrito está vacío.</p>
+      </div>
+
+      <!-- Condición para mostrar el carrito solo si tiene productos -->
+      <div *ngIf="carrito.length > 0" class="d-flex flex-column gap-3">
+        <!-- Iteramos sobre el carrito -->
+        <div *ngFor="let producto of carrito; let i = index" class="col-12 col-md-4">
+          <!-- Para cada producto, mostramos sus detalles -->
+          <div class="card" style="width: 18rem;" [id]="producto.id">
+            <img class="card-img-top" [src]="producto.Imagen" alt="Imagen del producto"
+                style="width: 100%; height: 16rem; object-fit: cover;">
+            <div class="card-body">
+              <h5 class="card-title text-dark">{{ producto.Nombre }}</h5>
+              <p class="card-text text-dark">Precio: {{ producto.Precio }}€</p>
+              <p class="card-text text-dark">{{ producto.Descripcion }}</p>
+              <!-- Mostrar el stock -->
+              <p class="card-text text-dark">En carrito: {{ producto.Stock }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mostrar el total del carrito -->
+      <div class="container-fluid text-center mt-3">  
+        <h5 class="text-light">Total: {{ calcularTotal() | currency:'EUR':'symbol':'1.2-2' }}</h5>
+      </div>
+      
+      <hr style="border: 2px solid white; width: 100%;">
+
+      <!-- Botón para vaciar carrito -->
+      <div class="container-fluid text-center mt-3">
+        <button type="button" class="btn btn-danger w-100 text-light" (click)="vaciarCarrito()">Vaciar carrito</button>
+      </div>
+
+      <!-- Botón de acción final -->
+      <div class="container-fluid text-center mt-3">
+        <button type="button" class="btn btn-primary btn-outline-secondary w-100 text-light"
+          (click)="comprar(); offcanvas.close('Save click')">Comprar</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

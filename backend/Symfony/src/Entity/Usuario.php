@@ -8,10 +8,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserInterface;
 
 #[ORM\Entity(repositoryClass: UsuarioRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
+class Usuario implements UserInterface, PasswordAuthenticatedUserInterface, JWTUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -45,6 +46,12 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $Nombre = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $RefreshToken = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $Activo = null;
 
     public function __construct()
     {
@@ -86,8 +93,6 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
@@ -178,6 +183,60 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNombre(string $Nombre): static
     {
         $this->Nombre = $Nombre;
+
+        return $this;
+    }
+
+    public function getRefreshToken(): ?string
+    {
+        return $this->RefreshToken;
+    }
+
+    public function setRefreshToken(?string $RefreshToken): static
+    {
+        $this->RefreshToken = $RefreshToken;
+
+        return $this;
+    }
+
+    /**
+     * Método requerido por JWTUserInterface.
+     */
+    public static function createFromPayload($username, array $payload): self
+    {
+        $user = new self();
+        $user->id = $payload['id']; // Asegúrate de que el payload incluya 'id'
+        $user->email = $username;
+        $user->roles = $payload['roles'];
+        return $user;
+    }
+
+    /**
+     * Método para obtener el payload personalizado.
+     */
+    public function getPayload(): array
+    {
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'roles' => $this->roles,
+        ];
+    }
+
+    // Si aún no lo tienes, agrega este método para compatibilidad
+    public function getUsername(): string
+    {
+        return $this->email;
+    }
+
+    public function isActivo(): ?bool
+    {
+        return $this->Activo;
+    }
+
+    public function setActivo(?bool $Activo): static
+    {
+        $this->Activo = $Activo;
 
         return $this;
     }

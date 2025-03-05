@@ -1,10 +1,7 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
                 class: App\Entity\Usuario
@@ -16,18 +13,27 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            stateless: true  # API sin estado
+            jwt: ~  # Usa JWT para autenticación
+            # Rutas públicas (login, register, refresh, logout)
+            pattern: ^/(auth|register|auth/refresh|auth/logout|auth/status)$
+            security: false  # No requiere autenticación
+        api:
+            pattern: ^/api
+            stateless: true
+            security: false  # Permite acceso público a /api/protected
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # Rutas públicas
+        - { path: ^/auth, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/auth/refresh, roles: PUBLIC_ACCESS }
+        - { path: ^/auth/logout, roles: PUBLIC_ACCESS }
+        - { path: ^/auth/status, roles: PUBLIC_ACCESS } 
+
+        # Rutas protegidas
+        # - { path: ^/api/protected, roles: ROLE_USER }
+        # - { path: ^/api/protected/admin, roles: ROLE_ADMIN }
 
 when@test:
     security:

@@ -5,9 +5,13 @@ Bienvenido a **Sabor a España eCommerce**, un proyecto de comercio electrónico
 
 ## Tecnologías Utilizadas 💻
 
-- **Angular**: ⚛️ Framework para el desarrollo del frontend.
-- **Symfony**: 🖥️ Framework PHP para la lógica del backend.
-- **Bootstrap**: 🎨 Biblioteca para diseño responsivo y estilos.
+
+- **Angular**: ⚛️ Framework para el desarrollo del frontend. (Versión: 16.)
+- **Symfony**: 🖥️ Framework PHP para la lógica del backend. (Versión: 7.2.3)
+- **Bootstrap**: 🎨 Biblioteca para diseño responsivo y estilos. (Versión: 5.3)
+- **PostgreSQL**: 🗃️ Base de datos relacional. (Versión: 15)
+- **pgAdmin**: 🧑‍💻 Herramienta de administración para PostgreSQL. (Versión: 6)
+
 
 ## Características Principales ✨
 

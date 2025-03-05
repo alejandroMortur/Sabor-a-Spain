@@ -27,6 +27,9 @@ class Venta
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $Cod_usuario = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $Total = null;
     public function getCantidad(): ?int
     {
         return $this->Cantidad;
@@ -71,6 +74,18 @@ class Venta
     public function setCodUsuario(?Usuario $Cod_usuario): static
     {
         $this->Cod_usuario = $Cod_usuario;
+
+        return $this;
+    }
+
+    public function getTotal(): ?float
+    {
+        return $this->Total;
+    }
+
+    public function setTotal(?float $Total): static
+    {
+        $this->Total = $Total;
 
         return $this;
     }

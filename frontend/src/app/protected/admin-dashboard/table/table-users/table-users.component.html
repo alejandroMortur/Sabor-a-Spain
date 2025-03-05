@@ -1,0 +1,48 @@
+<!-- Botón para crear un nuevo usuario -->
+<div class="mt-3 mb-2 container-fluid">
+  <button class="btn btn-success me-2" (click)="crearUsuario()">
+    <i class="fas fa-plus"></i> Crear Usuario <!-- Icono de agregar -->
+  </button>
+  <button class="btn btn-info" (click)="refrescarUsuarios()">
+    <i class="fas fa-sync"></i> Refrescar <!-- Icono de refrescar -->
+  </button>
+</div>
+
+<!-- Tabla de usuarios -->
+<table class="table bordered text-light table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Clave</th>
+      <th>Roles</th>
+      <th>Activo</th>
+      <th>Foto</th>
+      <th>Token Refresco</th>
+      <th>Acciones</th> <!-- Nueva columna para los botones -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let usuario of usuarios">
+      <td>{{ usuario.id }}</td>
+      <td>{{ usuario.nombre }}</td>
+      <td>{{ usuario.email }}</td>
+      <td>{{ usuario.password }}</td>
+      <td>{{ usuario.roles.join(', ') }}</td>
+      <td>{{ usuario.Activo}}</td>
+      <td><img [src]="usuario.foto" alt="Foto de {{ usuario.nombre }}" width="50" /></td>
+      <td style="word-wrap: break-word; word-break: break-word;">{{ usuario.refreshToken }}</td>
+      <td>
+        <!-- Botón para editar -->
+        <button class="btn btn-primary btn-sm me-2" (click)="editarUsuario(usuario.id)">
+          <i class="fas fa-edit"></i> <!-- Icono de editar -->
+        </button>
+        <!-- Botón para eliminar -->
+        <button class="btn btn-danger btn-sm" (click)="eliminarUsuario(usuario.id)">
+          <i class="fas fa-trash"></i> <!-- Icono de eliminar -->
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

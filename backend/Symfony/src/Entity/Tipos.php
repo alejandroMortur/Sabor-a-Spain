@@ -19,6 +19,12 @@ class Tipos
     #[ORM\Column(length: 255)]
     private ?string $Descripcion = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Imagen = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $Activo = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -48,15 +54,28 @@ class Tipos
         return $this;
     }
 
-    public function getProductos(): ?Productos
+    public function getImagen(): ?string
     {
-        return $this->productos;
+        return $this->Imagen;
     }
 
-    public function setProductos(?Productos $productos): static
+    public function setImagen(?string $Imagen): static
     {
-        $this->productos = $productos;
+        $this->Imagen = $Imagen;
 
         return $this;
     }
+
+    public function isActivo(): ?bool
+    {
+        return $this->Activo;
+    }
+
+    public function setActivo(?bool $Activo): static
+    {
+        $this->Activo = $Activo;
+
+        return $this;
+    }
+
 }

@@ -1,0 +1,42 @@
+<!-- Botones para crear un nuevo tipo y refrescar la lista -->
+<div class="mt-3 mb-2 container-fluid">
+  <button class="btn btn-success w-50 me-2" (click)="crearTipo()">
+    <i class="fas fa-plus"></i> Crear Tipo Producto <!-- Icono de agregar -->
+  </button>
+  <button class="btn btn-info" (click)="refrescarTipos()">
+    <i class="fas fa-sync"></i> Refrescar <!-- Icono de refrescar -->
+  </button>
+</div>
+
+<!-- Tabla de tipos -->
+<table class="table bordered text-light table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th>Imagen</th>
+      <th>Activo</th>
+      <th>Acciones</th> <!-- Nueva columna para los botones -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let tipo of tipos">
+      <td>{{ tipo.id }}</td>
+      <td>{{ tipo.Nombre }}</td>
+      <td>{{ tipo.Descripcion }}</td>
+      <td>{{ tipo.Activo }}</td>
+      <td><img [src]="tipo.Imagen" alt="{{ tipo.Nombre }}" width="50" /></td>
+      <td>
+        <!-- Botón para editar -->
+        <button class="btn btn-primary btn-sm me-2" (click)="editarTipo(tipo.id)">
+          <i class="fas fa-edit"></i> <!-- Icono de editar -->
+        </button>
+        <!-- Botón para eliminar -->
+        <button class="btn btn-danger btn-sm" (click)="eliminarTipo(tipo.id)">
+          <i class="fas fa-trash"></i> <!-- Icono de eliminar -->
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

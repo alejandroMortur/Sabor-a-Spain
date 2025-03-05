@@ -1,0 +1,19 @@
+<div class="payment-container text-light">
+    <h2>Pago por PayPal</h2>
+  
+    <!-- Monto y moneda (puedes hacer que estos campos sean dinámicos si lo deseas) -->
+    <div class="payment-info">
+      <label for="amount">Cantidad a pagar:</label>
+      <input type="number" id="amount" [(ngModel)]="amount" placeholder="2000" />
+      <label for="currency">Moneda de pago:</label>
+      <input type="text" id="currency" [(ngModel)]="currency" placeholder="USD" />
+    </div>
+  
+    <!-- Botón para iniciar el pago -->
+    <button (click)="createPayment()" class="btn-pay">Pagar con PayPal</button>
+  
+    <!-- Mensaje de estado -->
+    <div *ngIf="paymentStatus" class="payment-status">
+      <p>{{ paymentStatus }}</p>
+    </div>
+  </div>

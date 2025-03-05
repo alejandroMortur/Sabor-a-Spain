@@ -1,0 +1,12 @@
+.form-control { 
+    width: 8rem; 
+    height: 100%;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.icon{
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border: none;
+}

@@ -1,0 +1,40 @@
+<div *ngIf="productos.length > 0; else loading">
+    <div class="container-fluid row gap-5 justify-content-center">
+        <div class="d-flex justify-content-center w-100 mb-0 gap-3 text-light alings-item-center" style="height: 2rem;">
+            <app-filter-name (dataChanged)="onNameChanged($event)"></app-filter-name>
+            <app-filter-tipe (dataChanged)="onTipeChanged($event)"></app-filter-tipe>
+            <app-filter-price (dataChanged)="onPriceChanged($event)"></app-filter-price>
+        </div>
+        @for (producto of productos; track producto.id) {
+        <div class="card" style="width: 18rem;" id={{producto.id}}>
+            <img class="card-img-top" src={{producto.Imagen}} alt="Card image cap"
+                style="width: 100%; height: 16rem; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">{{producto.Nombre}}</h5>
+                <p class="card-text">Precio: {{producto.Precio}}€</p>
+                <p class="card-text">{{producto.Descripcion}}</p>
+                <div class="container-fluid">
+                    <button type="button" (click)="addProductCarrito(producto.id, $event)"
+                        class="btn btn-primary w-100">Comprar
+                        ya!!</button>
+                </div>
+            </div>
+        </div>
+        }
+        <div class="d-flex justify-content-center w-100 mb-0">
+            <app-pagination [page]="page" [totalItems]="totalItems"
+                (cambio)="manejarCambioPagina($event)"></app-pagination>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="container-fluid d-flex alings-item-center justify-content-center">
+        <div>
+            <p class="text-center fs-1 text-light">Cargando</p>
+            <div class="spinner-border text-danger" role="status" style="width: 10rem; height: 10rem;">
+                <span class="sr-only">Cargando...</span>
+            </div>
+        </div>
+    </div>
+</ng-template>

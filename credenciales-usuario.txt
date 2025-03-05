@@ -1,0 +1,11 @@
+---------(Cliente)---------------------
+password: HfRYLbuMv4XUb6r
+correo: moronturielalejandro@gmail.com
+usuario: Alejandro.moron1
+---------------------------------------
+
+---------(Admin)---------------------
+password: HfRYLbuMv4XUb6r
+correo: moronturielalejandro2@gmail.com
+usuario: Alejandro.moron2
+---------------------------------------

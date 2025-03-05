@@ -8,10 +8,19 @@ services:
     working_dir: /var/www/html
     volumes:
       - .:/var/www/html
+      - ./apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - ./apache/default-ssl.conf:/etc/apache2/sites-available/default-ssl.conf
+      - ./data:/var/www/html/data
+      - ./apache/ssl/mysite.crt:/etc/ssl/certs/mysite.crt
+      - ./apache/ssl/mysite.key:/etc/ssl/private/mysite.key
     depends_on:
       - db
     ports:
-      - "8080:80"  # Exponer el puerto correctamente
+      - "8080:80"  # Puerto HTTP
+      - "8443:443"  # Puerto HTTPS
+    environment:
+      - VIRTUAL_HOST=localhost
+      - VIRTUAL_PORT=8080
 
   db:
     image: postgres:15  # Imagen oficial de PostgreSQL
@@ -37,6 +46,8 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     depends_on:
       - db
+    volumes:
+      - ./pgAdmin:/var/lib/pgadmin
 
 volumes:
   db_data:

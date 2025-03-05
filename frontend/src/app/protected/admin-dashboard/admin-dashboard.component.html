@@ -1,0 +1,21 @@
+<div class="container-fluid">
+    <!-- Segunda fila: una tabla que ocupa el ancho completo -->
+    <div class="row">
+        <div class="col-12">
+            <app-table-users></app-table-users>
+        </div>
+    </div>
+    <!-- Primera fila: dos tablas una al lado de la otra -->
+    <div class="row d-flex">
+        <div class="col-md-6 d-flex align-items-stretch">
+            <app-table-products></app-table-products>
+        </div>
+        <div class="col-md-6 p-5 h-100 d-flex align-items-stretch">
+            <div class="d-flex flex-column gap-5 mt-2 p-2 w-100">
+                <app-graf></app-graf>
+                <app-table-tipes></app-table-tipes>
+                <app-bar></app-bar>
+            </div>
+        </div>
+    </div>
+</div>
