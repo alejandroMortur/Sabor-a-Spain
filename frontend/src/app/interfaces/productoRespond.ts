@@ -1,5 +1,5 @@
 // interfaces/productoRespond.ts
-import { Productos} from './productos';  // Asegúrate de que la ruta sea correcta
+import { Productos} from './productos';
 
 export interface ProductoResponse {
     "productos": Productos[];  // Array de productos

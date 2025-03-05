@@ -14,11 +14,11 @@ export class AuthGuard implements CanActivate {
     return this.authService.authStatus$.pipe(
       map(authenticated => {
         if (!authenticated) {
-          this.router.navigate(['auth/login']); // Redirigir si no está autenticado
+          this.router.navigate(['auth/login']); // Redirige si no está autenticado
           return false;
         }
   
-        // Obtener el rol del usuario desde el servicio de autenticación
+        // Obtiene el rol del usuario desde el servicio de autenticación
         const userRoles = this.authService.getUserRoles(); 
   
         // Si la ruta requiere ROLE_ADMIN y el usuario no lo tiene, lo redirige al home

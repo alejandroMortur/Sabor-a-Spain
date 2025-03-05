@@ -12,27 +12,27 @@ export class ProductsProtectedService {
 
   constructor(private http: HttpClient) { }
 
-  // Obtener todos los productos
+  // Obtene todos los productos
   getProductos(): Observable<Productos[]> {
     return this.http.get<Productos[]>(this.apiUrl + '/obtener', { withCredentials: true });
   }
 
-  // Obtener un producto por ID
+  // Obtene un producto por ID
   getProducto(id: number): Observable<Productos> {
     return this.http.get<Productos>(`${this.apiUrl}/obtener/${id}`, { withCredentials: true });
   }
 
-  // Crear un nuevo producto
+  // Crea un nuevo producto
   createProducto(producto: Productos): Observable<Productos> {
     return this.http.post<Productos>(this.apiUrl + '/crear', producto, { withCredentials: true });
   }
 
-  // Actualizar un producto existente
+  // Actualiza un producto existente
   updateProducto(id: number, producto: Productos): Observable<Productos> {
     return this.http.put<Productos>(`${this.apiUrl}/actualizar/${id}`, producto, { withCredentials: true });
   }
 
-  // Eliminar un producto
+  // Elimina un producto
   deleteProducto(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/eliminar/${id}`, { withCredentials: true });
   }

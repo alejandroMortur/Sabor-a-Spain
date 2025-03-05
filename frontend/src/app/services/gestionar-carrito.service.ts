@@ -10,7 +10,7 @@ export class GestionarCarritoService {
 
   constructor() { }
 
-  // Obtener el carrito desde localStorage
+  // Obtiene el carrito desde localStorage
   getCarrito(): Productos[] {
     const carrito = localStorage.getItem(this.carritoKey);
     return carrito ? JSON.parse(carrito) : [];
@@ -19,7 +19,7 @@ export class GestionarCarritoService {
   agregarProducto(producto: Productos): void {
     const carrito = this.getCarrito();
 
-    // Verificamos si el producto ya existe en el carrito
+    // Verifica si el producto ya existe en el carrito
     const productoExistente = carrito.find(p => p.id === producto.id);
 
     if (productoExistente) {
@@ -30,18 +30,18 @@ export class GestionarCarritoService {
       carrito.push({ ...producto, Stock: 1 });
     }
 
-    // Actualizamos el carrito en el localStorage
+    // Actualiza el carrito en el localStorage
     localStorage.setItem(this.carritoKey, JSON.stringify(carrito));
   }
 
-  // Eliminar un producto del carrito por su id
+  // Elimina un producto del carrito por su id
   eliminarProductoPorId(id: string): void {
     const carrito = this.getCarrito();
     const carritoFiltrado = carrito.filter(producto => producto.id !== id); // Filtra el producto con ese id
     localStorage.setItem(this.carritoKey, JSON.stringify(carritoFiltrado));
   }
 
-  // Eliminar una unidad del producto, no todo el producto
+  // Elimina una unidad del producto, no todo el producto
   eliminarUnidadPorId(id: string): void {
     const carrito = this.getCarrito();
     const productoExistente = carrito.find(producto => producto.id === id);

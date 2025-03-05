@@ -25,12 +25,12 @@ export class ProductsLinkComponent {
  pintarTarjetas(): void {
     this.servicioProductos.getListadoTipos().subscribe({
       next: (response: any) => {
-        // ✅ Verificamos si 'response.tipos' es un array
+        // Verifica si 'response.tipos' es un array
         if (Array.isArray(response.tipos)) {
-          this.tipos = [...response.tipos];  // Forzar cambio de referencia
+          this.tipos = [...response.tipos];  // Fuerza cambio de referencia
         } else {
           console.error('Error: La API no devolvió un array de tipos', response);
-          this.tipos = []; // Evitar errores en la vista
+          this.tipos = []; // Evita errores en la vista
         }
 
         this.cdr.markForCheck();
@@ -46,14 +46,8 @@ export class ProductsLinkComponent {
     this.activeLink = path;
   }
 
-  // ✅ Función trackBy para mejorar rendimiento
   trackById(index: number, item: Tipos): number {
     return parseInt(item.id);
   }
 
 }
-
-
-
-
-

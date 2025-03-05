@@ -26,27 +26,27 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
     this.amount = this.calcularTotal();
   }
 
-  // Calcular el total del carrito
+  // Calcula el total del carrito
   calcularTotal(): number {
     return this.carrito.reduce((total, producto) => {
       return total + producto.Precio * producto.Stock;
     }, 0);
   }
 
-  // Crear el pago y abrir la ventana emergente
+  // Crea el pago y abrir la ventana emergente
   createPayment() {
     this.payPalService.createPayment(this.carrito, this.amount, this.currency).subscribe(
       (response) => {
         if (response.approvalUrl) {
-          // Abrir la ventana emergente
+          // Abre la ventana emergente
           this.popup = window.open(response.approvalUrl, 'PayPal', 'width=600,height=400');
 
-          // Escuchar el cierre de la ventana emergente
+          // Escucha el cierre de la ventana emergente
           if (this.popup) {
             const interval = setInterval(() => {
               if (this.popup && this.popup.closed) {
                 clearInterval(interval);
-                this.onPaymentSuccess(); // Llamar a la función cuando se cierre la ventana emergente
+                this.onPaymentSuccess(); // Llama a la función cuando se cierre la ventana emergente
               }
             }, 500);
           }
@@ -62,20 +62,20 @@ export class PaymentGatewayComponent implements OnInit, OnDestroy {
 
   // Esta función se llama cuando la ventana emergente se cierra
   onPaymentSuccess() {
-    // Limpiar el carrito
+    // Limpia el carrito
     this.limpiarCarrito();
 
-    // Redirigir al usuario al home
+    // Redirige al usuario al home
     this.router.navigate(['/']);
   }
 
-  // Limpiar el carrito
+  // Limpia el carrito
   limpiarCarrito() {
     localStorage.removeItem('carrito');
     this.carrito = [];
   }
 
-  // Escuchar el mensaje cuando la ventana emergente se cierra
+  // Escucha el mensaje cuando la ventana emergente se cierra
   ngOnInit() {
     // No es necesario el listener de 'message', ya que verificamos el estado de la ventana
   }

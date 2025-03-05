@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-table-users',
   templateUrl: './table-users.component.html',
-  standalone: true, // Asegúrate de que el componente sea standalone
+  standalone: true,
   imports: [CommonModule], // Importa CommonModule aquí
   styleUrls: ['./table-users.component.css']
 })
@@ -16,7 +16,7 @@ export class TableUsersComponent implements OnInit {
   constructor(private usersService: UsersProtectedService) {}
 
   ngOnInit(): void {
-    this.loadUsuarios(); // Cargar los usuarios al inicializar el componente
+    this.loadUsuarios(); // Carga los usuarios al inicializar el componente
   }
 
   // Método para cargar los usuarios desde la API
@@ -30,13 +30,13 @@ export class TableUsersComponent implements OnInit {
           roles: usuario.roles,
           foto: usuario.foto,
           ventas: usuario.ventas,
-          nombre: usuario.Nombre, // Asignamos el nombre desde el JSON
+          nombre: usuario.Nombre, 
           refreshToken: usuario.RefreshToken,
           payload: usuario.payload,
           username: usuario.username,
           password: usuario.password,
           Activo: usuario.Activo,
-        })); // Asegura que los datos cumplen con la interfaz
+        })); 
       },
       (error) => {
         console.error('Error al cargar los usuarios:', error);
@@ -46,7 +46,6 @@ export class TableUsersComponent implements OnInit {
   // Método para editar un usuario
   editarUsuario(id: number): void {
     console.log('Editar usuario con ID:', id);
-    // Aquí puedes redirigir a un formulario de edición o abrir un modal
   }
 
   // Método para eliminar un usuario
@@ -55,7 +54,7 @@ export class TableUsersComponent implements OnInit {
       this.usersService.deleteUsuario(id).subscribe(
         () => {
           console.log('Usuario eliminado');
-          this.loadUsuarios(); // Recargar la lista de usuarios
+          this.loadUsuarios(); // Recarga la lista de usuarios
         },
         (error) => {
           console.error('Error al eliminar el usuario:', error);
@@ -67,13 +66,12 @@ export class TableUsersComponent implements OnInit {
   // Método para crear un nuevo usuario
   crearUsuario(): void {
     console.log('Crear nuevo usuario');
-    // Aquí puedes redirigir a un formulario de creación o abrir un modal
   }
 
   // Método para refrescar la lista de usuarios
   refrescarUsuarios(): void {
     console.log('Refrescando lista de usuarios...');
-    this.loadUsuarios(); // Recargar la lista de usuarios
+    this.loadUsuarios(); // Recarga la lista de usuarios
   }
 }
 

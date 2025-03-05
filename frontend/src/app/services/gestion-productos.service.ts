@@ -18,7 +18,6 @@ export class GestionProductosService {
 
   // Método para obtener productos paginados por tipo
   getProductosByFilter(page: number,filter: string): Observable<ProductoResponse> {
-    //Evita que se sobrescriban los parametros de la url
     const params = new HttpParams()
     .set('page', page.toString())   // Pasa el parámetro 'page'
     .set('filter', filter?.toString() || ""); // Pasa el parámetro 'filter'
@@ -27,7 +26,6 @@ export class GestionProductosService {
 
   // Método para obtener productos paginados por nombre producto
   getProductosByName(page: number,name: string){
-    //Evita que se sobrescriban los parametros de la url
     const params = new HttpParams()
     .set('page', page.toString())   // Pasa el parámetro 'page'
     .set('name', name?.toString() || ""); // Pasa el parámetro 'name'
@@ -36,7 +34,6 @@ export class GestionProductosService {
 
   // Método para obtener productos paginados por precio producto
   getProductosByPrice(page: number,price: number){
-    //Evita que se sobrescriban los parametros de la url
     const params = new HttpParams()
     .set('page', page.toString())   // Pasa el parámetro 'page'
     .set('price', price?.toString() || ""); // Pasa el parámetro 'price'

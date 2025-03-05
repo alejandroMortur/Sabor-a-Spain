@@ -50,7 +50,7 @@ export class NavBarComponent {
   // Método para vaciar el carrito
   vaciarCarrito(): void {
     this.carrito = []; // Limpiar el array del carrito
-    this.carritoService.vaciarCarrito();  // También podrías agregar un método en el servicio para limpiar el carrito si es necesario
+    this.carritoService.vaciarCarrito();  
   }
 
   open(content: TemplateRef<any>) {
@@ -77,8 +77,9 @@ export class NavBarComponent {
   }
 
   comprar(): void {
+
     // Verificar autenticación y rol
-    const isAuthenticated = this.authService.getUserRoles().length > 0; // O usa authStatus$ si está disponible
+    const isAuthenticated = this.authService.getUserRoles().length > 0; 
     const hasUserRole = this.authService.getUserRoles().includes('ROLE_USER');
 
     if (!isAuthenticated || !hasUserRole) {

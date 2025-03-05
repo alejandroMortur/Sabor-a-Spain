@@ -18,7 +18,7 @@ export class PaginationComponent {
   totalPages: number = 0;  // Total de páginas calculado
 
   ngOnChanges() {
-    this.totalPages = Math.ceil(this.totalItems / this.pageSize);  // Calcular total de páginas
+    this.totalPages = Math.ceil(this.totalItems / this.pageSize);  // Calcula total de páginas
     if (this.page > this.pageSize) {
       this.page = this.totalPages;
     }
@@ -30,6 +30,6 @@ export class PaginationComponent {
 		input.value = input.value.replace(FILTER_PAG_REGEX, '');
 	}
   emitirCambioPagina() {
-    this.cambio.emit(this.page); // Emitir el nuevo valor al padre
+    this.cambio.emit(this.page); // Emite el nuevo valor al padre
   }
 }

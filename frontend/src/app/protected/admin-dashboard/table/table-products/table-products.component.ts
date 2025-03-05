@@ -6,8 +6,8 @@ import { Productos } from '../../../../interfaces/productos';
 
 @Component({
   selector: 'app-table-products',
-  standalone: true, // Asegúrate de que el componente sea standalone
-  imports: [CommonModule], // Importa CommonModule aquí
+  standalone: true, 
+  imports: [CommonModule], 
   templateUrl: './table-products.component.html',
   styleUrls: ['./table-products.component.css']
 })
@@ -34,7 +34,6 @@ export class TableProductsComponent implements OnInit {
   // Método para editar un producto
   editarProducto(id: string): void {
     console.log('Editar producto con ID:', id);
-    // Aquí puedes redirigir a un formulario de edición o abrir un modal
   }
 
   // Método para eliminar un producto
@@ -44,7 +43,7 @@ export class TableProductsComponent implements OnInit {
       this.productosService.deleteProducto(idProducto).subscribe(
         () => {
           console.log('Producto eliminado');
-          this.cargarProductos(); // Recargar la lista de productos
+          this.cargarProductos(); // Recarga la lista de productos
         },
         (error) => {
           console.error('Error al eliminar el producto:', error);
@@ -56,12 +55,11 @@ export class TableProductsComponent implements OnInit {
   // Método para crear un nuevo producto
   crearProducto(): void {
     console.log('Crear nuevo producto');
-    // Aquí puedes redirigir a un formulario de creación o abrir un modal
   }
 
   // Método para refrescar la lista de usuarios
   refrescarUsuarios(): void {
     console.log('Refrescando lista de usuarios...');
-    this.cargarProductos(); // Recargar la lista de usuarios
+    this.cargarProductos(); // Recarga la lista de usuarios
   }
 }

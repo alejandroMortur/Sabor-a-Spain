@@ -40,7 +40,7 @@ export class ProductosComponent {
          this.totalItems = data.total;
          this.page = data.pagina;
 
-         // Forzar detección de cambios para actualizar la vista
+         // Fuerza detección de cambios para actualizar la vista
          this.cdr.detectChanges();
       });
    }
@@ -51,7 +51,7 @@ export class ProductosComponent {
          this.totalItems = data.total;
          this.page = data.pagina;
 
-         // Forzar detección de cambios para actualizar la vista
+         // Fuerza detección de cambios para actualizar la vista
          this.cdr.detectChanges();
       });
    }
@@ -62,7 +62,7 @@ export class ProductosComponent {
          this.totalItems = data.total;
          this.page = data.pagina;
 
-         // Forzar detección de cambios para actualizar la vista
+         // Fuerza detección de cambios para actualizar la vista
          this.cdr.detectChanges();
       });
    }
@@ -73,7 +73,7 @@ export class ProductosComponent {
          this.totalItems = data.total;
          this.page = data.pagina;
 
-         // Forzar detección de cambios para actualizar la vista
+         // Fuerza detección de cambios para actualizar la vista
          this.cdr.detectChanges();
       });
    }
@@ -113,7 +113,7 @@ export class ProductosComponent {
    }
 
    addProductCarrito(id: string, event: Event): void {
-      event.preventDefault(); // Prevenir la acción por defecto del clic
+      event.preventDefault(); // Previene la acción por defecto del clic
       console.log('Producto agregado con ID:', id);
 
       // Usamos find() para obtener un solo producto

@@ -14,7 +14,7 @@ export class SalesBarService {
   // Método para obtener los datos de ventas
   getVentas(): Observable<any> {
     return this.http.get<any>(this.apiUrl, {
-      withCredentials: true, // Asegúrate de enviar credenciales (como cookies de sesión o tokens)
+      withCredentials: true, 
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })

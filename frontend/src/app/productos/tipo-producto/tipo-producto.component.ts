@@ -33,12 +33,12 @@ export class TipoProductoComponent {
   constructor(private route: ActivatedRoute, private servicioProductos: GestionProductosService, private cdr: ChangeDetectorRef, private carrito: GestionarCarritoService) { }
 
   ngOnInit(): void {
-    // Suscribirse al cambio de parámetros en la URL
+    // Se suscribe al cambio de parámetros en la URL
     this.route.paramMap.subscribe(params => {
       const nuevoTipo = params.get('tipo') || '';
       if (nuevoTipo !== this.tipe) {
         this.tipe = nuevoTipo;
-        this.pintarTarjetasPorTipo(); // Recargar productos cuando cambie el tipo
+        this.pintarTarjetasPorTipo(); // Recarga productos cuando cambie el tipo
       }
     });
   }
@@ -49,7 +49,7 @@ export class TipoProductoComponent {
       this.totalItems = data.total;
       this.page = data.pagina;
 
-      // Forzar detección de cambios para actualizar la vista
+      // Fuerza detección de cambios para actualizar la vista
       this.cdr.detectChanges();
     });
   }
@@ -60,7 +60,7 @@ export class TipoProductoComponent {
       this.totalItems = data.total;
       this.page = data.pagina;
 
-      // Forzar detección de cambios para actualizar la vista
+      // Fuerza detección de cambios para actualizar la vista
       this.cdr.detectChanges();
     });
   }
@@ -71,7 +71,7 @@ export class TipoProductoComponent {
       this.totalItems = data.total;
       this.page = data.pagina;
 
-      // Forzar detección de cambios para actualizar la vista
+      // Fuerza detección de cambios para actualizar la vista
       this.cdr.detectChanges();
     });
   }

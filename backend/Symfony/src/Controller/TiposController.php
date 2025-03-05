@@ -11,32 +11,64 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\TiposRepository;
 
+/**
+ * Controlador para gestionar operaciones relacionadas con tipos de productos
+ * 
+ * Provee endpoints API REST para obtener información de categorías de productos
+ */
 final class TiposController extends AbstractController
 {
 
+    /**
+     * Repositorio de Tipos inyectado para acceso a datos
+     * @var TiposRepository
+     */
     private $tiposRepository;
 
+    /**
+     * Constructor que inyecta las dependencias necesarias
+     * @param TiposRepository $tiposRepository Repositorio para operaciones con la entidad Tipos
+     */
     public function __construct(TiposRepository $tiposRepository)
     {
         $this->tiposRepository = $tiposRepository;
     }
 
+    /**
+     * Obtiene todos los tipos de productos con campos específicos
+     * 
+     * @Route("/api/tipos", name="app_tipos", methods={"GET"})
+     * @IsGranted("PUBLIC_ACCESS")
+     * 
+     * @return JsonResponse Respuesta JSON estructurada con formato:
+     * {
+     *     "tipos": [
+     *         {
+     *             "id": int,
+     *             "Nombre": string,
+     *             "Descripcion": string,
+     *             "Imagen": string|null
+     *         },
+     *         ...
+     *     ]
+     * }
+     */
     #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/api/tipos', name: 'app_tipos', methods: ['GET'])]
     public function index(): JsonResponse
     {
-        // Crear la consulta para obtener solo el nombre y la descripcion
+        // 1. Construye consulta DQL para seleccionar campos específicos
         $tipos = $this->tiposRepository->createQueryBuilder('p')
-            ->select('p.id' ,'p.Nombre', 'p.Descripcion','p.Imagen') // Asegúrate de que sean los nombres correctos de las propiedades
+            ->select('p.id' ,'p.Nombre', 'p.Descripcion','p.Imagen')
             ->getQuery();
     
-        // Obtener los resultados
-        $resultados = $tipos->getResult(); // Devuelve todos los registros de tipos con los campos seleccionados
+        // 2. Ejecuta consulta y obtener resultados
+        $resultados = $tipos->getResult(); 
         
-        // Devolver solo los campos nombre y descripcion
+        // 3. Devuelve respuesta JSON con estructura definida
         return $this->json([
-            'tipos' => $resultados, // Devuelve solo los resultados con nombre y descripcion
+            'tipos' => $resultados, 
         ]);
     }
-    
+
 }

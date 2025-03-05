@@ -37,7 +37,6 @@ export class BarComponent {
   loadData(): void {
     this.salesBarService.getVentas().subscribe({
       next: (data) => {
-        // Actualización inmutable para detectar cambios
         this.chartOptions = {
           ...this.chartOptions,
           data: [{

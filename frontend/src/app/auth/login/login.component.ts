@@ -46,8 +46,6 @@ export class LoginComponent {
         // Llamar a isAuthenticated solo después del login
         this.authService.isAuthenticated().subscribe({
           next: (authResponse) => {
-            console.log('Respuesta de autenticación:', authResponse); // Ver estructura real
-  
             if (authResponse.authenticated) {
               const roles = this.authService.getUserRoles(); // Obtener roles desde AuthService
               console.log('Roles del usuario:', roles);

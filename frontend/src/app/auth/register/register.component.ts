@@ -58,9 +58,6 @@ export class RegisterComponent {
         .subscribe(
           (response) => {
             console.log('Respuesta del servidor:', response);
-
-            // Aquí deberíamos obtener la URL de la imagen generada
-            // Suponiendo que la respuesta tenga la URL de la imagen del usuario
             const imageUrl = response.imageUrl || "https://localhost:8443/data/imagenes/user.png";
 
             // Actualizar la imagen del usuario

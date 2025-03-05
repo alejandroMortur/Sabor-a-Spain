@@ -10,10 +10,10 @@ import { maxProduct } from '../../interfaces/maxProduct';
   styleUrls: ['./filter-price.component.css']
 })
 export class FilterPriceComponent {
-  value: number = 10;  // Initial value of the slider
-  enabled: boolean = true;  // Control whether the slider is enabled or disabled
-  min: number = 0; //valor minimo slider 
-  max: number = 100;  //valor maximo slider
+  value: number = 10;  
+  enabled: boolean = true;  
+  min: number = 0; 
+  max: number = 100;  
 
   @Output() dataChanged: EventEmitter<any> = new EventEmitter<any>();
 
