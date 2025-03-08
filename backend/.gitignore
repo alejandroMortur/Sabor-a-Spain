@@ -5,6 +5,3 @@ composer.phar
 ## Ignore pgAdmin persistant data
 pgAdmin
 
-## Ignore demo data
-data/imagenes/productos
-data/userImg

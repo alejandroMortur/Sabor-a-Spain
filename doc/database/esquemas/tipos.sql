@@ -1,0 +1,12 @@
+INSERT INTO tipos_producto (id, nombre, descripcion, imagen, activo) VALUES
+(9, 'Eventos', 'Fiestas que nos definen, como la Feria de Abril en Sevilla, los Sanfermines en Pamplona, y las Fallas de Valencia.', 'https://localhost:8443/data/imagenes/tipos/eventos.jpg', TRUE),
+(10, 'Instrumentos', 'Desde las guitarras flamencas de Andalucía hasta la dulzaina de Castilla, cada instrumento resuena con el alma de nuestra cultura.', 'https://localhost:8443/data/imagenes/tipos/instrumentos.jpg', TRUE),
+(11, 'Estrellas', 'Los mejores productos de España, como el aceite de oliva de Jaén, el jamón ibérico de Salamanca y los vinos de Rioja.', 'https://localhost:8443/data/imagenes/tipos/estrellas.jpg', TRUE),
+(1, 'Cárnicos', 'Productos derivados de carne, como jamones, embutidos, y el mejor chorizo de la región, reflejando la tradición.', 'https://localhost:8443/data/imagenes/tipos/carnicos.jpg', TRUE),
+(2, 'Bebidas', 'Refrescantes líquidos que van desde el vino de La Rioja hasta la horchata de Valencia, que acompañan las fiestas y la sobremesa.', 'https://localhost:8443/data/imagenes/tipos/bebidas.jpg', TRUE),
+(3, 'Lácteos', 'Productos derivados de la leche, desde quesos curados de cabra hasta la suave nata de Asturias, manjares para paladares exigentes.', 'https://localhost:8443/data/imagenes/tipos/lacteos.jpg', TRUE),
+(4, 'Frutas', 'Frutas frescas como las naranjas de Valencia, las fresas de Huelva o las cerezas del Jerte, nacen en los campos bañados por el sol.', 'https://localhost:8443/data/imagenes/tipos/frutas.jpg', TRUE),
+(5, 'Verduras', 'Verduras frescas, como cebollas de Fuentes de Ebro, lechugas de Tudela, y tomates de Almería, cultivadas con mimo.', 'https://localhost:8443/data/imagenes/tipos/verduras.jpg', TRUE),
+(6, 'Pescados', 'El mar de España ofrece pescados frescos como el atún de almadraba de Cádiz, la dorada del Mediterráneo, y los mariscos de Galicia.', 'https://localhost:8443/data/imagenes/tipos/pescados.jpg', TRUE),
+(7, 'Ropa', 'La moda española, desde las mantillas de Sevilla hasta las marcas vanguardistas de Madrid, fusiona tradición y modernidad.', 'https://localhost:8443/data/imagenes/tipos/ropa.jpg', TRUE),
+(8, 'Libros', 'Los libros que han marcado la historia de España, desde Cervantes hasta los autores contemporáneos que nos invitan a reflexionar.', 'https://localhost:8443/data/imagenes/tipos/libros.jpg', TRUE);

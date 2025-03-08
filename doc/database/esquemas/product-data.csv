@@ -1,0 +1,45 @@
+"id","nombre","precio","stock","descripcion","imagen","tipo_producto_id","activo"
+12,"Naranjas de Valencia",6,400,"Naranjas de Valencia, jugosas y dulces, ideales para zumos.","https://tse4.mm.bing.net/th?id=OIP.x0w-o86BNbm3q6EdmdaCGwHaE7&pid=Api",4,True
+18,"Atún Rojo",30,60,"Atún rojo de la costa mediterránea, de gran calidad.","https://tse2.mm.bing.net/th?id=OIP.mTN-RdyONbCAn-6YbVmRygHaE8&pid=Api",6,True
+22,"Chistorra",13,150,"Chistorra fresca, perfecta para parrilladas o bocadillos.","https://tse3.mm.bing.net/th?id=OIP.ZM2UpJGpjKBaZv0i002wOAHaE-&pid=Api",1,True
+25,"Vino de Jerez",16,180,"Vino de Jerez con un sabor característico, ideal para tapas.","https://tse3.mm.bing.net/th?id=OIP.R3zFiHmAlZkcYiZxE0sjOgHaE6&pid=Api",2,True
+36,"Dulzaina",120,30,"Instrumento de viento tradicional de Castilla, esencial en las festividades locales.","https://cdn.wallapop.com/images/10420/gt/3m/__/c10420p1016336870/i4950003087.jpg?pictureSize=W640",10,True
+37,"Castañuelas Flamencas",25,50,"El sonido tradicional de las castañuelas flamencas, utilizadas en el baile flamenco para marcar el ritmo y la pasión de la música española.","https://elrincondemigitana.com/wp-content/uploads/2024/10/CASTANUELAS.jpg",10,True
+38,"Aceite de Oliva Virgen Extra",15,150,"Aceite de oliva virgen extra de la mejor calidad.","https://localhost:8443/data/imagenes/productos/aceite-oliva-virgen-extra.webp",11,True
+39,"Churros con Chocolate",6,300,"Churros crujientes acompañados de chocolate caliente espeso.","https://localhost:8443/data/imagenes/productos/churros.jpg",11,True
+40,"Cochinillo Asado",50,50,"Especialidad segoviana de lechón asado en horno de leña.","https://localhost:8443/data/imagenes/productos/cochinillo.jpg",11,True
+11,"Manzanas de la Tierra",4,500,"Manzanas frescas de la región, perfectas para comer o para postres.","https://localhost:8443/data/imagenes/productos/manzanas.jpeg",4,True
+13,"Peras Conference",4,300,"Peras Conference, suaves y jugosas, perfectas para comer frescas.","https://localhost:8443/data/imagenes/productos/peras-conference.jpeg",4,True
+14,"Lechugas Frescas",3,150,"Lechuga fresca y crujiente, ideal para ensaladas.","https://localhost:8443/data/imagenes/productos/lechugas-frescas.jpeg",5,True
+17,"Merluza de Pincho",19,80,"Merluza de pincho fresca, pescada en las costas del Cantábrico.","https://localhost:8443/data/imagenes/productos/merluza.jpeg",6,True
+20,"Salchichón Ibérico",15,130,"Salchichón ibérico curado, con un sabor suave y una textura única.","https://localhost:8443/data/imagenes/productos/salchichon-iberico.jpeg",1,True
+21,"Cecina de León",20,90,"Cecina de León curada, ideal para comer sola o acompañada.","https://localhost:8443/data/imagenes/productos/cecina-de-leon.jpeg",1,True
+23,"Cava Brut",9,200,"Cava Brut de la región de Penedés, ideal para celebraciones.","https://localhost:8443/data/imagenes/productos/cava-brut.jpeg",2,True
+24,"Sidra Asturiana",4,250,"Sidra natural de Asturias, con un sabor afrutado y refrescante.","https://localhost:8443/data/imagenes/productos/sidra-asturiana.jpeg",2,True
+26,"Queso de Cabra",10,100,"Queso de cabra curado, suave y cremoso, ideal para ensaladas o aperitivos.","https://localhost:8443/data/imagenes/productos/queso-cabra.jpeg",3,True
+27,"Camisa Flamenca",30,50,"Una camisa tradicional que fusiona el arte flamenco con la moda moderna.","https://localhost:8443/data/imagenes/productos/camisa-flamenca.jpeg",7,True
+28,"Sombrero Cordobés",25,100,"Sombrero clásico de la región de Córdoba, símbolo de elegancia.","https://localhost:8443/data/imagenes/productos/sombrero-cordobes.jpeg",7,True
+29,"Pantalones de Lino",35,75,"Cómodos pantalones de lino, ideales para el cálido clima mediterráneo.","https://localhost:8443/data/imagenes/productos/pantalones-lino.jpeg",7,True
+30,"Don Quijote de la Mancha",18,200,"La obra maestra de Cervantes, un viaje a la locura y la imaginación.","https://localhost:8443/data/imagenes/productos/don-quijote.jpeg",8,True
+31,"La Casa de los Espíritus",22,150,"Una novela de Isabel Allende que explora la historia de Chile a través de lo sobrenatural.","https://localhost:8443/data/imagenes/productos/la-casa-de-los-espiritus.jpeg",8,True
+32,"Cuentos de la Alhambra",15,120,"Cuentos mágicos que nos transportan a la mística Alhambra de Granada.","https://localhost:8443/data/imagenes/productos/cuentos-alhambra.jpeg",8,True
+33,"Entrada Feria de Abril",50,100,"Acceso a una de las ferias más emblemáticas de Sevilla, llena de colores y música.","https://localhost:8443/data/imagenes/productos/entrada-feria-abril.jpeg",9,True
+34,"Entrada Carnaval de Cádiz",60,90,"La alegría y el ritmo del Carnaval de Cádiz, donde las chirigotas y comparsas llenan las calles de música y color.","https://localhost:8443/data/imagenes/productos/entrada-carnaval-cadiz.jpeg",9,True
+10,"Yogur Natural",3,200,"Yogur natural cremoso, hecho con leche de vaca de la mejor calidad.","https://localhost:8443/data/imagenes/productos/yogur-natural.jpeg",3,False
+19,"Salmón Ahumado",23,100,"Salmón ahumado de calidad premium, perfecto para ensaladas o como aperitivo.","https://tse3.mm.bing.net/th?id=OIP.5SBdP3HGgm0jEMgnXBDCtQHaE5&pid=Api",6,False
+41,"Gazpacho Andaluz",7,300,"Sopa fría de tomate, pepino, pimiento y ajo.","https://localhost:8443/data/imagenes/productos/gazpacho-andaluz.jpg",1,True
+42,"Paella Valenciana",22,80,"Arroz tradicional valenciano con pollo, conejo y verduras.","https://localhost:8443/data/imagenes/productos/paella-valenciana.webp",11,True
+43,"Pimientos del Padrón",4,200,"Pimientos verdes pequeños, unos pican y otros no.","https://localhost:8443/data/imagenes/productos/pimientos-padron.webp",5,True
+44,"Polvorones",8,250,"Dulces tradicionales españoles elaborados con manteca y harina.","https://localhost:8443/data/imagenes/productos/polvorones.webp",11,True
+45,"Tarta de Santiago",14,200,"Tarta de almendra tradicional gallega con azúcar glas.","https://localhost:8443/data/imagenes/productos/tarta-santiago.webp",11,True
+35,"Guitarra Española",150,50,"Instrumento tradicional de la música flamenca, con un sonido vibrante y emocional.","https://localhost:8443/data/imagenes/productos/guitarra-flamenca.jpeg",7,True
+15,"Tomates de Ensueño",3,120,"Tomates de variedad especializada, perfectos para ensaladas o salsas.","https://localhost:8443/data/imagenes/productos/tomates.jpg",5,True
+46,"Tortilla Española",10,250,"Tortilla de patatas jugosa y sabrosa.","https://localhost:8443/data/imagenes/productos/tortilla.jpg",11,True
+47,"Turrón de Alicante",13,180,"Turrón duro de almendra y miel, con denominación de origen.","https://localhost:8443/data/imagenes/productos/turron-alicante.jpg",11,True
+48,"Turrón de Jijona",12,200,"Turrón blando de almendra y miel, típico de Navidad.","https://localhost:8443/data/imagenes/productos/turron-Jijona.jpg",11,True
+3,"Jamón Ibérico de Bellota",200,50,"Jamón ibérico de bellota 100% de la mejor calidad, curado por más de 36 meses.","https://localhost:8443/data/imagenes/productos/jamon-iberico.jpeg",1,True
+4,"Chorizo Ibérico",16,120,"Chorizo ibérico curado artesanalmente, con un sabor inconfundible.","https://localhost:8443/data/imagenes/productos/chorizo-iberico.jpeg",1,True
+5,"Lomo Embuchado",21,80,"Lomo embuchado de cerdo ibérico, curado y listo para disfrutar.","https://localhost:8443/data/imagenes/productos/lomo-embuchado.jpeg",1,True
+6,"Vino Rioja",10,200,"Vino tinto de la región de La Rioja, con cuerpo y aromas intensos.","https://localhost:8443/data/imagenes/productos/vino-rioja.jpeg",2,True
+7,"Vino Albariño",12,150,"Vino blanco gallego, fresco y afrutado, ideal para mariscos.","https://localhost:8443/data/imagenes/productos/vino-albarino.jpeg",2,True
+9,"Queso Manchego Curado",14,100,"Queso manchego curado, con un sabor potente y una textura firme.","https://localhost:8443/data/imagenes/productos/queso-manchego.jpeg",3,True

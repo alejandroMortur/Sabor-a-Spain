@@ -1,0 +1,3 @@
+INSERT INTO usuarios (id, email, roles, password, foto, nombre, refresh_token, activo) VALUES
+(22,'moronturielalejandro2@gmail.com','["ROLE_ADMIN"]','$2y$13$A8VDLKYxXd0GPVZH/rQQ7e7j4YoHEXFiAu70llWp33lNTFxsepYCe','https://localhost:8443/data/userImg/67c496928d081.jpg','Alejandro.moron2','1a08edafcc2473eaf25005673d50e819e8cdcf3a59cba49eb5744075626ceb82502e9d1ba105e4fe44c544bbc0be80c8c893a09e6b0aeeafa464dd79dc9a5f09',TRUE),
+(21,'moronturielalejandro@gmail.com','["ROLE_USER"]','$2y$13$B5UyDxcU.09gofiO/OhR1eE741A7W1usd0wOnY.3jVyWJGpnCyeRK','https://localhost:8443/data/userImg/67c4925f6b7f7.jpg','Alejandro.moron1','3bdb52fa1790b3c42705774645cc3d29fd08f15d77a47aedbb3719dd83819450c0e93022ea1f8b11c0649a8f5244025e762f75aacd37f46179309c9205a0c3c5',TRUE);
