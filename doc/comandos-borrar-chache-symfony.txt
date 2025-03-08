@@ -1,0 +1,2 @@
+chown -R www-data:www-data var/cache
+chmod -R 775 var/cache
