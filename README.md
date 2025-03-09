@@ -1,70 +1,111 @@
-# ❤️💛❤️**Sabor a España**❤️💛❤️
+# ❤️💛❤️ Sabor a España - eCommerce 🇪🇸
 
-## Descripción ✨
-Bienvenido a **Sabor a España eCommerce**, un proyecto de comercio electrónico que te permite explorar los productos más típicos de España 🇪🇸. Desde el delicioso jamón ibérico 🥩, el aceite de oliva virgen extra 🧴, hasta el exquisito vino 🍷, aquí encontrarás todo lo que necesitas para disfrutar de lo mejor de nuestra tierra. Los usuarios pueden agregar estos productos al carrito y realizar sus compras fácilmente. Además, incluye una sección de administración para gestionar productos, usuarios y pedidos. ¡Disfruta de lo mejor de España en tu hogar!
+## 📌 Descripción
+Bienvenido a **Sabor a España**, un eCommerce donde puedes explorar y comprar los productos más icónicos de España 🇪🇸. Desde el exquisito **jamón ibérico** 🥩, el **aceite de oliva virgen extra** 🫒, hasta los mejores **vinos españoles** 🍷, esta tienda te trae los sabores de nuestra tierra directamente a tu hogar.
 
-## Tecnologías Utilizadas 💻
+La plataforma permite a los usuarios:
+- Explorar productos 🛍️
+- Agregar al carrito 🛒
+- Realizar compras seguras 💳
+- Seguir el estado de sus pedidos 📦
 
+Además, incluye una sección de **administración** para gestionar productos, usuarios y pedidos.
 
-- **Angular**: ⚛️ Framework para el desarrollo del frontend. (Versión: 16.)
-- **Symfony**: 🖥️ Framework PHP para la lógica del backend. (Versión: 7.2.3)
-- **Bootstrap**: 🎨 Biblioteca para diseño responsivo y estilos. (Versión: 5.3)
-- **PostgreSQL**: 🗃️ Base de datos relacional. (Versión: 15)
-- **pgAdmin**: 🧑‍💻 Herramienta de administración para PostgreSQL. (Versión: 6)
+---
 
+## 🛠️ Tecnologías Utilizadas
 
-## Características Principales ✨
+| Tecnología  | Descripción |
+|-------------|------------|
+| **Angular 16** | Framework para el desarrollo del frontend ⚛️ |
+| **Symfony 7.2.3** | Framework PHP para la lógica del backend 🖥️ |
+| **Bootstrap 5.3** | Biblioteca para diseño responsivo 🎨 |
+| **PostgreSQL 15** | Base de datos relacional 🗃️ |
+| **pgAdmin 6** | Herramienta para administrar PostgreSQL 🧑‍💻 |
+| **Docker** | Contenedores para una fácil implementación 🐳 |
 
-### Usuario Final 🌐
-- 🔑 **Registro e inicio de sesión**: Accede a tu cuenta para realizar compras fácilmente.
-- 🔍 **Exploración de productos españoles**: Descubre una amplia variedad de productos típicos de España.
-- 🛒 **Carrito de compras**: Agrega tus productos favoritos al carrito y procede a la compra.
-- ⚙️ **Procesamiento de pedidos**: Realiza el pago de tus productos y recibe el envío directamente en tu hogar.
+---
 
-### Administración 💼
-- 🎨 **Gestión de productos**: Agrega y organiza productos típicos de España en la tienda.
-- 🔒 **Administración de usuarios**: Controla el acceso de los usuarios y sus datos.
-- 📦 **Gestión de pedidos**: Administra los pedidos realizados por los usuarios y controla el inventario.
+## ✨ Características Principales
 
-## Instalación del Entorno con Docker 🐳
+### 🛒 Usuario Final
+- 🔑 **Registro e inicio de sesión**
+- 🔍 **Exploración de productos típicos**
+- 🛒 **Carrito de compras y pago seguro**
+- 🚚 **Seguimiento de pedidos**
 
-Para configurar el entorno de desarrollo, puedes usar Docker. A continuación te detallo los pasos:
+### 🔧 Administración
+- 🎨 **Gestión de productos**
+- 👥 **Administración de usuarios**
+- 📦 **Gestión y control de pedidos**
 
-1. **Clona el repositorio** en tu máquina local.
+---
 
-2. **Ubica el archivo `docker-compose.yml`** en backend/docker-compose.yml
+## 🚀 Instalación y Ejecución con Docker
 
-3. **Construye y levanta los contenedores**:
+### 🔹 Backend (Symfony + PostgreSQL + pgAdmin)
+1. **Clona el repositorio**:
+   ```bash
+   git clone https://github.com/usuario/Sabor-a-Spain.git
+   cd Sabor-a-Spain/backend
+   ```
 
-    ```bash
-    docker-compose up --build
-    ```
+2. **Inicia los contenedores**:
+   ```bash
+   docker-compose up --build -d
+   ```
 
-4. **Accede a las aplicaciones** a través de las siguientes URLs:
-
-   - **Symfony (Backend)**:  
-     URL: [http://localhost:8080](http://localhost:8080)  
-     Esta es la URL de acceso al servidor Symfony. Asegúrate de que el contenedor del backend esté corriendo correctamente.
-
-   - **pgAdmin (Gestión de base de datos)**:  
-     URL: [http://localhost:8081](http://localhost:8081)  
-     Accede a la interfaz de pgAdmin para gestionar la base de datos. Usa las credenciales configuradas en el archivo `docker-compose.yml`:  
-     - **Email**: `admin@admin.com`
+3. **Accede a los servicios**:
+   - **Symfony (Backend)** → [https://localhost:8443/Symfony/public/index.php](https://localhost:8443/Symfony/public/index.php)
+   - **pgAdmin (Gestión de BD)** → [http://localhost:8081](http://localhost:8081)
+     - **Usuario**: `admin@admin.com`
      - **Contraseña**: `admin`
 
-5. **Acceso a los contenedores**:
-
-   Si necesitas acceder a los contenedores para realizar alguna operación manual (como ejecutar comandos dentro del contenedor del backend), puedes hacerlo con:
-
+4. **Accede al contenedor del backend (Symfony)**:
    ```bash
    docker exec -it symfony_app bash
    ```
 
+### 🔹 Frontend (Angular)
+1. **Ubica el frontend**:
+   ```bash
+   cd ../frontend
+   ```
+2. **Instala las dependencias**:
+   ```bash
+   npm install
+   ```
+3. **Ejecuta el servidor de Angular**:
+   ```bash
+   ng serve --open
+   ```
+4. **Accede a la aplicación**:
+   - [http://localhost:4200](http://localhost:4200)
+
 ---
 
-Recuerda que las URLs son:
-
-- **Symfony**: [http://localhost:8080](http://localhost:8080)
-- **pgAdmin**: [http://localhost:8081](http://localhost:8081)
+## 📂 Estructura del Proyecto
+```
+Sabor-a-Spain/
+│── backend/        # Backend (Symfony + Docker + PostgreSQL)
+│── frontend/       # Frontend (Angular)
+│── doc/            # Documentación del proyecto
+│── .gitignore      # Archivos a ignorar en Git
+│── LICENSE         # Licencia del proyecto
+│── README.md       # Este archivo 📖
+```
 
 ---
+
+## ⚡ Notas Adicionales
+- Asegúrate de tener **Docker, Node.js y Angular CLI** instalados.
+- Si usas WSL2 en Windows, verifica que Docker tenga acceso a los archivos.
+- Para detener los contenedores Docker:
+  ```bash
+  docker-compose down
+  ```
+
+---
+
+¡Listo! Ahora puedes disfrutar de **Sabor a España** 🛒🇪🇸
+
